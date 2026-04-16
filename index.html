@@ -182,7 +182,38 @@ hr{border:none;border-top:1px solid var(--border);margin:8px 0}
 .pb-action{color:var(--text-2);font-size:12px}
 .pb-tools{color:var(--text-3);font-size:10.5px;text-align:right;font-family:var(--mono);line-height:1.6}
 
-/* ── QUICK START ── */
+/* ── CURRICULUM VALIDATOR ── */
+.validator-area{width:100%;min-height:140px;padding:12px 14px;border:1px solid var(--border-2);border-radius:var(--r-lg);font-family:var(--font);font-size:13px;color:var(--text);background:var(--card);resize:vertical;line-height:1.6;transition:border-color 0.15s}
+.validator-area:focus{outline:none;border-color:var(--purple)}
+.validator-area::placeholder{color:var(--text-3)}
+.val-label{font-size:11px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.val-label-dot{width:8px;height:8px;border-radius:50%}
+.result-card{border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow)}
+.result-header{padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.result-score{font-size:42px;font-weight:700;letter-spacing:-0.04em;line-height:1}
+.result-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-top:4px}
+.result-verdict{font-size:13px;font-weight:500;padding:6px 14px;border-radius:20px}
+.result-body{padding:1.1rem 1.25rem}
+.result-section{margin-bottom:14px}
+.result-section:last-child{margin-bottom:0}
+.result-section-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;color:var(--text-2)}
+.gap-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:var(--r-md);margin-bottom:5px;font-size:12.5px;line-height:1.5}
+.gap-item:last-child{margin-bottom:0}
+.gap-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.match-item{display:flex;align-items:flex-start;gap:8px;padding:6px 10px;border-radius:var(--r-md);margin-bottom:4px;font-size:12.5px;background:var(--teal-l)}
+.match-item:last-child{margin-bottom:0}
+.dim-row{display:grid;grid-template-columns:1fr 80px 8px 80px;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.dim-row:last-child{border-bottom:none}
+.dim-bar-wrap{height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.dim-bar{height:100%;border-radius:3px}
+.thinking-dots{display:flex;gap:5px;align-items:center;padding:12px 0}
+.thinking-dots span{width:7px;height:7px;border-radius:50%;background:var(--purple);animation:pulse 1.2s ease-in-out infinite}
+.thinking-dots span:nth-child(2){animation-delay:0.2s}
+.thinking-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes pulse{0%,80%,100%{opacity:0.3;transform:scale(0.85)}40%{opacity:1;transform:scale(1)}}
+.history-item{border:1px solid var(--border);border-radius:var(--r-lg);padding:0.85rem 1.1rem;background:var(--card);cursor:pointer;transition:all 0.12s}
+.history-item:hover{box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.streaming-text{white-space:pre-wrap;font-size:13px;line-height:1.7;color:var(--text)}
 .qs-card{border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
 .qs-hdr{padding:10px 14px;background:var(--dark);font-size:12px;font-weight:600;color:#fff}
 .qs-row{display:flex;align-items:stretch;border-bottom:1px solid var(--border)}
@@ -304,6 +335,10 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
   <div class="nav-item" onclick="show('makecom',this)">
     <div class="nav-dot" style="background:var(--dark)"></div>Make.com Playbook
     <span class="nav-badge" style="background:var(--amber-l);color:var(--amber-d)">20</span>
+  </div>
+  <div class="nav-item" onclick="show('validator',this)">
+    <div class="nav-dot" style="background:var(--teal)"></div>Curriculum Validator
+    <span class="nav-badge" style="background:var(--teal-l);color:var(--teal-d)">AI</span>
   </div>
 
   <div class="sb-footer">
@@ -767,6 +802,136 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
   <div id="playbook-container"></div>
 </div>
 
+<!-- ════════ CURRICULUM VALIDATOR ════════ -->
+<div id="view-validator" class="view">
+  <div class="topbar">
+    <div>
+      <div class="page-title">Curriculum Validator</div>
+      <div class="page-sub">AI-powered · Paste client requirement + faculty outline → get instant alignment analysis</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="clearValidator()">Clear</button>
+      <button class="btn" onclick="loadExample()">Load example</button>
+      <button class="btn primary" id="analyse-btn" onclick="runAnalysis()">Analyse alignment ↗</button>
+    </div>
+  </div>
+
+  <!-- Input panels -->
+  <div class="two-col">
+    <div class="card" style="display:flex;flex-direction:column;gap:8px">
+      <div class="val-label">
+        <div class="val-label-dot" style="background:var(--blue)"></div>
+        Client requirement
+        <span style="margin-left:auto;font-size:10.5px;color:var(--text-3);font-weight:400;text-transform:none;letter-spacing:0">What the client asked for</span>
+      </div>
+      <textarea class="validator-area" id="client-req" placeholder="Paste the client's requirement here.
+
+Example:
+We need a 3-day leadership program for 45 senior managers at TCS. Key objectives:
+• Build strategic thinking and business acumen
+• Improve ability to lead cross-functional teams
+• Develop executive communication and influencing skills
+• Include real-world case studies relevant to IT services
+• Measurable outcomes with pre/post assessment
+• Max 20 participants per batch" style="min-height:220px"></textarea>
+      <div style="font-size:11px;color:var(--text-3);text-align:right" id="req-count">0 words</div>
+    </div>
+
+    <div class="card" style="display:flex;flex-direction:column;gap:8px">
+      <div class="val-label">
+        <div class="val-label-dot" style="background:var(--purple)"></div>
+        Faculty outline
+        <span style="margin-left:auto;font-size:10.5px;color:var(--text-3);font-weight:400;text-transform:none;letter-spacing:0">What the faculty designed</span>
+      </div>
+      <textarea class="validator-area" id="faculty-outline" placeholder="Paste the faculty's program outline here.
+
+Example:
+Module 1 — Strategic leadership (Day 1 AM)
+Topics: Vision setting, competitive strategy, Porter's Five Forces
+Activity: Case study — Infosys digital transformation
+
+Module 2 — Communication & presence (Day 1 PM)
+Topics: Executive storytelling, stakeholder communication
+Activity: Presentation practice with feedback
+
+Module 3 — Financial acumen (Day 2 AM)
+Topics: P&L reading, ROI thinking, budget ownership
+..." style="min-height:220px"></textarea>
+      <div style="font-size:11px;color:var(--text-3);text-align:right" id="outline-count">0 words</div>
+    </div>
+  </div>
+
+  <!-- Analysis options -->
+  <div class="card" style="padding:0.85rem 1.25rem">
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div style="font-size:12px;font-weight:600;color:var(--text-2)">Analysis depth:</div>
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+        <input type="radio" name="depth" value="quick" style="accent-color:var(--purple)"> Quick check
+      </label>
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+        <input type="radio" name="depth" value="full" checked style="accent-color:var(--purple)"> Full analysis
+      </label>
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+        <input type="radio" name="depth" value="detailed" style="accent-color:var(--purple)"> Detailed report
+      </label>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+          <input type="checkbox" id="suggest-fixes" checked style="accent-color:var(--purple)"> Suggest improvements
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+          <input type="checkbox" id="score-dims" checked style="accent-color:var(--purple)"> Score each dimension
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results area -->
+  <div id="validator-results" style="display:none;flex-direction:column;gap:12px">
+
+    <!-- Score card -->
+    <div class="result-card" id="score-card">
+      <div class="result-header" id="score-header">
+        <div>
+          <div class="result-score" id="score-num">—</div>
+          <div class="result-label" id="score-label">Alignment score</div>
+          <div style="font-size:12px;color:var(--text-3);margin-top:4px" id="score-sub"></div>
+        </div>
+        <div style="text-align:right">
+          <div class="result-verdict" id="score-verdict"></div>
+          <div style="font-size:11.5px;color:var(--text-3);margin-top:6px" id="score-date"></div>
+        </div>
+      </div>
+
+      <!-- Dimension scores -->
+      <div class="result-body" id="dims-body" style="display:none">
+        <div class="result-section-title">Alignment by dimension</div>
+        <div id="dims-list"></div>
+      </div>
+    </div>
+
+    <!-- AI analysis output -->
+    <div class="card" id="analysis-card" style="display:none">
+      <div class="card-title" id="analysis-title">Analysis</div>
+      <div class="streaming-text" id="analysis-text"></div>
+    </div>
+
+    <!-- Thinking indicator -->
+    <div class="card" id="thinking-card" style="display:none">
+      <div style="font-size:12.5px;color:var(--text-2);font-weight:500;margin-bottom:4px">Claude is analysing the curriculum...</div>
+      <div class="thinking-dots"><span></span><span></span><span></span></div>
+      <div style="font-size:12px;color:var(--text-3)" id="thinking-status">Reading client requirements...</div>
+    </div>
+
+  </div>
+
+  <!-- Past analyses -->
+  <div id="history-section" style="display:none;flex-direction:column;gap:8px">
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.07em">Previous analyses</div>
+    <div id="history-list" style="display:flex;flex-direction:column;gap:6px"></div>
+  </div>
+
+</div>
+
 </div><!-- end view-wrap -->
 </div><!-- end main -->
 
@@ -885,6 +1050,397 @@ scenarios.forEach(s => {
   `;
   pc.appendChild(div);
 });
-</script>
+// ── Curriculum Validator ────────────────────────────────────
+const analysisHistory = [];
+
+// Word counter
+['client-req','faculty-outline'].forEach(id => {
+  const el = document.getElementById(id);
+  const counter = document.getElementById(id === 'client-req' ? 'req-count' : 'outline-count');
+  if (el && counter) {
+    el.addEventListener('input', () => {
+      const words = el.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+      counter.textContent = words + ' words';
+    });
+  }
+});
+
+function clearValidator() {
+  document.getElementById('client-req').value = '';
+  document.getElementById('faculty-outline').value = '';
+  document.getElementById('req-count').textContent = '0 words';
+  document.getElementById('outline-count').textContent = '0 words';
+  document.getElementById('validator-results').style.display = 'none';
+}
+
+function loadExample() {
+  document.getElementById('client-req').value = `We need a 3-day leadership development program for 40 senior managers at a leading IT services firm. The program should address the following:
+
+Key Objectives:
+1. Build strategic thinking and long-term business acumen
+2. Improve ability to lead and influence cross-functional teams
+3. Develop executive communication and stakeholder management skills
+4. Strengthen financial literacy — P&L understanding, budgeting, ROI thinking
+5. Equip managers to drive change and lead digital transformation initiatives
+
+Delivery Preferences:
+• Mix of classroom, case studies and real-world simulations
+• Industry-specific case studies relevant to IT/technology sector
+• Maximum 20 participants per session for quality interaction
+• Pre-program and post-program assessment to measure learning outcomes
+• Action learning project tied to a real business challenge
+
+Constraints:
+• 3 days total (can be split across 2 weekends)
+• Participants are based across Mumbai and Bengaluru
+• Budget: ₹8.5L total for 40 participants`;
+
+  document.getElementById('faculty-outline').value = `PROGRAM OUTLINE — Senior Leadership Accelerator
+Duration: 3 days | Participants: 40 senior managers
+
+DAY 1 — Strategic Leadership & Business Thinking
+Module 1 (9am–12pm): Strategic Thinking in Action
+  - Vision, mission and strategy alignment
+  - Competitive landscape analysis (Porter's Five Forces)
+  - Case Study: Wipro's pivot to digital services
+  - Activity: Strategy canvas exercise
+
+Module 2 (1pm–5pm): Executive Communication & Presence
+  - The art of executive storytelling
+  - Presenting to the C-suite
+  - Activity: Recorded presentation with peer feedback
+
+DAY 2 — People, Influence & Cross-functional Leadership  
+Module 3 (9am–12pm): Leading Without Authority
+  - Influence vs. authority — the leadership spectrum
+  - Stakeholder mapping and management
+  - Simulation: Cross-functional project negotiation
+  
+Module 4 (1pm–5pm): Coaching & Developing Your Team
+  - Manager as coach — the GROW model
+  - Giving and receiving feedback
+  - Role play: 1-on-1 coaching conversation
+
+DAY 3 — Financial Acumen & Driving Change
+Module 5 (9am–12pm): Financial Literacy for Leaders
+  - Reading a P&L and balance sheet
+  - ROI thinking and business case building
+  - Case Study: Make-or-buy decision at an IT firm
+
+Module 6 (1pm–4pm): Leading Change & Transformation
+  - Change management models (Kotter's 8 steps)
+  - Overcoming resistance to change
+  - Group activity: Change roadmap for a real challenge
+
+Closing (4pm–5pm): Action Learning Project briefing
+  - Each participant selects a real business challenge
+  - 30-day implementation plan
+  - Post-program assessment scheduled for Day 30`;
+
+  document.getElementById('req-count').textContent = document.getElementById('client-req').value.trim().split(/\s+/).filter(w=>w.length).length + ' words';
+  document.getElementById('outline-count').textContent = document.getElementById('faculty-outline').value.trim().split(/\s+/).filter(w=>w.length).length + ' words';
+}
+
+async function runAnalysis() {
+  const req = document.getElementById('client-req').value.trim();
+  const outline = document.getElementById('faculty-outline').value.trim();
+
+  if (!req || !outline) {
+    alert('Please paste both the client requirement and the faculty outline before analysing.');
+    return;
+  }
+
+  const depth = document.querySelector('input[name="depth"]:checked')?.value || 'full';
+  const suggestFixes = document.getElementById('suggest-fixes').checked;
+  const scoreDims = document.getElementById('score-dims').checked;
+  const btn = document.getElementById('analyse-btn');
+
+  // Show results panel
+  const resultsDiv = document.getElementById('validator-results');
+  resultsDiv.style.display = 'flex';
+
+  // Reset UI
+  document.getElementById('thinking-card').style.display = 'block';
+  document.getElementById('analysis-card').style.display = 'none';
+  document.getElementById('dims-body').style.display = 'none';
+  document.getElementById('analysis-text').textContent = '';
+  document.getElementById('score-num').textContent = '—';
+  document.getElementById('score-verdict').textContent = '';
+  document.getElementById('score-verdict').style.cssText = '';
+  document.getElementById('score-sub').textContent = '';
+  document.getElementById('score-date').textContent = '';
+  document.getElementById('dims-list').innerHTML = '';
+  document.getElementById('score-header').style.cssText = '';
+  btn.disabled = true;
+  btn.textContent = 'Analysing...';
+
+  const thinkingStatuses = [
+    'Reading client requirements...',
+    'Parsing faculty outline structure...',
+    'Mapping objectives to modules...',
+    'Identifying gaps and misalignments...',
+    'Scoring each dimension...',
+    'Generating recommendations...',
+  ];
+  let si = 0;
+  const statusEl = document.getElementById('thinking-status');
+  const statusInterval = setInterval(() => {
+    si = (si + 1) % thinkingStatuses.length;
+    statusEl.textContent = thinkingStatuses[si];
+  }, 1800);
+
+  const depthInstructions = {
+    quick: 'Provide a concise 2-3 paragraph assessment.',
+    full: 'Provide a thorough analysis covering all dimensions.',
+    detailed: 'Provide an exhaustive analysis with specific module-level recommendations.',
+  };
+
+  const systemPrompt = `You are an expert curriculum designer and L&D consultant specialising in Management Development Programs (MDPs) for corporate clients in India. Your job is to assess whether a faculty's program outline adequately addresses a client's stated requirements.
+
+You must respond in valid JSON only — no markdown, no preamble, no explanation outside the JSON. Return exactly this structure:
+
+{
+  "overall_score": <integer 0-100>,
+  "verdict": "<Strong match|Good match|Partial match|Weak match|Poor match>",
+  "summary": "<2-3 sentence overall assessment>",
+  "dimensions": [
+    {"name": "Objective coverage", "score": <0-100>, "note": "<brief>"},
+    {"name": "Content depth", "score": <0-100>, "note": "<brief>"},
+    {"name": "Learning methodology", "score": <0-100>, "note": "<brief>"},
+    {"name": "Assessment & outcomes", "score": <0-100>, "note": "<brief>"},
+    {"name": "Practical application", "score": <0-100>, "note": "<brief>"},
+    {"name": "Logistics & constraints", "score": <0-100>, "note": "<brief>"}
+  ],
+  "matched": [
+    "<requirement that IS addressed by the outline>",
+    ...
+  ],
+  "gaps": [
+    {"severity": "<critical|moderate|minor>", "requirement": "<what client asked for>", "issue": "<what is missing or insufficient in the outline>"},
+    ...
+  ],
+  "improvements": [
+    "<specific actionable suggestion to improve the outline>",
+    ...
+  ],
+  "strengths": [
+    "<specific strength of the outline>",
+    ...
+  ]
+}`;
+
+  const userPrompt = `CLIENT REQUIREMENT:
+${req}
+
+FACULTY OUTLINE:
+${outline}
+
+Analysis depth: ${depth}
+${suggestFixes ? 'Include specific improvement suggestions.' : 'Skip improvement suggestions.'}
+${scoreDims ? 'Score each dimension.' : 'Skip dimension scores.'}
+
+${depthInstructions[depth]}
+
+Respond with valid JSON only.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+
+    clearInterval(statusInterval);
+    document.getElementById('thinking-card').style.display = 'none';
+
+    const data = await response.json();
+    let raw = data.content?.map(b => b.text || '').join('') || '';
+
+    // Strip any accidental markdown fences
+    raw = raw.replace(/```json|```/g, '').trim();
+
+    let result;
+    try {
+      result = JSON.parse(raw);
+    } catch(e) {
+      // Try to extract JSON from the response
+      const match = raw.match(/\{[\s\S]*\}/);
+      if (match) result = JSON.parse(match[0]);
+      else throw new Error('Could not parse response');
+    }
+
+    renderResult(result, req, outline, scoreDims);
+
+    // Save to history
+    analysisHistory.unshift({
+      timestamp: new Date(),
+      score: result.overall_score,
+      verdict: result.verdict,
+      req: req.substring(0, 80) + '...',
+      result
+    });
+    renderHistory();
+
+  } catch(err) {
+    clearInterval(statusInterval);
+    document.getElementById('thinking-card').style.display = 'none';
+    document.getElementById('analysis-card').style.display = 'block';
+    document.getElementById('analysis-title').textContent = 'Analysis error';
+    document.getElementById('analysis-text').textContent = 'Something went wrong: ' + err.message + '\n\nPlease check your internet connection and try again.';
+    document.getElementById('analysis-card').style.borderColor = 'var(--coral)';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Analyse alignment ↗';
+}
+
+function renderResult(r, req, outline, scoreDims) {
+  // Score colour
+  const score = r.overall_score;
+  let scoreBg, scoreFg, verdictBg, verdictFg;
+  if (score >= 80) { scoreBg='var(--teal-l)'; scoreFg='var(--teal-d)'; verdictBg='var(--teal-l)'; verdictFg='var(--teal-d)'; }
+  else if (score >= 65) { scoreBg='var(--blue-l)'; scoreFg='var(--blue-d)'; verdictBg='var(--blue-l)'; verdictFg='var(--blue-d)'; }
+  else if (score >= 50) { scoreBg='var(--amber-l)'; scoreFg='var(--amber-d)'; verdictBg='var(--amber-l)'; verdictFg='var(--amber-d)'; }
+  else { scoreBg='var(--coral-l)'; scoreFg='var(--coral-d)'; verdictBg='var(--coral-l)'; verdictFg='var(--coral-d)'; }
+
+  const hdr = document.getElementById('score-header');
+  hdr.style.background = scoreBg;
+  hdr.style.borderBottomColor = 'transparent';
+
+  document.getElementById('score-num').textContent = score + '/100';
+  document.getElementById('score-num').style.color = scoreFg;
+  document.getElementById('score-label').style.color = scoreFg;
+  document.getElementById('score-label').textContent = 'Overall alignment score';
+  document.getElementById('score-sub').textContent = r.summary;
+  document.getElementById('score-sub').style.color = scoreFg;
+
+  const vEl = document.getElementById('score-verdict');
+  vEl.textContent = r.verdict;
+  vEl.style.background = verdictBg;
+  vEl.style.color = verdictFg;
+  vEl.style.border = '1px solid ' + verdictFg + '33';
+
+  document.getElementById('score-date').textContent = 'Analysed ' + new Date().toLocaleString('en-IN', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('score-date').style.color = scoreFg;
+
+  // Dimension scores
+  if (scoreDims && r.dimensions?.length) {
+    document.getElementById('dims-body').style.display = 'block';
+    const dl = document.getElementById('dims-list');
+    dl.innerHTML = '';
+    r.dimensions.forEach(d => {
+      let barColor = d.score >= 75 ? 'var(--teal)' : d.score >= 55 ? 'var(--amber)' : 'var(--coral)';
+      dl.innerHTML += `
+        <div class="dim-row">
+          <span style="font-size:12.5px">${d.name}</span>
+          <div><div class="dim-bar-wrap"><div class="dim-bar" style="width:${d.score}%;background:${barColor}"></div></div></div>
+          <span style="font-size:11px;font-weight:600;color:${barColor.replace('var(--','var(--').replace(')','-d)')}">${d.score}</span>
+          <span style="font-size:11.5px;color:var(--text-3);grid-column:1/-1;padding-left:0;margin-top:-4px;padding-bottom:4px">${d.note}</span>
+        </div>`;
+    });
+  }
+
+  // Full analysis card
+  const ac = document.getElementById('analysis-card');
+  ac.style.display = 'block';
+  ac.style.borderColor = '';
+  document.getElementById('analysis-title').textContent = 'Detailed analysis';
+
+  let html = '';
+
+  // Strengths
+  if (r.strengths?.length) {
+    html += `<div style="margin-bottom:14px"><div class="result-section-title" style="color:var(--teal-d)">✓ Strengths</div>`;
+    r.strengths.forEach(s => {
+      html += `<div class="match-item"><span style="color:var(--teal-d);font-size:13px;flex-shrink:0">✓</span><span>${s}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // What's matched
+  if (r.matched?.length) {
+    html += `<div style="margin-bottom:14px"><div class="result-section-title" style="color:var(--teal-d)">Requirements covered</div>`;
+    r.matched.forEach(m => {
+      html += `<div class="gap-item" style="background:var(--teal-l)"><span class="gap-icon" style="color:var(--teal-d)">✓</span><span style="color:var(--teal-d)">${m}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Gaps by severity
+  const critical = (r.gaps||[]).filter(g => g.severity === 'critical');
+  const moderate = (r.gaps||[]).filter(g => g.severity === 'moderate');
+  const minor = (r.gaps||[]).filter(g => g.severity === 'minor');
+
+  if (critical.length) {
+    html += `<div style="margin-bottom:14px"><div class="result-section-title" style="color:var(--coral-d)">Critical gaps — must fix before delivery</div>`;
+    critical.forEach(g => {
+      html += `<div class="gap-item" style="background:var(--coral-l)"><span class="gap-icon">⚠</span><div><strong style="color:var(--coral-d)">${g.requirement}</strong><br><span style="color:var(--coral-d)">${g.issue}</span></div></div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (moderate.length) {
+    html += `<div style="margin-bottom:14px"><div class="result-section-title" style="color:var(--amber-d)">Moderate gaps — should address</div>`;
+    moderate.forEach(g => {
+      html += `<div class="gap-item" style="background:var(--amber-l)"><span class="gap-icon">△</span><div><strong style="color:var(--amber-d)">${g.requirement}</strong><br><span style="color:var(--amber-d)">${g.issue}</span></div></div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (minor.length) {
+    html += `<div style="margin-bottom:14px"><div class="result-section-title" style="color:var(--gray-d)">Minor gaps — nice to have</div>`;
+    minor.forEach(g => {
+      html += `<div class="gap-item" style="background:var(--gray-l)"><span class="gap-icon">○</span><div><strong style="color:var(--gray-d)">${g.requirement}</strong><br><span style="color:var(--gray-d)">${g.issue}</span></div></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Improvements
+  if (r.improvements?.length) {
+    html += `<div><div class="result-section-title" style="color:var(--purple-d)">Recommended improvements</div>`;
+    r.improvements.forEach((imp, i) => {
+      html += `<div class="gap-item" style="background:var(--purple-l)"><span class="gap-icon" style="color:var(--purple-d);font-weight:700;font-size:12px">${i+1}</span><span style="color:var(--purple-d)">${imp}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('analysis-text').innerHTML = html;
+  document.getElementById('validator-results').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function renderHistory() {
+  if (!analysisHistory.length) return;
+  const hs = document.getElementById('history-section');
+  hs.style.display = 'flex';
+  const hl = document.getElementById('history-list');
+  hl.innerHTML = '';
+  analysisHistory.slice(0, 5).forEach((h, i) => {
+    let badgeColor = h.score >= 80 ? 'b-green' : h.score >= 65 ? 'b-blue' : h.score >= 50 ? 'b-amber' : 'b-coral';
+    hl.innerHTML += `
+      <div class="history-item" onclick="restoreHistory(${i})">
+        <div class="row between">
+          <div style="font-size:13px;font-weight:500;color:var(--text)">${h.req}</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <span class="badge ${badgeColor}">${h.score}/100</span>
+            <span style="font-size:11px;color:var(--text-3)">${h.timestamp.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</span>
+          </div>
+        </div>
+        <div style="font-size:11.5px;color:var(--text-3);margin-top:3px">${h.verdict} · Click to view</div>
+      </div>`;
+  });
+}
+
+function restoreHistory(i) {
+  const h = analysisHistory[i];
+  document.getElementById('validator-results').style.display = 'flex';
+  document.getElementById('thinking-card').style.display = 'none';
+  renderResult(h.result, '', '', true);
+}
+
 </body>
 </html>
