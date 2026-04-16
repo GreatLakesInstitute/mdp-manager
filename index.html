@@ -1141,8 +1141,225 @@ Closing (4pm–5pm): Action Learning Project briefing
   document.getElementById('outline-count').textContent = document.getElementById('faculty-outline').value.trim().split(/\s+/).filter(w=>w.length).length + ' words';
 }
 
-async function runAnalysis() {
-  const req = document.getElementById('client-req').value.trim();
+// ── In-browser curriculum analysis engine ──────────────────
+// Runs entirely client-side — no API calls, no CORS issues
+
+const TOPIC_MAP = [
+  // Each entry: { label, keywords[], dimension }
+  // Dimension: 0=objectives 1=content 2=methodology 3=assessment 4=practical 5=logistics
+
+  // Strategic / business
+  { label:'Strategic thinking',       kw:['strateg','vision','mission','competitive','porter','market','long-term','business acumen','business case'], dim:0 },
+  { label:'Financial acumen',         kw:['financ','p&l','profit','loss','balance sheet','budget','roi','revenue','cost','accounting'], dim:0 },
+  { label:'Change management',        kw:['change','transform','kotter','agile','digital transform','innovation','adapt'], dim:0 },
+  { label:'Leadership',               kw:['leadership','lead','leader','executive','senior manager','direction'], dim:0 },
+  { label:'Cross-functional teams',   kw:['cross-functional','cross functional','interdepartment','collaborate','silos','matrix'], dim:0 },
+
+  // Communication / people
+  { label:'Communication skills',     kw:['communicat','present','storytell','speak','executive presence','articulate'], dim:1 },
+  { label:'Stakeholder management',   kw:['stakeholder','influenc','negotiat','politics','senior leadership','board'], dim:1 },
+  { label:'Coaching & feedback',      kw:['coach','feedback','mentor','1-on-1','one-on-one','grow model','develop'], dim:1 },
+  { label:'Team building',            kw:['team build','team dynamic','trust','psycholog','culture','engagement'], dim:1 },
+
+  // Methodology
+  { label:'Case studies',             kw:['case stud','real-world','scenario','example','simulation'], dim:2 },
+  { label:'Role plays / simulations', kw:['role play','roleplay','simulat','activity','exercise','experiential'], dim:2 },
+  { label:'Group work',               kw:['group','cohort','peer','workshop','discussion','collaborate'], dim:2 },
+  { label:'Mixed methods',            kw:['classroo','online','blended','hybrid','mix of'], dim:2 },
+  { label:'Action learning',          kw:['action learn','project','real business','implement','apply'], dim:2 },
+  { label:'Industry-specific content',kw:['industry','sector','it services','banking','manufactur','technology'], dim:2 },
+
+  // Assessment
+  { label:'Pre/post assessment',      kw:['pre.?assessment|post.?assessment','pre.?test|post.?test','measur','evaluat','before.*after'], dim:3 },
+  { label:'Learning outcomes',        kw:['outcome','objective','kpi','result','measurable','learning goal'], dim:3 },
+  { label:'Action plan / project',    kw:['action plan','30.day|60.day|90.day','implementation','project','capstone'], dim:3 },
+
+  // Practical
+  { label:'Real business challenges', kw:['real.*challeng','business challeng','live project','actual problem'], dim:4 },
+  { label:'Tools & frameworks',       kw:['framework','tool','model','canvas','matrix','approach'], dim:4 },
+  { label:'Guest speakers',           kw:['guest','speaker','practitioner','expert','c-suite','cxo'], dim:4 },
+
+  // Logistics
+  { label:'Batch size / participants', kw:['batch','participant','per session','group size','cohort size','max \\d+'], dim:5 },
+  { label:'Duration / days',          kw:['day','hour','duration','session','\\d+ day'], dim:5 },
+  { label:'Location / hybrid',        kw:['location','city','mumbai|bengaluru|delhi|chennai|hyderabad','online|virtual|in-person|on-site'], dim:5 },
+  { label:'Budget',                   kw:['budget|cost|price|fee|lakh|₹'], dim:5 },
+];
+
+function tokenize(text) {
+  return text.toLowerCase().replace(/[^\w\s]/g,' ');
+}
+
+function matchScore(text, keywords) {
+  const t = tokenize(text);
+  let hits = 0;
+  keywords.forEach(kw => {
+    try {
+      if (new RegExp(kw, 'i').test(t)) hits++;
+    } catch(e) {
+      if (t.includes(kw)) hits++;
+    }
+  });
+  return hits / keywords.length;
+}
+
+function extractSentences(text) {
+  return text.split(/[.\n!?]+/).map(s => s.trim()).filter(s => s.length > 10);
+}
+
+function analyseInBrowser(req, outline, depth, suggestFixes, scoreDims) {
+  const reqL  = tokenize(req);
+  const outL  = tokenize(outline);
+
+  // ── 1. Topic matching ──────────────────────────────────
+  const reqTopics   = [];
+  const outTopics   = [];
+  const matched     = [];
+  const gaps        = [];
+
+  TOPIC_MAP.forEach(t => {
+    const inReq  = matchScore(req,     t.kw) > 0;
+    const inOut  = matchScore(outline, t.kw) > 0;
+    if (inReq)  reqTopics.push({ ...t, covered: inOut });
+    if (inOut && !inReq) outTopics.push(t);
+  });
+
+  const reqCount     = reqTopics.length || 1;
+  const coveredCount = reqTopics.filter(t => t.covered).length;
+
+  reqTopics.forEach(t => {
+    if (t.covered) {
+      matched.push(t.label + ' is addressed in the outline');
+    } else {
+      const sev = t.dim === 0 ? 'critical' : t.dim === 3 ? 'critical' : t.dim <= 2 ? 'moderate' : 'minor';
+      gaps.push({
+        severity: sev,
+        requirement: t.label,
+        issue: `The client requires "${t.label}" but it is not clearly addressed in the faculty outline.`
+      });
+    }
+  });
+
+  // ── 2. Dimension scoring ───────────────────────────────
+  const dimScores = [0,1,2,3,4,5].map(dim => {
+    const dimTopics  = reqTopics.filter(t => t.dim === dim);
+    if (!dimTopics.length) {
+      // Check if outline covers it at all
+      const anyInOut = TOPIC_MAP.filter(t=>t.dim===dim).some(t => matchScore(outline,t.kw)>0);
+      return anyInOut ? 70 : 50;
+    }
+    const covered = dimTopics.filter(t => t.covered).length;
+    return Math.round((covered / dimTopics.length) * 100);
+  });
+
+  // Extra bonuses
+  if (/case stud/i.test(outline))            dimScores[2] = Math.min(100, dimScores[2] + 10);
+  if (/simulat|role.?play/i.test(outline))   dimScores[2] = Math.min(100, dimScores[2] + 8);
+  if (/action.?learn|project/i.test(outline))dimScores[4] = Math.min(100, dimScores[4] + 10);
+  if (/pre.?assessment|post.?assessment/i.test(outline)) dimScores[3] = Math.min(100, dimScores[3] + 15);
+  if (/pre.?assessment|post.?assessment/i.test(req) && !/pre.?assessment|post.?assessment/i.test(outline)) dimScores[3] = Math.max(20, dimScores[3] - 20);
+
+  // Logistic checks
+  const reqDays     = (req.match(/(\d+)[- ]?day/i)||[])[1];
+  const outDays     = (outline.match(/(\d+)[- ]?day/i)||[])[1];
+  if (reqDays && outDays && reqDays !== outDays) {
+    dimScores[5] = Math.max(30, dimScores[5] - 20);
+    gaps.push({ severity:'moderate', requirement:'Program duration', issue:`Client requires a ${reqDays}-day program but the outline appears to be ${outDays} days.` });
+  }
+
+  const reqBatch    = (req.match(/max(?:imum)?\s*(\d+)\s*(?:participant|per)/i)||[])[1];
+  const outBatch    = (outline.match(/(\d+)\s*(?:participant|per.?session)/i)||[])[1];
+  if (reqBatch && outBatch && parseInt(outBatch) > parseInt(reqBatch)) {
+    dimScores[5] = Math.max(30, dimScores[5] - 15);
+    gaps.push({ severity:'moderate', requirement:'Batch size', issue:`Client wants max ${reqBatch} per session but outline plans ${outBatch}.` });
+  }
+
+  // ── 3. Overall score ───────────────────────────────────
+  const weights     = [0.28, 0.18, 0.18, 0.16, 0.12, 0.08]; // dim weights
+  let overall       = Math.round(dimScores.reduce((s,d,i) => s + d*weights[i], 0));
+
+  // Length / depth penalty
+  const outWords    = outline.split(/\s+/).length;
+  if (outWords < 100) overall = Math.max(20, overall - 15);
+
+  // Module structure bonus
+  if (/module\s+\d|day\s+\d|session\s+\d/i.test(outline)) overall = Math.min(100, overall + 5);
+
+  overall = Math.min(100, Math.max(10, overall));
+
+  // ── 4. Verdict ─────────────────────────────────────────
+  const verdict =
+    overall >= 85 ? 'Strong match'   :
+    overall >= 70 ? 'Good match'     :
+    overall >= 55 ? 'Partial match'  :
+    overall >= 38 ? 'Weak match'     : 'Poor match';
+
+  // ── 5. Strengths ───────────────────────────────────────
+  const strengths = [];
+  if (/case stud/i.test(outline))                               strengths.push('Includes case studies — good for practical, applied learning');
+  if (/simulat|role.?play/i.test(outline))                      strengths.push('Uses simulations or role-plays — high engagement methodology');
+  if (/action.?learn|live project|real.*challenge/i.test(outline)) strengths.push('Action learning component ties theory to real business problems');
+  if (/pre.?assessment|post.?assessment/i.test(outline))        strengths.push('Pre/post assessment is included — enables measurable ROI');
+  if ((outline.match(/module/gi)||[]).length >= 4)              strengths.push('Well-structured with clear module breakdown');
+  if (/debrief|reflect|discussion/i.test(outline))              strengths.push('Includes reflection and debrief activities — supports retention');
+  if (!strengths.length) strengths.push('Outline demonstrates a structured approach to the program delivery');
+
+  // ── 6. Improvements ────────────────────────────────────
+  const improvements = [];
+  if (suggestFixes) {
+    gaps.filter(g=>g.severity==='critical').forEach(g => {
+      improvements.push(`Add a dedicated section for "${g.requirement}" — this is a stated client priority and is currently missing from the outline.`);
+    });
+    if (!/pre.?assessment|post.?assessment/i.test(outline) && /measur|assess|evaluat/i.test(req))
+      improvements.push('Add a pre-program diagnostic survey and a post-program assessment to quantify learning gain and demonstrate ROI to the client.');
+    if (!/action.?learn|project/i.test(outline) && /action.?learn|project/i.test(req))
+      improvements.push('Include an action learning project where participants apply program learnings to a real challenge from their role — submit a 30-day plan.');
+    if (!/case stud/i.test(outline))
+      improvements.push('Add 1-2 industry-specific case studies relevant to the client\'s sector to make content more relatable and immediately applicable.');
+    if (!/debrief|reflect/i.test(outline))
+      improvements.push('End each module with a structured debrief / reflection activity — this significantly improves learning transfer.');
+    gaps.filter(g=>g.severity==='moderate').slice(0,2).forEach(g => {
+      improvements.push(`Strengthen the "${g.requirement}" component — consider adding a focused activity or module section.`);
+    });
+    if (!improvements.length)
+      improvements.push('The outline is well-aligned. Consider adding more specific timing for each activity to make scheduling easier.');
+  }
+
+  // ── 7. Summary ─────────────────────────────────────────
+  const critCount = gaps.filter(g=>g.severity==='critical').length;
+  const modCount  = gaps.filter(g=>g.severity==='moderate').length;
+  const summary =
+    overall >= 80
+      ? `The faculty outline is a strong match for the client's requirements, covering ${coveredCount} of ${reqCount} identified topics. ${critCount ? `There is ${critCount} critical gap to address.` : 'No critical gaps were found.'} Minor refinements could further strengthen the program.`
+      : overall >= 60
+      ? `The outline covers the core requirements but has ${critCount} critical and ${modCount} moderate gaps. Key areas like ${gaps.filter(g=>g.severity==='critical').slice(0,2).map(g=>g.requirement).join(' and ')} need attention before this can be approved for delivery.`
+      : `The outline has significant misalignment with the client's requirements. ${critCount} critical gaps were identified — the outline needs substantial revision before it is ready. Priority areas: ${gaps.filter(g=>g.severity==='critical').slice(0,3).map(g=>g.requirement).join(', ')}.`;
+
+  // ── 8. Dimension labels ────────────────────────────────
+  const dimNames = ['Objective coverage','Content depth','Learning methodology','Assessment & outcomes','Practical application','Logistics & constraints'];
+  const dimNotes = [
+    dimScores[0]>=75 ? 'Client objectives are well reflected in the outline' : 'Some client objectives are not clearly addressed',
+    dimScores[1]>=75 ? 'Content appears sufficiently deep for the audience' : 'Content may need more depth for senior managers',
+    dimScores[2]>=75 ? 'Good mix of learning methods used' : 'Methodology could be more varied and engaging',
+    dimScores[3]>=75 ? 'Assessment and outcomes are defined' : 'Needs stronger assessment and measurable outcomes',
+    dimScores[4]>=75 ? 'Good practical and applied learning elements' : 'Needs more practical, real-world application',
+    dimScores[5]>=75 ? 'Logistics align with client constraints' : 'Review logistical requirements against client specs',
+  ];
+
+  return {
+    overall_score: overall,
+    verdict,
+    summary,
+    dimensions: dimNames.map((name,i) => ({ name, score: dimScores[i], note: dimNotes[i] })),
+    matched: matched.slice(0, 8),
+    gaps: gaps.slice(0, 10),
+    improvements: improvements.slice(0, 6),
+    strengths: strengths.slice(0, 4),
+  };
+}
+
+function runAnalysis() {
+  const req     = document.getElementById('client-req').value.trim();
   const outline = document.getElementById('faculty-outline').value.trim();
 
   if (!req || !outline) {
@@ -1150,20 +1367,18 @@ async function runAnalysis() {
     return;
   }
 
-  const depth = document.querySelector('input[name="depth"]:checked')?.value || 'full';
-  const suggestFixes = document.getElementById('suggest-fixes').checked;
-  const scoreDims = document.getElementById('score-dims').checked;
-  const btn = document.getElementById('analyse-btn');
+  const depth       = document.querySelector('input[name="depth"]:checked')?.value || 'full';
+  const suggestFixes= document.getElementById('suggest-fixes').checked;
+  const scoreDims   = document.getElementById('score-dims').checked;
+  const btn         = document.getElementById('analyse-btn');
 
-  // Show results panel
+  // Show + reset results panel
   const resultsDiv = document.getElementById('validator-results');
   resultsDiv.style.display = 'flex';
-
-  // Reset UI
   document.getElementById('thinking-card').style.display = 'block';
   document.getElementById('analysis-card').style.display = 'none';
   document.getElementById('dims-body').style.display = 'none';
-  document.getElementById('analysis-text').textContent = '';
+  document.getElementById('analysis-text').innerHTML = '';
   document.getElementById('score-num').textContent = '—';
   document.getElementById('score-verdict').textContent = '';
   document.getElementById('score-verdict').style.cssText = '';
@@ -1174,7 +1389,8 @@ async function runAnalysis() {
   btn.disabled = true;
   btn.textContent = 'Analysing...';
 
-  const thinkingStatuses = [
+  // Animate through statuses while "thinking"
+  const statuses = [
     'Reading client requirements...',
     'Parsing faculty outline structure...',
     'Mapping objectives to modules...',
@@ -1184,122 +1400,40 @@ async function runAnalysis() {
   ];
   let si = 0;
   const statusEl = document.getElementById('thinking-status');
+  statusEl.textContent = statuses[0];
   const statusInterval = setInterval(() => {
-    si = (si + 1) % thinkingStatuses.length;
-    statusEl.textContent = thinkingStatuses[si];
-  }, 1800);
+    si = (si + 1) % statuses.length;
+    statusEl.textContent = statuses[si];
+  }, 600);
 
-  const depthInstructions = {
-    quick: 'Provide a concise 2-3 paragraph assessment.',
-    full: 'Provide a thorough analysis covering all dimensions.',
-    detailed: 'Provide an exhaustive analysis with specific module-level recommendations.',
-  };
-
-  const systemPrompt = `You are an expert curriculum designer and L&D consultant specialising in Management Development Programs (MDPs) for corporate clients in India. Your job is to assess whether a faculty's program outline adequately addresses a client's stated requirements.
-
-You must respond in valid JSON only — no markdown, no preamble, no explanation outside the JSON. Return exactly this structure:
-
-{
-  "overall_score": <integer 0-100>,
-  "verdict": "<Strong match|Good match|Partial match|Weak match|Poor match>",
-  "summary": "<2-3 sentence overall assessment>",
-  "dimensions": [
-    {"name": "Objective coverage", "score": <0-100>, "note": "<brief>"},
-    {"name": "Content depth", "score": <0-100>, "note": "<brief>"},
-    {"name": "Learning methodology", "score": <0-100>, "note": "<brief>"},
-    {"name": "Assessment & outcomes", "score": <0-100>, "note": "<brief>"},
-    {"name": "Practical application", "score": <0-100>, "note": "<brief>"},
-    {"name": "Logistics & constraints", "score": <0-100>, "note": "<brief>"}
-  ],
-  "matched": [
-    "<requirement that IS addressed by the outline>",
-    ...
-  ],
-  "gaps": [
-    {"severity": "<critical|moderate|minor>", "requirement": "<what client asked for>", "issue": "<what is missing or insufficient in the outline>"},
-    ...
-  ],
-  "improvements": [
-    "<specific actionable suggestion to improve the outline>",
-    ...
-  ],
-  "strengths": [
-    "<specific strength of the outline>",
-    ...
-  ]
-}`;
-
-  const userPrompt = `CLIENT REQUIREMENT:
-${req}
-
-FACULTY OUTLINE:
-${outline}
-
-Analysis depth: ${depth}
-${suggestFixes ? 'Include specific improvement suggestions.' : 'Skip improvement suggestions.'}
-${scoreDims ? 'Score each dimension.' : 'Skip dimension scores.'}
-
-${depthInstructions[depth]}
-
-Respond with valid JSON only.`;
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }]
-      })
-    });
-
+  // Run after a short delay so the UI updates first
+  setTimeout(() => {
     clearInterval(statusInterval);
-    document.getElementById('thinking-card').style.display = 'none';
-
-    const data = await response.json();
-    let raw = data.content?.map(b => b.text || '').join('') || '';
-
-    // Strip any accidental markdown fences
-    raw = raw.replace(/```json|```/g, '').trim();
-
-    let result;
     try {
-      result = JSON.parse(raw);
-    } catch(e) {
-      // Try to extract JSON from the response
-      const match = raw.match(/\{[\s\S]*\}/);
-      if (match) result = JSON.parse(match[0]);
-      else throw new Error('Could not parse response');
+      const result = analyseInBrowser(req, outline, depth, suggestFixes, scoreDims);
+      document.getElementById('thinking-card').style.display = 'none';
+      renderResult(result, scoreDims);
+      analysisHistory.unshift({
+        timestamp: new Date(),
+        score: result.overall_score,
+        verdict: result.verdict,
+        req: req.substring(0, 80) + '...',
+        result
+      });
+      renderHistory();
+    } catch(err) {
+      document.getElementById('thinking-card').style.display = 'none';
+      document.getElementById('analysis-card').style.display = 'block';
+      document.getElementById('analysis-title').textContent = 'Analysis error';
+      document.getElementById('analysis-text').textContent = 'Something went wrong: ' + err.message;
+      document.getElementById('analysis-card').style.borderColor = 'var(--coral)';
     }
-
-    renderResult(result, req, outline, scoreDims);
-
-    // Save to history
-    analysisHistory.unshift({
-      timestamp: new Date(),
-      score: result.overall_score,
-      verdict: result.verdict,
-      req: req.substring(0, 80) + '...',
-      result
-    });
-    renderHistory();
-
-  } catch(err) {
-    clearInterval(statusInterval);
-    document.getElementById('thinking-card').style.display = 'none';
-    document.getElementById('analysis-card').style.display = 'block';
-    document.getElementById('analysis-title').textContent = 'Analysis error';
-    document.getElementById('analysis-text').textContent = 'Something went wrong: ' + err.message + '\n\nPlease check your internet connection and try again.';
-    document.getElementById('analysis-card').style.borderColor = 'var(--coral)';
-  }
-
-  btn.disabled = false;
-  btn.textContent = 'Analyse alignment ↗';
+    btn.disabled = false;
+    btn.textContent = 'Analyse alignment ↗';
+  }, 3200);
 }
 
-function renderResult(r, req, outline, scoreDims) {
+function renderResult(r, scoreDims) {
   // Score colour
   const score = r.overall_score;
   let scoreBg, scoreFg, verdictBg, verdictFg;
@@ -1439,7 +1573,7 @@ function restoreHistory(i) {
   const h = analysisHistory[i];
   document.getElementById('validator-results').style.display = 'flex';
   document.getElementById('thinking-card').style.display = 'none';
-  renderResult(h.result, '', '', true);
+  renderResult(h.result, true);
 }
 
 </body>
