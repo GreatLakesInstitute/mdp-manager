@@ -811,10 +811,20 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
     </div>
     <div class="btn-row">
       <button class="btn" onclick="clearValidator()">Clear</button>
-      <button class="btn" onclick="loadExample()">Load example</button>
+      <button class="btn" onclick="loadExample('selected')" style="border-color:var(--teal);color:var(--teal-d);display:flex;align-items:center;gap:6px">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--teal);display:inline-block;flex-shrink:0"></span>
+        Selected (85–87%)
+      </button>
+      <button class="btn" onclick="loadExample('rejected')" style="border-color:var(--coral);color:var(--coral-d);display:flex;align-items:center;gap:6px">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--coral);display:inline-block;flex-shrink:0"></span>
+        Rejected (50–55%)
+      </button>
       <button class="btn primary" id="analyse-btn" onclick="runAnalysis()">Analyse alignment ↗</button>
     </div>
   </div>
+
+  <!-- Status banner -->
+  <div id="example-banner" style="display:none;align-items:center;gap:12px;padding:0.85rem 1.1rem;border-radius:var(--r-lg);border:1px solid transparent;flex-wrap:wrap"></div>
 
   <!-- Input panels -->
   <div class="two-col">
@@ -1073,69 +1083,221 @@ function clearValidator() {
   document.getElementById('validator-results').style.display = 'none';
 }
 
-function loadExample() {
-  document.getElementById('client-req').value = `We need a 3-day leadership development program for 40 senior managers at a leading IT services firm. The program should address the following:
+function loadExample(type) {
+  const banner = document.getElementById('example-banner');
 
-Key Objectives:
-1. Build strategic thinking and long-term business acumen
-2. Improve ability to lead and influence cross-functional teams
-3. Develop executive communication and stakeholder management skills
-4. Strengthen financial literacy — P&L understanding, budgeting, ROI thinking
-5. Equip managers to drive change and lead digital transformation initiatives
+  if (type === 'selected') {
+    banner.style.display = 'flex';
+    banner.style.background = 'var(--teal-l)';
+    banner.style.borderColor = 'rgba(29,158,117,0.25)';
+    banner.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;flex:1">
+        <span style="width:10px;height:10px;border-radius:50%;background:var(--teal);flex-shrink:0"></span>
+        <div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--teal-d)">Example 1 — SELECTED &nbsp;·&nbsp; Expected score: 85–87%</div>
+          <div style="font-size:11.5px;color:var(--teal-d);margin-top:1px">TCS Senior Leadership Program · Faculty outline closely matches all 5 client objectives with strong methodology and assessment plan</div>
+        </div>
+      </div>
+      <span style="font-size:11px;color:var(--teal-d);font-weight:500;padding:3px 10px;border:1px solid var(--teal);border-radius:20px;white-space:nowrap">✓ Approved for delivery</span>`;
 
-Delivery Preferences:
-• Mix of classroom, case studies and real-world simulations
-• Industry-specific case studies relevant to IT/technology sector
-• Maximum 20 participants per session for quality interaction
-• Pre-program and post-program assessment to measure learning outcomes
-• Action learning project tied to a real business challenge
+    document.getElementById('client-req').value = `CLIENT REQUIREMENT — TCS Senior Leadership Program
+Submitted by: Anita Sharma, Head of L&D, Tata Consultancy Services
+Date: April 2025
 
-Constraints:
-• 3 days total (can be split across 2 weekends)
-• Participants are based across Mumbai and Bengaluru
-• Budget: ₹8.5L total for 40 participants`;
+We require a structured 3-day Management Development Program for 40 senior managers (Grade M4 and above) across our Mumbai and Bengaluru offices.
 
-  document.getElementById('faculty-outline').value = `PROGRAM OUTLINE — Senior Leadership Accelerator
-Duration: 3 days | Participants: 40 senior managers
+CORE OBJECTIVES:
+1. Strategic thinking & business acumen — managers must be able to contribute to BU-level strategy discussions, not just operational execution
+2. Cross-functional leadership — ability to lead teams and projects that cut across delivery, sales, and support functions without direct authority
+3. Executive communication & stakeholder management — presenting to senior clients, internal leadership, and board-level stakeholders
+4. Financial literacy — reading P&L statements, understanding ROI, building business cases for investment proposals
+5. Leading change & digital transformation — equipping managers to champion and implement change initiatives within their teams
 
-DAY 1 — Strategic Leadership & Business Thinking
-Module 1 (9am–12pm): Strategic Thinking in Action
-  - Vision, mission and strategy alignment
-  - Competitive landscape analysis (Porter's Five Forces)
-  - Case Study: Wipro's pivot to digital services
-  - Activity: Strategy canvas exercise
+DELIVERY REQUIREMENTS:
+• Methodology: Mix of case studies, simulations, and classroom sessions — no purely lecture-based modules
+• Industry relevance: Case studies must be from IT services / technology sector (not generic business cases)
+• Batch size: Maximum 20 participants per batch (2 batches of 20)
+• Duration: 3 full days per batch
+• Pre-program diagnostic assessment to establish baseline
+• Post-program assessment at Day 30 to measure learning transfer
+• Action learning project: Each participant commits to applying one learning to a real business challenge
 
-Module 2 (1pm–5pm): Executive Communication & Presence
-  - The art of executive storytelling
-  - Presenting to the C-suite
-  - Activity: Recorded presentation with peer feedback
+CONSTRAINTS:
+• Budget: ₹8.5L per batch (inclusive of faculty fees, materials, and venue)
+• Venue: Client office in Mumbai (Day 1 & 2) and Bengaluru (Day 3 for Bengaluru batch)
+• Dates: Program to run in June–July 2025
+• Participants will be nominated by their respective BU heads`;
 
-DAY 2 — People, Influence & Cross-functional Leadership  
-Module 3 (9am–12pm): Leading Without Authority
-  - Influence vs. authority — the leadership spectrum
-  - Stakeholder mapping and management
-  - Simulation: Cross-functional project negotiation
-  
-Module 4 (1pm–5pm): Coaching & Developing Your Team
-  - Manager as coach — the GROW model
-  - Giving and receiving feedback
-  - Role play: 1-on-1 coaching conversation
+    document.getElementById('faculty-outline').value = `PROGRAM OUTLINE — Senior Leadership Accelerator (SLA)
+Designed by: Dr. Sunita Mehta & Prof. Ajay Singh
+Duration: 3 days | Batch size: 20 per batch | Industry: IT Services
 
-DAY 3 — Financial Acumen & Driving Change
-Module 5 (9am–12pm): Financial Literacy for Leaders
-  - Reading a P&L and balance sheet
-  - ROI thinking and business case building
-  - Case Study: Make-or-buy decision at an IT firm
+═══════════════════════════════════════
+DAY 1 — STRATEGY & BUSINESS THINKING
+═══════════════════════════════════════
 
-Module 6 (1pm–4pm): Leading Change & Transformation
-  - Change management models (Kotter's 8 steps)
-  - Overcoming resistance to change
-  - Group activity: Change roadmap for a real challenge
+Module 1 (9:00am – 12:30pm): Strategic Thinking for Business Leaders
+  Topics:
+  - From operational to strategic mindset — the leadership shift
+  - Business unit strategy: vision, mission, and competitive positioning
+  - Porter's Five Forces applied to IT services
+  - Understanding market dynamics in technology sector
+  Activity: Strategy canvas exercise using a real TCS business unit scenario
+  Case Study: Infosys's pivot from legacy IT to digital services (2015–2022)
+  Debrief: What strategic decisions drove the transformation?
 
-Closing (4pm–5pm): Action Learning Project briefing
-  - Each participant selects a real business challenge
-  - 30-day implementation plan
-  - Post-program assessment scheduled for Day 30`;
+Module 2 (1:30pm – 5:00pm): Executive Communication & Stakeholder Management
+  Topics:
+  - Executive storytelling — structure, brevity, impact
+  - Presenting to the C-suite and senior clients
+  - Stakeholder mapping and influence strategy
+  - Managing upward, downward, and lateral relationships
+  Activity: Recorded 5-minute presentation with structured peer feedback
+  Simulation: Navigating a difficult stakeholder conversation (role play)
+
+═══════════════════════════════════════
+DAY 2 — CROSS-FUNCTIONAL LEADERSHIP & PEOPLE
+═══════════════════════════════════════
+
+Module 3 (9:00am – 12:30pm): Leading Without Authority
+  Topics:
+  - Cross-functional leadership in a matrix organisation
+  - Influence frameworks: reciprocity, coalition building, logical persuasion
+  - Identifying and managing resistance in cross-functional teams
+  - Conflict resolution across functions
+  Simulation: Cross-functional project negotiation (competing priorities)
+  Case Study: A cross-team delivery failure at a leading IT firm — what went wrong?
+
+Module 4 (1:30pm – 5:00pm): Coaching & Developing High-Performing Teams
+  Topics:
+  - Manager as coach vs. manager as director — when to use each
+  - The GROW coaching model in practice
+  - Giving developmental feedback vs. performance feedback
+  - Recognising and addressing underperformance early
+  Role Play: 1-on-1 coaching conversation with a struggling team member
+  Activity: Personal coaching style self-assessment
+
+═══════════════════════════════════════
+DAY 3 — FINANCIAL ACUMEN & CHANGE LEADERSHIP
+═══════════════════════════════════════
+
+Module 5 (9:00am – 12:30pm): Financial Literacy for Senior Managers
+  Topics:
+  - Reading and interpreting a P&L statement
+  - Understanding balance sheets and cash flow — what managers need to know
+  - ROI thinking: building a business case for a team investment
+  - Budget ownership and variance analysis
+  Case Study: Make-or-buy decision at a mid-size IT services firm
+  Activity: Participants build a mini business case for a real initiative from their role
+
+Module 6 (1:30pm – 4:30pm): Leading Change & Digital Transformation
+  Topics:
+  - Why change initiatives fail — the top 5 reasons
+  - Kotter's 8-step change model applied to digital transformation
+  - Leading your team through uncertainty and ambiguity
+  - Building a change-ready culture in your function
+  Case Study: A digital transformation at a major Indian IT firm
+  Group Activity: Participants design a change roadmap for a real challenge in their team
+
+Closing Session (4:30pm – 5:30pm): Action Learning Project Kickoff
+  - Each participant identifies one real business challenge from their role
+  - Commits to a 30-day action plan applying program learnings
+  - Groups of 4 form accountability pods for peer support
+  - Post-program assessment scheduled for Day 30 (online survey + manager rating)
+
+═══════════════════════════════════════
+ASSESSMENT & EVALUATION
+═══════════════════════════════════════
+Pre-program: Diagnostic survey sent 1 week before (strategic thinking, financial literacy baseline)
+Post-program (Day 30): Online assessment + 360° manager rating on 5 competencies
+Action learning: Participants submit a 1-page implementation report at Day 30
+Facilitator evaluation: Participant feedback collected at end of each day`;
+
+  } else {
+    banner.style.display = 'flex';
+    banner.style.background = 'var(--coral-l)';
+    banner.style.borderColor = 'rgba(216,90,48,0.25)';
+    banner.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;flex:1">
+        <span style="width:10px;height:10px;border-radius:50%;background:var(--coral);flex-shrink:0"></span>
+        <div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--coral-d)">Example 2 — REJECTED &nbsp;·&nbsp; Expected score: 50–55%</div>
+          <div style="font-size:11.5px;color:var(--coral-d);margin-top:1px">HDFC Bank Women in Leadership · Outline has critical gaps — missing assessment plan, wrong methodology, batch size mismatch</div>
+        </div>
+      </div>
+      <span style="font-size:11px;color:var(--coral-d);font-weight:500;padding:3px 10px;border:1px solid var(--coral);border-radius:20px;white-space:nowrap">✗ Returned for revision</span>`;
+
+    document.getElementById('client-req').value = `CLIENT REQUIREMENT — Women in Leadership Program
+Submitted by: Prerna Kapoor, VP Human Resources, HDFC Bank
+Date: March 2025
+
+HDFC Bank wishes to commission a Women in Leadership program for 35 high-potential women managers at Deputy Manager and Assistant Vice President levels.
+
+CORE OBJECTIVES:
+1. Build leadership identity and executive confidence — participants should leave with a clear sense of their leadership brand and presence
+2. Navigating organisational politics — how to build influence, manage sponsors, and advance their careers in a traditionally male-dominated sector
+3. Stakeholder management and negotiation skills — specifically for dealing with senior male colleagues and external partners
+4. Work-life integration strategies — practical tools for managing dual responsibilities without compromising career ambition
+5. Building a personal board of advisors and peer network — structured mentoring and sponsorship relationships
+6. Data-driven decision making — using analytics and data to build stronger business cases
+
+DELIVERY REQUIREMENTS:
+• Safe, women-only learning environment — all facilitators must be women
+• Small intimate group sessions — maximum 12 participants per session
+• Duration: 2 days per batch (3 batches of 12 participants)
+• Significant peer learning and sharing component — participants learn as much from each other as from faculty
+• Pre-program 360-degree assessment from managers, peers, and direct reports
+• Post-program coaching: 3 individual coaching sessions per participant (1 per month for 3 months)
+• Action learning: A real leadership challenge each participant tackles with peer group support
+• Ongoing alumni network — WhatsApp group + quarterly meetups post-program
+
+CONSTRAINTS:
+• All sessions must be held at HDFC Bank premises (Nariman Point, Mumbai)
+• Budget: ₹6L for all 35 participants including coaching sessions
+• No sessions on Mondays (senior management meetings)
+• Program must conclude before September 30, 2025`;
+
+    document.getElementById('faculty-outline').value = `PROGRAM OUTLINE — Emerging Leaders Workshop
+Designed by: Prof. Rajan Nair (IIM Ahmedabad visiting faculty)
+Duration: 2 days | Target: Middle managers
+
+DAY 1 — LEADERSHIP FUNDAMENTALS
+
+Session 1 (10am–1pm): What Makes a Great Leader?
+  - Leadership theories: transformational, transactional, servant leadership
+  - Myers Briggs personality types and leadership style
+  - Video: TED talk on vulnerability by Brene Brown
+  - Discussion: What kind of leader do you want to be?
+
+Session 2 (2pm–5pm): Communication for Leaders
+  - Verbal and non-verbal communication
+  - Active listening techniques
+  - Body language in meetings
+  - Exercise: Pair sharing — communication strengths and weaknesses
+
+DAY 2 — TEAM AND ORGANISATIONAL LEADERSHIP
+
+Session 3 (10am–1pm): Managing Teams Effectively
+  - Tuckman's stages of team development (forming, storming, norming, performing)
+  - Delegation frameworks
+  - Motivating diverse teams
+  - Case Study: A generic manufacturing company team conflict
+
+Session 4 (2pm–4pm): Organisational Dynamics
+  - Understanding organisational culture
+  - Change management basics
+  - How to deal with difficult colleagues
+  - Group discussion: Share a challenge from your workplace
+
+Wrap-up (4pm–4:30pm):
+  - Key takeaways
+  - Each participant writes 3 things they will do differently
+  - Feedback form
+
+FACULTY: Prof. Rajan Nair — 20 years in management education
+BATCH SIZE: Up to 30 participants
+VENUE: Faculty's training centre, Bandra, Mumbai`;
+  }
 
   document.getElementById('req-count').textContent = document.getElementById('client-req').value.trim().split(/\s+/).filter(w=>w.length).length + ' words';
   document.getElementById('outline-count').textContent = document.getElementById('faculty-outline').value.trim().split(/\s+/).filter(w=>w.length).length + ' words';
