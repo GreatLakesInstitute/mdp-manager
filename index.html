@@ -370,6 +370,69 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 .tna-export-btn:hover{border-color:var(--teal);background:var(--teal-l);color:var(--teal-d)}
 .tna-export-icon{width:36px;height:36px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 
+
+/* ══ TNA STUDIO ══════════════════════════════════════════ */
+.studio-layout{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start}
+.studio-sidebar{display:flex;flex-direction:column;gap:10px;position:sticky;top:1rem}
+.studio-main{display:flex;flex-direction:column;gap:14px}
+.req-card{border:2px solid var(--border);border-radius:var(--r-xl);padding:1rem 1.1rem;cursor:pointer;transition:all 0.15s;background:var(--card)}
+.req-card:hover{border-color:var(--teal);transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,0.08)}
+.req-card.selected{border-color:var(--teal);background:var(--teal-l)}
+.req-card-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.req-card-sub{font-size:11.5px;color:var(--text-2)}
+.req-card-meta{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+/* Step navigation */
+.step-nav{display:flex;flex-direction:column;gap:2px}
+.step-btn{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-md);cursor:pointer;transition:all 0.1s;font-size:12.5px;color:var(--text-2);border:none;background:transparent;font-family:var(--font);text-align:left;width:100%}
+.step-btn:hover{background:var(--bg);color:var(--text)}
+.step-btn.active{background:var(--teal-l);color:var(--teal-d);font-weight:600}
+.step-btn.done .step-circle{background:var(--teal);color:#fff}
+.step-btn.active .step-circle{background:var(--teal);color:#fff}
+.step-circle{width:24px;height:24px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;color:var(--text-3)}
+.step-panel{display:none;flex-direction:column;gap:14px;animation:fadeIn 0.15s ease}
+.step-panel.active{display:flex}
+/* Survey builder */
+.q-block{border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem;background:var(--card);position:relative}
+.q-block:hover{border-color:var(--teal-l)}
+.q-type-badge{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:8px}
+.q-text{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px}
+.q-options{display:flex;flex-direction:column;gap:4px}
+.q-opt{font-size:12px;color:var(--text-2);display:flex;align-items:center;gap:6px}
+.q-opt::before{content:'○';color:var(--text-3);font-size:14px}
+.q-scale{display:flex;gap:6px;margin-top:4px}
+.q-scale-num{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text-2)}
+.q-remove{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;border:none;background:var(--coral-l);color:var(--coral-d);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.15s}
+.q-block:hover .q-remove{opacity:1}
+/* Interview guide */
+.interview-section{border-left:3px solid var(--purple);padding-left:12px;margin-bottom:14px}
+.interview-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--purple-d);margin-bottom:8px}
+.interview-q{font-size:13px;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border)}
+.interview-q:last-child{border-bottom:none}
+.interview-q::before{content:'Q  ';color:var(--text-3);font-size:11px;font-weight:600}
+/* 360 grid */
+.r360-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.r360-card{border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem;background:var(--card);text-align:center}
+.r360-icon{font-size:24px;margin-bottom:6px}
+.r360-role{font-size:12px;font-weight:600;color:var(--text)}
+.r360-count{font-size:11px;color:var(--text-3);margin-top:2px}
+/* Timeline */
+.timeline-row{display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--border)}
+.timeline-row:last-child{border-bottom:none}
+.timeline-date{font-size:12px;font-weight:600;color:var(--text-2);text-align:right;padding-top:3px}
+.timeline-event{border-radius:var(--r-md);padding:10px 12px}
+.timeline-event-title{font-size:13px;font-weight:600;color:var(--text)}
+.timeline-event-desc{font-size:12px;color:var(--text-2);margin-top:3px}
+.timeline-event-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+/* Client share view */
+.share-header{background:linear-gradient(135deg,var(--teal-l) 0%,var(--purple-l) 100%);border:1px solid var(--border);border-radius:var(--r-xl);padding:1.5rem 2rem}
+.share-milestone{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.share-milestone:last-child{border-bottom:none}
+.share-milestone-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px}
+/* Editable input styles */
+.inline-edit{border:none;background:transparent;font-family:var(--font);font-size:inherit;color:inherit;width:100%;padding:2px 4px;border-radius:4px}
+.inline-edit:hover{background:var(--bg)}
+.inline-edit:focus{outline:2px solid var(--teal);background:var(--card)}
+
 </style>
 </head>
 <body>
@@ -418,6 +481,9 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
   <div class="sb-section">Learning</div>
   <div class="nav-item" onclick="show('tna',this)">
     <div class="nav-dot" style="background:var(--teal)"></div>TNA / TNI Tool
+  </div>
+  <div class="nav-item" onclick="show('tna-studio',this)">
+    <div class="nav-dot" style="background:var(--teal)"></div>TNA Studio
     <span class="nav-badge" style="background:var(--teal-l);color:var(--teal-d)">New</span>
   </div>
   <div class="nav-item" onclick="show('competency',this)">
@@ -2161,6 +2227,357 @@ The more detail you include, the more accurate the assessment."></textarea>
       </div>
     </div>
   </div>
+</div>
+
+
+<!-- ════════ TNA STUDIO ════════ -->
+<div id="view-tna-studio" class="view">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div>
+      <div class="page-title">TNA Studio</div>
+      <div class="page-sub">Build a complete, custom TNA project for any client requirement — surveys, interview guides, 360 instruments, timelines, and a shareable client plan</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="studioNewReq()">+ New TNA project</button>
+      <button class="btn primary" onclick="studioShareClient()">Share with client ↗</button>
+    </div>
+  </div>
+
+  <!-- New project prompt -->
+  <div class="card" id="studio-new-form" style="display:none;border-color:var(--teal)">
+    <div class="card-title" style="color:var(--teal-d)">Create a new TNA project</div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Client / Organisation</div>
+        <input class="comp-input" id="snf-client" placeholder="e.g. Tata Consultancy Services">
+      </div>
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Project name</div>
+        <input class="comp-input" id="snf-name" placeholder="e.g. Senior Leadership TNA FY26">
+      </div>
+    </div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Training requirement (brief)</div>
+        <textarea class="validator-area" id="snf-req" style="min-height:80px" placeholder="Paste the training requirement or describe the business need..."></textarea>
+      </div>
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Target audience</div>
+        <input class="comp-input" id="snf-audience" placeholder="e.g. 40 Senior Managers (M4), IT Delivery" style="margin-bottom:8px">
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">TNA start date</div>
+        <input class="comp-input" id="snf-date" type="date">
+      </div>
+    </div>
+    <div class="row" style="gap:8px">
+      <button class="btn primary" onclick="studioCreateProject()">Generate full TNA plan ↗</button>
+      <button class="btn" onclick="document.getElementById('studio-new-form').style.display='none'">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Main layout: sidebar + content -->
+  <div class="studio-layout" id="studio-workspace" style="display:none">
+
+    <!-- LEFT: project list + step nav -->
+    <div class="studio-sidebar">
+      <div class="card" style="padding:0.75rem">
+        <div style="font-size:10.5px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">TNA Projects</div>
+        <div id="studio-project-list" style="display:flex;flex-direction:column;gap:6px"></div>
+      </div>
+      <div class="card" style="padding:0.75rem">
+        <div style="font-size:10.5px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">TNA Steps</div>
+        <div class="step-nav" id="studio-step-nav">
+          <button class="step-btn active" onclick="studioStep('brief',this)"><div class="step-circle">1</div>Project brief</button>
+          <button class="step-btn" onclick="studioStep('survey',this)"><div class="step-circle">2</div>Participant survey</button>
+          <button class="step-btn" onclick="studioStep('participant-interview',this)"><div class="step-circle">3</div>Participant interviews</button>
+          <button class="step-btn" onclick="studioStep('manager-interview',this)"><div class="step-circle">4</div>Manager interviews</button>
+          <button class="step-btn" onclick="studioStep('peer-interview',this)"><div class="step-circle">5</div>Peer interviews</button>
+          <button class="step-btn" onclick="studioStep('360',this)"><div class="step-circle">6</div>360° TNA instrument</button>
+          <button class="step-btn" onclick="studioStep('focusgroup',this)"><div class="step-circle">7</div>Focus group guide</button>
+          <button class="step-btn" onclick="studioStep('timeline',this)"><div class="step-circle">8</div>Project timeline</button>
+          <button class="step-btn" onclick="studioStep('clientplan',this)"><div class="step-circle">9</div>Client plan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: step content -->
+    <div class="studio-main" id="studio-step-content">
+
+      <!-- STEP 1: PROJECT BRIEF -->
+      <div class="step-panel active" id="sp-brief">
+        <div class="card">
+          <div class="row between" style="margin-bottom:14px">
+            <div class="card-title" style="margin:0" id="brief-title">Project brief</div>
+            <span class="badge b-green" id="brief-status-badge">Active</span>
+          </div>
+          <div class="two-col" style="gap:14px">
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+              <div class="row between"><span style="color:var(--text-2);flex-shrink:0;width:120px">Client</span><span id="brief-client" style="font-weight:600"></span></div>
+              <div class="row between"><span style="color:var(--text-2);flex-shrink:0;width:120px">Target audience</span><span id="brief-audience" style="font-weight:500"></span></div>
+              <div class="row between"><span style="color:var(--text-2);flex-shrink:0;width:120px">TNA start date</span><span id="brief-date" style="font-weight:500"></span></div>
+              <div class="row between"><span style="color:var(--text-2);flex-shrink:0;width:120px">Estimated duration</span><span id="brief-duration" style="font-weight:500;color:var(--teal-d)"></span></div>
+              <div class="row between"><span style="color:var(--text-2);flex-shrink:0;width:120px">TNA lead</span><input class="inline-edit" id="brief-lead" value="Dr. Sunita Mehta" style="font-weight:500;flex:1"></div>
+              <div class="row between"><span style="color:var(--text-2);flex-shrink:0;width:120px">Point of contact</span><input class="inline-edit" id="brief-poc" value="" style="font-weight:500;flex:1" placeholder="Client HR contact name"></div>
+            </div>
+            <div>
+              <div style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Training requirement</div>
+              <div id="brief-req" style="font-size:13px;color:var(--text-2);line-height:1.7;background:var(--bg);padding:10px 12px;border-radius:var(--r-md)"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Competencies to investigate</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px" id="brief-comps"></div>
+          <div style="font-size:12px;color:var(--text-3)">Generated from the requirement. Edit by clicking any tag. Add more below.</div>
+          <div class="row" style="gap:8px;margin-top:10px">
+            <input class="comp-input" id="brief-add-comp" placeholder="Add competency..." style="max-width:260px">
+            <button class="btn sm" onclick="briefAddComp()">+ Add</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">TNA objectives</div>
+          <div style="display:flex;flex-direction:column;gap:6px" id="brief-objectives"></div>
+        </div>
+
+        <div class="row" style="gap:8px">
+          <button class="btn primary" onclick="studioStep('survey',document.querySelectorAll('.step-btn')[1])">Next: Build participant survey →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: PARTICIPANT SURVEY -->
+      <div class="step-panel" id="sp-survey">
+        <div class="card">
+          <div class="row between" style="margin-bottom:4px">
+            <div class="card-title" style="margin:0">Participant self-assessment survey</div>
+            <div class="row" style="gap:6px">
+              <button class="btn sm" onclick="surveyAddQuestion()">+ Add question</button>
+              <button class="btn sm primary" onclick="copySurvey()">Copy survey</button>
+              <button class="btn sm" onclick="downloadSurvey()">Download</button>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">This survey goes to all participants before the TNA. It establishes self-rated baseline proficiency and learning priorities.</div>
+          <div id="survey-intro-block" class="q-block" style="background:var(--purple-l);border-color:var(--purple-l)">
+            <div style="font-size:12.5px;font-weight:600;color:var(--purple-d);margin-bottom:4px">Survey introduction (shown to participants)</div>
+            <div class="inline-edit" contenteditable="true" id="survey-intro-text" style="font-size:12.5px;color:var(--purple-d);line-height:1.6;min-height:40px">Dear [Name], as part of our Training Needs Analysis, we would like to understand your current skill levels and learning priorities. This survey is confidential and will take approximately 15 minutes. Your honest responses will directly shape the development program designed for you.</div>
+          </div>
+          <div id="survey-questions" style="display:flex;flex-direction:column;gap:10px;margin-top:10px"></div>
+        </div>
+        <div class="row" style="gap:8px">
+          <button class="btn" onclick="studioStep('brief',document.querySelectorAll('.step-btn')[0])">← Back</button>
+          <button class="btn primary" onclick="studioStep('participant-interview',document.querySelectorAll('.step-btn')[2])">Next: Participant interview guide →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: PARTICIPANT INTERVIEWS -->
+      <div class="step-panel" id="sp-participant-interview">
+        <div class="card">
+          <div class="row between" style="margin-bottom:4px">
+            <div class="card-title" style="margin:0">Participant interview guide</div>
+            <div class="row" style="gap:6px">
+              <button class="btn sm primary" onclick="copyInterview('participant')">Copy guide</button>
+              <button class="btn sm" onclick="downloadInterview('participant')">Download</button>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">
+            <strong>Format:</strong> 45-minute 1-on-1 structured interview &nbsp;·&nbsp;
+            <strong>Who:</strong> Sample of 10–15% of participants (or all if group &lt;20) &nbsp;·&nbsp;
+            <strong>Mode:</strong> In-person preferred, video call acceptable
+          </div>
+          <div id="participant-interview-content"></div>
+        </div>
+        <div class="card" style="background:var(--blue-l);border-color:rgba(55,138,221,0.2)">
+          <div style="font-size:12px;font-weight:600;color:var(--blue-d);margin-bottom:8px">Interviewer instructions</div>
+          <div style="font-size:12.5px;color:var(--blue-d);line-height:1.7">
+            Begin with 5 minutes of rapport building — ask about their role history and current responsibilities before going into the guide.
+            Use the STAR technique (Situation, Task, Action, Result) for behavioural questions.
+            Take notes using the template below — do NOT share notes with the participant's manager.
+            Allow silences — give participants time to think before prompting.
+            End by asking: "Is there anything else about your development you'd like me to know?"
+          </div>
+        </div>
+        <div class="row" style="gap:8px">
+          <button class="btn" onclick="studioStep('survey',document.querySelectorAll('.step-btn')[1])">← Back</button>
+          <button class="btn primary" onclick="studioStep('manager-interview',document.querySelectorAll('.step-btn')[3])">Next: Manager interview guide →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: MANAGER INTERVIEWS -->
+      <div class="step-panel" id="sp-manager-interview">
+        <div class="card">
+          <div class="row between" style="margin-bottom:4px">
+            <div class="card-title" style="margin:0">Manager interview guide</div>
+            <div class="row" style="gap:6px">
+              <button class="btn sm primary" onclick="copyInterview('manager')">Copy guide</button>
+              <button class="btn sm" onclick="downloadInterview('manager')">Download</button>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">
+            <strong>Format:</strong> 30-minute structured interview &nbsp;·&nbsp;
+            <strong>Who:</strong> Direct managers / BU heads of all participant groups &nbsp;·&nbsp;
+            <strong>Mode:</strong> In-person or video — schedule at least 2 weeks in advance
+          </div>
+          <div id="manager-interview-content"></div>
+        </div>
+        <div class="row" style="gap:8px">
+          <button class="btn" onclick="studioStep('participant-interview',document.querySelectorAll('.step-btn')[2])">← Back</button>
+          <button class="btn primary" onclick="studioStep('peer-interview',document.querySelectorAll('.step-btn')[4])">Next: Peer interview guide →</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: PEER INTERVIEWS -->
+      <div class="step-panel" id="sp-peer-interview">
+        <div class="card">
+          <div class="row between" style="margin-bottom:4px">
+            <div class="card-title" style="margin:0">Peer interview guide</div>
+            <div class="row" style="gap:6px">
+              <button class="btn sm primary" onclick="copyInterview('peer')">Copy guide</button>
+              <button class="btn sm" onclick="downloadInterview('peer')">Download</button>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">
+            <strong>Format:</strong> 20-minute structured conversation &nbsp;·&nbsp;
+            <strong>Who:</strong> 2–3 peers per participant (nominated by participant) &nbsp;·&nbsp;
+            <strong>Mode:</strong> Video call or in-person · confidential
+          </div>
+          <div id="peer-interview-content"></div>
+        </div>
+        <div class="row" style="gap:8px">
+          <button class="btn" onclick="studioStep('manager-interview',document.querySelectorAll('.step-btn')[3])">← Back</button>
+          <button class="btn primary" onclick="studioStep('360',document.querySelectorAll('.step-btn')[5])">Next: 360° instrument →</button>
+        </div>
+      </div>
+
+      <!-- STEP 6: 360 TNA -->
+      <div class="step-panel" id="sp-360">
+        <div class="card">
+          <div class="row between" style="margin-bottom:4px">
+            <div class="card-title" style="margin:0">360° TNA instrument</div>
+            <div class="row" style="gap:6px">
+              <button class="btn sm primary" onclick="copy360()">Copy instrument</button>
+              <button class="btn sm" onclick="download360()">Download</button>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">Each participant receives ratings from self, manager, 2–3 peers, and 1–2 direct reports on the same competency scale. This triangulates the self-assessment with observed behaviour.</div>
+          <div class="r360-grid" style="margin-bottom:14px" id="r360-rater-grid"></div>
+          <div id="r360-instrument-content"></div>
+        </div>
+        <div class="card" style="background:var(--amber-l);border-color:rgba(239,159,39,0.2)">
+          <div style="font-size:12px;font-weight:600;color:var(--amber-d);margin-bottom:6px">360° administration notes</div>
+          <div style="font-size:12.5px;color:var(--amber-d);line-height:1.7">
+            Send to raters 10 working days before the TNA synthesis session. Allow 7 days for completion. Send one reminder at Day 4.
+            Ensure anonymity — pool peer and direct report ratings so individual responses cannot be identified.
+            Share only aggregated scores with participants — never individual rater responses.
+            The TNA lead reviews all 360 data before it is shared with the client.
+          </div>
+        </div>
+        <div class="row" style="gap:8px">
+          <button class="btn" onclick="studioStep('peer-interview',document.querySelectorAll('.step-btn')[4])">← Back</button>
+          <button class="btn primary" onclick="studioStep('focusgroup',document.querySelectorAll('.step-btn')[6])">Next: Focus group guide →</button>
+        </div>
+      </div>
+
+      <!-- STEP 7: FOCUS GROUP -->
+      <div class="step-panel" id="sp-focusgroup">
+        <div class="card">
+          <div class="row between" style="margin-bottom:4px">
+            <div class="card-title" style="margin:0">Focus group facilitation guide</div>
+            <div class="row" style="gap:6px">
+              <button class="btn sm primary" onclick="copyFocusGroup()">Copy guide</button>
+              <button class="btn sm" onclick="downloadFocusGroup()">Download</button>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">
+            <strong>Format:</strong> 90-minute cross-functional group discussion &nbsp;·&nbsp;
+            <strong>Group size:</strong> 8–10 participants &nbsp;·&nbsp;
+            <strong>Recommended groups:</strong> <span id="fg-groups">2–3 groups</span> &nbsp;·&nbsp;
+            <strong>Mode:</strong> In-person strongly recommended
+          </div>
+          <div id="focusgroup-content"></div>
+        </div>
+        <div class="row" style="gap:8px">
+          <button class="btn" onclick="studioStep('360',document.querySelectorAll('.step-btn')[5])">← Back</button>
+          <button class="btn primary" onclick="studioStep('timeline',document.querySelectorAll('.step-btn')[7])">Next: Project timeline →</button>
+        </div>
+      </div>
+
+      <!-- STEP 8: TIMELINE -->
+      <div class="step-panel" id="sp-timeline">
+        <div class="card">
+          <div class="row between" style="margin-bottom:4px">
+            <div class="card-title" style="margin:0">TNA project timeline</div>
+            <div class="row" style="gap:6px">
+              <button class="btn sm" onclick="regenerateTimeline()">Regenerate</button>
+              <button class="btn sm primary" onclick="copyTimeline()">Copy timeline</button>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">Click any date to edit it. Drag cards to reorder. All dates auto-propagate to the client plan.</div>
+          <div id="timeline-content"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">In-person interactions tracker</div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-bottom:10px">These activities require physical presence — plan logistics (venue, travel, materials) well in advance.</div>
+          <div id="inperson-tracker"></div>
+        </div>
+        <div class="row" style="gap:8px">
+          <button class="btn" onclick="studioStep('focusgroup',document.querySelectorAll('.step-btn')[6])">← Back</button>
+          <button class="btn primary" onclick="studioStep('clientplan',document.querySelectorAll('.step-btn')[8])">Next: Client plan →</button>
+        </div>
+      </div>
+
+      <!-- STEP 9: CLIENT PLAN (shareable) -->
+      <div class="step-panel" id="sp-clientplan">
+        <div class="share-header">
+          <div style="font-size:18px;font-weight:700;color:var(--teal-d);margin-bottom:4px" id="cp-title">Training Needs Analysis — Project Plan</div>
+          <div style="font-size:13px;color:var(--teal-d)" id="cp-sub">Prepared for your client</div>
+          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap" id="cp-meta"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">What this TNA will cover</div>
+          <div id="cp-scope" style="font-size:13px;color:var(--text-2);line-height:1.8"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Data collection plan</div>
+          <div id="cp-methods" style="display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Key milestones & dates</div>
+          <div id="cp-milestones" style="display:flex;flex-direction:column;gap:0"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">What we need from you</div>
+          <div id="cp-needs" style="display:flex;flex-direction:column;gap:6px;font-size:13px"></div>
+        </div>
+
+        <div class="card" style="background:var(--teal-l);border-color:rgba(29,158,117,0.2)">
+          <div style="font-size:12px;font-weight:600;color:var(--teal-d);margin-bottom:6px">Deliverables you will receive</div>
+          <div id="cp-deliverables" style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--teal-d)"></div>
+        </div>
+
+        <div class="row" style="gap:8px;flex-wrap:wrap">
+          <button class="btn primary" onclick="downloadClientPlan()">Download client plan (.txt)</button>
+          <button class="btn" onclick="copyClientPlan()">Copy to clipboard</button>
+          <button class="btn" onclick="studioStep('timeline',document.querySelectorAll('.step-btn')[7])">← Back to timeline</button>
+        </div>
+      </div>
+
+    </div><!-- end studio-main -->
+  </div><!-- end studio-layout -->
+
+  <!-- Empty state -->
+  <div class="card" id="studio-empty" style="text-align:center;padding:3rem;display:none">
+    <div style="font-size:48px;margin-bottom:14px;opacity:0.3">🧪</div>
+    <div style="font-size:15px;font-weight:600;color:var(--text-2)">No TNA projects yet</div>
+    <div style="font-size:13px;color:var(--text-3);margin-top:6px;margin-bottom:16px">Click "+ New TNA project" to create your first complete TNA plan with surveys, interview guides, 360° instrument, and a shareable client timeline.</div>
+    <button class="btn primary" onclick="studioNewReq()">+ New TNA project</button>
+  </div>
+
 </div>
 
 </div><!-- end view-wrap -->
@@ -4477,6 +4894,785 @@ function copyTnaAssessment() {
   text += `\nRECOMMENDATION:\n${document.getElementById('tna-recommendation')?.innerText || ''}`;
   navigator.clipboard.writeText(text).then(() => alert('Assessment copied to clipboard!'));
 }
+
+
+// ══════════════════════════════════════════════════════════
+// TNA STUDIO — Full TNA project management system
+// ══════════════════════════════════════════════════════════
+let studioProjects = [];
+let activeProject = null;
+let studioInitDone = false;
+
+// ── Keyword → competency mapper ──────────────────────────
+const COMP_MAP_KEYWORDS = {
+  'Strategic thinking':       [/strateg|vision|business acumen|long.?term|competitive|market/i],
+  'Financial acumen':         [/financ|P&L|budget|ROI|revenue|cost|commercial/i],
+  'Change leadership':        [/change|transform|digital|innovation|agil/i],
+  'Stakeholder management':   [/stakeholder|influenc|senior client|relationship|C.suite/i],
+  'Executive communication':  [/communicat|present|storytell|executive presence|speak/i],
+  'Cross-functional leadership':[/cross.?function|matrix|silo|collaborate/i],
+  'Coaching & feedback':      [/coach|feedback|mentor|develop team|1.on.1/i],
+  'Data-driven decisions':    [/data|analytic|insight|metric|evidence/i],
+  'Team management':          [/team|people manag|performance|delegate|motivat/i],
+  'First-time management':    [/first.?time|new manager|newly promot/i],
+  'Women in leadership':      [/women|female|gender|diversity/i],
+  'Executive presence':       [/executive presence|gravitas|command|authority/i],
+};
+
+function detectComps(text) {
+  return Object.entries(COMP_MAP_KEYWORDS)
+    .filter(([, patterns]) => patterns.some(p => p.test(text)))
+    .map(([name]) => name);
+}
+
+function addWeeks(dateStr, weeks) {
+  const d = new Date(dateStr || new Date());
+  d.setDate(d.getDate() + weeks * 7);
+  return d.toISOString().split('T')[0];
+}
+
+function fmtDate(dateStr) {
+  return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+// ── Create project ────────────────────────────────────────
+function studioCreateProject() {
+  const client   = document.getElementById('snf-client').value.trim();
+  const name     = document.getElementById('snf-name').value.trim();
+  const req      = document.getElementById('snf-req').value.trim();
+  const audience = document.getElementById('snf-audience').value.trim();
+  const date     = document.getElementById('snf-date').value || new Date().toISOString().split('T')[0];
+
+  if (!client || !name || !req) { alert('Please fill in client, project name, and training requirement.'); return; }
+
+  const comps = detectComps(req);
+  if (comps.length === 0) comps.push('Strategic thinking', 'Leadership development');
+
+  const project = {
+    id: Date.now(),
+    client, name, req, audience, date,
+    comps,
+    lead: 'Dr. Sunita Mehta',
+    poc: '',
+    status: 'Active',
+    surveyQuestions: generateSurveyQuestions(comps, audience),
+    timeline: generateTimeline(date, comps, audience),
+  };
+
+  studioProjects.push(project);
+  activeProject = project;
+
+  document.getElementById('studio-new-form').style.display = 'none';
+  document.getElementById('studio-workspace').style.display = 'grid';
+  document.getElementById('studio-empty').style.display = 'none';
+
+  renderProjectList();
+  loadProject(project);
+}
+
+function studioNewReq() {
+  document.getElementById('studio-new-form').style.display = 'block';
+  document.getElementById('snf-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('studio-new-form').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── Load project into studio ──────────────────────────────
+function loadProject(p) {
+  activeProject = p;
+  renderProjectList();
+
+  // Brief
+  document.getElementById('brief-title').textContent = p.name;
+  document.getElementById('brief-client').textContent = p.client;
+  document.getElementById('brief-audience').textContent = p.audience || 'To be specified';
+  document.getElementById('brief-date').textContent = fmtDate(p.date);
+  document.getElementById('brief-duration').textContent = '6–8 weeks (full TNA cycle)';
+  document.getElementById('brief-lead').value = p.lead;
+  document.getElementById('brief-poc').value = p.poc;
+  document.getElementById('brief-req').textContent = p.req;
+
+  // Competency tags
+  const compsEl = document.getElementById('brief-comps');
+  compsEl.innerHTML = p.comps.map(c =>
+    `<span class="badge b-purple" style="font-size:12px;cursor:pointer" onclick="briefRemoveComp('${c}',this)">${c} ✕</span>`
+  ).join('');
+
+  // Objectives
+  const objs = [
+    `Identify capability gaps in ${p.comps.slice(0,3).join(', ')} across ${p.audience || 'the target group'}`,
+    `Determine which gaps directly impact the business goals linked to this request`,
+    `Understand root causes — organisational, role-specific, or individual`,
+    `Prioritise training needs by business criticality and gap severity`,
+    `Design and recommend targeted learning interventions with measurable outcomes`,
+  ];
+  document.getElementById('brief-objectives').innerHTML = objs.map((o, i) =>
+    `<div class="tna-obj-row" style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+      <span class="badge b-purple" style="flex-shrink:0;font-size:10px">Obj ${i+1}</span>
+      <span style="font-size:13px">${o}</span>
+    </div>`
+  ).join('');
+
+  // Survey
+  renderSurveyQuestions();
+
+  // Interview guides
+  renderInterviewGuide('participant');
+  renderInterviewGuide('manager');
+  renderInterviewGuide('peer');
+
+  // 360
+  render360();
+
+  // Focus group
+  renderFocusGroup();
+
+  // Timeline
+  renderTimeline();
+
+  // Client plan
+  renderClientPlan();
+
+  // Activate step 1
+  studioStep('brief', document.querySelector('.step-btn'));
+}
+
+function renderProjectList() {
+  const list = document.getElementById('studio-project-list');
+  list.innerHTML = studioProjects.map(p => `
+    <div class="req-card ${p.id === activeProject?.id ? 'selected' : ''}" onclick="loadProject(studioProjects.find(x=>x.id===${p.id}))">
+      <div class="req-card-title">${p.name}</div>
+      <div class="req-card-sub">${p.client}</div>
+      <div class="req-card-meta">
+        <span class="badge b-green" style="font-size:10px">${p.status}</span>
+        <span class="badge b-purple" style="font-size:10px">${p.comps.length} competencies</span>
+      </div>
+    </div>`).join('');
+}
+
+function studioStep(id, el) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('sp-' + id);
+  if (panel) panel.classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+// ── Competency brief helpers ──────────────────────────────
+function briefAddComp() {
+  const input = document.getElementById('brief-add-comp');
+  const val = input.value.trim();
+  if (!val || !activeProject) return;
+  activeProject.comps.push(val);
+  input.value = '';
+  loadProject(activeProject);
+}
+
+function briefRemoveComp(name, el) {
+  if (!activeProject) return;
+  activeProject.comps = activeProject.comps.filter(c => c !== name);
+  el.remove();
+}
+
+// ── Survey generator ──────────────────────────────────────
+function generateSurveyQuestions(comps, audience) {
+  const qs = [
+    { type: 'info', text: 'Section A — About you', subtext: 'background' },
+    { type: 'text', text: 'What is your current role title and how long have you been in this role?' },
+    { type: 'text', text: 'Briefly describe your main responsibilities — what does a typical week look like for you?' },
+    { type: 'scale', text: 'Overall, how would you rate your readiness to take on greater strategic responsibility?', low: 'Not ready at all', high: 'Completely ready' },
+    { type: 'info', text: 'Section B — Competency self-assessment', subtext: 'rate yourself honestly' },
+  ];
+
+  comps.forEach(comp => {
+    qs.push({
+      type: 'scale',
+      text: `${comp} — How would you rate your current proficiency?`,
+      low: '1 = No awareness',
+      high: '5 = Expert level',
+      followup: `For ${comp.toLowerCase()}: what specific situation or challenge in the last 6 months required this skill?`
+    });
+  });
+
+  qs.push(
+    { type: 'info', text: 'Section C — Learning priorities & preferences', subtext: 'help us design the right program' },
+    { type: 'multi', text: 'Which of the following development areas do you most want to strengthen? (Select up to 3)', options: comps.slice(0, 6) },
+    { type: 'multi', text: 'Which learning formats work best for you?', options: ['In-person workshop', 'Online self-paced modules', 'Peer learning / group discussion', 'Coaching / mentoring', 'Action learning projects', 'Simulations & case studies'] },
+    { type: 'scale', text: 'How supportive is your manager of your development?', low: 'Not at all supportive', high: 'Extremely supportive' },
+    { type: 'text', text: 'What is the single biggest challenge you face in your current role that a training program could help with?' },
+    { type: 'text', text: 'What does career success look like for you in the next 2–3 years, and what skills do you need to get there?' },
+    { type: 'text', text: 'Is there anything else you would like the program designers to know about your development needs?' }
+  );
+
+  return qs;
+}
+
+function renderSurveyQuestions() {
+  if (!activeProject) return;
+  const container = document.getElementById('survey-questions');
+  if (!container) return;
+  container.innerHTML = '';
+  activeProject.surveyQuestions.forEach((q, i) => {
+    if (q.type === 'info') {
+      const div = document.createElement('div');
+      div.style.cssText = 'font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-3);padding:12px 0 4px;border-top:1px solid var(--border);margin-top:6px';
+      div.textContent = q.text + (q.subtext ? ` — ${q.subtext}` : '');
+      container.appendChild(div);
+      return;
+    }
+    const block = document.createElement('div');
+    block.className = 'q-block';
+    block.dataset.idx = i;
+
+    let inner = `<button class="q-remove" onclick="surveyRemoveQ(${i})">✕</button>`;
+
+    if (q.type === 'scale') {
+      inner += `<div class="q-type-badge" style="background:var(--purple-l);color:var(--purple-d)">Rating scale 1–5</div>
+        <div class="q-text">${q.text}</div>
+        <div class="q-scale">${[1,2,3,4,5].map(n=>`<div class="q-scale-num">${n}</div>`).join('')}</div>
+        <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-3);margin-top:4px"><span>${q.low||''}</span><span>${q.high||''}</span></div>
+        ${q.followup ? `<div style="margin-top:8px;padding:8px;background:var(--bg);border-radius:var(--r-md);font-size:12px;color:var(--text-2)">Follow-up: ${q.followup}</div>` : ''}`;
+    } else if (q.type === 'multi') {
+      inner += `<div class="q-type-badge" style="background:var(--blue-l);color:var(--blue-d)">Multiple choice</div>
+        <div class="q-text">${q.text}</div>
+        <div class="q-options">${(q.options||[]).map(o=>`<div class="q-opt">${o}</div>`).join('')}</div>`;
+    } else {
+      inner += `<div class="q-type-badge" style="background:var(--teal-l);color:var(--teal-d)">Open text</div>
+        <div class="q-text">${q.text}</div>
+        <div style="height:36px;border:1px dashed var(--border);border-radius:var(--r-md);margin-top:6px;display:flex;align-items:center;padding:0 10px"><span style="font-size:11.5px;color:var(--text-3)">Participant's answer...</span></div>`;
+    }
+
+    block.innerHTML = inner;
+    container.appendChild(block);
+  });
+}
+
+function surveyAddQuestion() {
+  if (!activeProject) return;
+  const types = ['text','scale','multi'];
+  const t = types[Math.floor(Math.random()*3)];
+  const q = t === 'scale'
+    ? { type:'scale', text:'[New question — click to edit]', low:'Low', high:'High' }
+    : t === 'multi'
+    ? { type:'multi', text:'[New multiple choice question]', options:['Option A','Option B','Option C'] }
+    : { type:'text', text:'[New open-ended question]' };
+  activeProject.surveyQuestions.push(q);
+  renderSurveyQuestions();
+}
+
+function surveyRemoveQ(idx) {
+  if (!activeProject) return;
+  activeProject.surveyQuestions.splice(idx, 1);
+  renderSurveyQuestions();
+}
+
+// ── Interview guide generator ─────────────────────────────
+function generateInterviewGuide(type, comps) {
+  const guides = {
+    participant: {
+      sections: [
+        { title: 'Opening & rapport (5 mins)', color: 'var(--gray)', questions: [
+          'Tell me about your career journey — how did you get to your current role?',
+          'What does your current role involve? What are you most proud of in the last 6 months?',
+          'How would you describe the overall culture and direction of your team right now?'
+        ]},
+        { title: 'Current role & challenges (10 mins)', color: 'var(--blue)', questions: [
+          `What are the 2–3 biggest challenges you face in your role right now?`,
+          `Tell me about a recent situation where you felt out of your depth. What was the gap you noticed?`,
+          `What decisions do you find most difficult to make, and why?`,
+          `How do you typically approach ${comps[0]||'strategic decisions'} — walk me through a recent example.`
+        ]},
+        { title: 'Competency deep-dive (15 mins)', color: 'var(--purple)', questions: comps.slice(0,4).flatMap(c => [
+          `For ${c}: describe a situation in the last year where this skill was critical. What did you do? What was the outcome?`,
+          `For ${c}: where do you feel you have the most room to grow? What's holding you back?`
+        ])},
+        { title: 'Learning & development (10 mins)', color: 'var(--teal)', questions: [
+          'What development experiences have had the biggest impact on your career so far?',
+          'What kind of learning environment works best for you — classroom, online, coaching, projects?',
+          'How much does your manager actively support your development?',
+          'If you could design the perfect development program for yourself, what would it include?'
+        ]},
+        { title: 'Future ambition (5 mins)', color: 'var(--amber)', questions: [
+          'Where do you see yourself in 3–5 years? What capabilities do you need to build to get there?',
+          'What would make you feel this TNA and resulting program was genuinely valuable?',
+          'Is there anything else about your development that you want us to know?'
+        ]},
+      ]
+    },
+    manager: {
+      sections: [
+        { title: 'Business context (5 mins)', color: 'var(--gray)', questions: [
+          'What are your top 3 business priorities for the next 12–18 months?',
+          `How does your team\'s current capability either support or constrain those priorities?`,
+          'What would need to be true about your team\'s capability for you to feel confident hitting your targets?'
+        ]},
+        { title: 'Team capability assessment (15 mins)', color: 'var(--purple)', questions: comps.slice(0,4).map(c =>
+          `For ${c}: how would you rate your team\'s overall proficiency today? Where do you see the biggest gaps? Can you give me a specific example?`
+        ).concat([
+          'Which individuals on your team have the most development potential, and what do they need?',
+          'Which capability gaps are most urgent — where is the gap costing you business outcomes right now?'
+        ])},
+        { title: 'Development history (5 mins)', color: 'var(--blue)', questions: [
+          'What L&D investments have you made in your team in the last 2 years? What worked? What did not?',
+          'How do you currently support the development of your team members day-to-day?',
+          'What barriers exist to your team members applying new skills in their roles?'
+        ]},
+        { title: 'Expectations from this TNA (5 mins)', color: 'var(--teal)', questions: [
+          'What do you hope this TNA and resulting program will achieve for your team?',
+          'How would you know in 6 months that this investment was worthwhile?',
+          'What commitment are you willing to make as a manager to support the program — time, stretch assignments, coaching?'
+        ]},
+      ]
+    },
+    peer: {
+      sections: [
+        { title: 'Context setting (3 mins)', color: 'var(--gray)', questions: [
+          'How long have you worked with [participant name] and in what capacity?',
+          'How frequently do you collaborate — daily, weekly, on specific projects?'
+        ]},
+        { title: 'Observed strengths (8 mins)', color: 'var(--teal)', questions: [
+          'What do you see as [participant]\'s biggest strengths as a leader or colleague?',
+          'Can you describe a specific situation where you saw them at their best — what did they do and what was the impact?',
+          `How do they typically approach ${comps[0]||'complex challenges'} — what do you observe?`
+        ]},
+        { title: 'Development areas (8 mins)', color: 'var(--amber)', questions: [
+          'Where do you feel [participant] has the most room to grow as a professional?',
+          'Can you recall a situation where you felt they struggled? What was happening and why do you think that was?',
+          `In your view, how effectively do they ${comps[1] ? 'manage ' + comps[1].toLowerCase() : 'manage stakeholders'}? Any specific examples?`,
+          'What one thing, if improved, would make [participant] significantly more effective in their role?'
+        ]},
+        { title: 'Closing (2 mins)', color: 'var(--gray)', questions: [
+          'Is there anything else about [participant\'s] development that you think would be valuable for the program designers to know?'
+        ]},
+      ]
+    }
+  };
+  return guides[type] || guides.participant;
+}
+
+function renderInterviewGuide(type) {
+  if (!activeProject) return;
+  const containerId = type === 'participant' ? 'participant-interview-content'
+    : type === 'manager' ? 'manager-interview-content' : 'peer-interview-content';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const guide = generateInterviewGuide(type, activeProject.comps);
+  container.innerHTML = guide.sections.map(s => `
+    <div class="interview-section" style="border-left-color:${s.color}">
+      <div class="interview-section-title" style="color:${s.color}">${s.title}</div>
+      ${s.questions.map(q => `<div class="interview-q">${q}</div>`).join('')}
+    </div>`).join('');
+}
+
+// ── 360 instrument ────────────────────────────────────────
+function render360() {
+  if (!activeProject) return;
+  const raterGrid = document.getElementById('r360-rater-grid');
+  const content = document.getElementById('r360-instrument-content');
+  if (!raterGrid || !content) return;
+
+  raterGrid.innerHTML = [
+    { icon: '🧑', role: 'Self', count: '1 (participant)', color: 'var(--purple-l)', textColor: 'var(--purple-d)' },
+    { icon: '👔', role: 'Manager', count: '1 direct manager', color: 'var(--teal-l)', textColor: 'var(--teal-d)' },
+    { icon: '👥', role: 'Peers', count: '3 nominated peers', color: 'var(--blue-l)', textColor: 'var(--blue-d)' },
+    { icon: '⬇️', role: 'Direct reports', count: '2 (if applicable)', color: 'var(--amber-l)', textColor: 'var(--amber-d)' },
+  ].map(r => `
+    <div class="r360-card" style="background:${r.color};border-color:transparent">
+      <div class="r360-icon">${r.icon}</div>
+      <div class="r360-role" style="color:${r.textColor}">${r.role}</div>
+      <div class="r360-count" style="color:${r.textColor};opacity:0.8">${r.count}</div>
+    </div>`).join('');
+
+  content.innerHTML = `
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Rating instructions (shown to all raters)</div>
+    <div class="q-block" style="background:var(--bg);margin-bottom:14px">
+      <div style="font-size:12.5px;color:var(--text-2);line-height:1.7">For each competency, rate the individual on a scale of 1 to 5. Be honest and specific — your responses are confidential and will only be shared in aggregate. 1 = No evidence of this behaviour · 3 = Demonstrates this sometimes · 5 = Consistently demonstrates this at a high level.</div>
+    </div>
+    ${activeProject.comps.map(comp => `
+      <div class="q-block" style="margin-bottom:10px">
+        <div class="q-type-badge" style="background:var(--purple-l);color:var(--purple-d)">Competency</div>
+        <div class="q-text">${comp}</div>
+        <div class="q-scale" style="margin-bottom:4px">${[1,2,3,4,5].map(n=>`<div class="q-scale-num">${n}</div>`).join('')}</div>
+        <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-3);margin-bottom:10px"><span>Never observed</span><span>Expert level</span></div>
+        <div style="font-size:12px;color:var(--text-2);margin-bottom:4px;font-weight:500">Provide one specific behavioural example to support your rating:</div>
+        <div style="height:44px;border:1px dashed var(--border);border-radius:var(--r-md);display:flex;align-items:center;padding:0 10px"><span style="font-size:11.5px;color:var(--text-3)">Rater's example...</span></div>
+      </div>`).join('')}
+    <div class="q-block">
+      <div class="q-type-badge" style="background:var(--teal-l);color:var(--teal-d)">Overall</div>
+      <div class="q-text">What is the single most important development area for this person? (Open text)</div>
+      <div style="height:60px;border:1px dashed var(--border);border-radius:var(--r-md);margin-top:6px;display:flex;align-items:center;padding:0 10px"><span style="font-size:11.5px;color:var(--text-3)">Rater's response...</span></div>
+    </div>`;
+}
+
+// ── Focus group guide ─────────────────────────────────────
+function renderFocusGroup() {
+  if (!activeProject) return;
+  const container = document.getElementById('focusgroup-content');
+  if (!container) return;
+
+  const sections = [
+    { title: 'Welcome & ground rules (10 mins)', color: 'var(--gray)', items: [
+      'Welcome participants, introduce the purpose: "This session helps us understand your shared challenges and development needs — there are no right or wrong answers."',
+      'Ground rules: Confidentiality · One person speaks at a time · All perspectives are valid · Be honest, not polite',
+      'Ice breaker: "In one word, describe how you feel about your development opportunities at [Company] right now."'
+    ]},
+    { title: 'Current challenges — diverge (20 mins)', color: 'var(--coral)', items: [
+      `Individual reflection (5 mins): Write on a sticky note — "The biggest capability gap holding me back right now is..."`,
+      'Share round: Each person reads their note — no discussion yet, just listen',
+      `Facilitator clusters themes on whiteboard — look for patterns across ${activeProject.comps.slice(0,3).join(', ')}`,
+      'Quick dot vote: Each participant places 3 dots on the themes they feel most strongly about'
+    ]},
+    { title: `Deep dive on top themes (30 mins)`, color: 'var(--purple)', items: [
+      'Take the top 2–3 voted themes — spend 10 minutes per theme',
+      'Prompt: "Tell me more about this. When does this gap most hurt you? What would be different if you were stronger here?"',
+      `For ${activeProject.comps[0]||'strategic thinking'}: "Walk me through the last time this was a real issue in your work."`,
+      `For ${activeProject.comps[1]||'leadership'}: "What does good look like? Who in the organisation models this well?"`,
+      'Record verbatim quotes — these are gold for the TNA report and program design brief'
+    ]},
+    { title: 'Ideal development experience (15 mins)', color: 'var(--teal)', items: [
+      '"If we were to design the perfect development experience for this group, what would it include?" (Pair discussion, then share)',
+      '"What has worked for you in past learning programs? What has not worked?"',
+      '"How much time realistically can you dedicate to development each month — in hours?"',
+      '"What would make you 100% committed to completing a program — what needs to be in it for you?"'
+    ]},
+    { title: 'Close & next steps (15 mins)', color: 'var(--amber)', items: [
+      '"What is the one thing you most want the program designers to know after today?"',
+      'Summarise key themes back to the group — check for accuracy',
+      'Explain next steps: survey, individual interviews, and when they will hear back',
+      'Thank participants genuinely — this input directly shapes what gets built'
+    ]},
+  ];
+
+  container.innerHTML = sections.map(s => `
+    <div class="interview-section" style="border-left-color:${s.color}">
+      <div class="interview-section-title" style="color:${s.color}">${s.title}</div>
+      ${s.items.map(item => `<div class="interview-q">${item}</div>`).join('')}
+    </div>`).join('');
+}
+
+// ── Timeline generator ────────────────────────────────────
+function generateTimeline(startDate, comps, audience) {
+  const w = (n) => addWeeks(startDate, n);
+  const p = parseInt((audience||'').match(/\d+/)?.[0] || 30);
+  const surveyDays = p > 50 ? 10 : 7;
+
+  return [
+    { week: 0, date: startDate,  type: 'kickoff',    title: 'TNA kickoff meeting', desc: 'Align with client sponsor on scope, timeline, and logistics. Share project plan.', mode: 'In-person', duration: '2 hours', owner: 'TNA Lead', color: 'var(--purple-l)', textColor: 'var(--purple-d)' },
+    { week: 1, date: w(1),       type: 'admin',      title: 'Survey goes live', desc: `Participant self-assessment survey sent to all ${p} participants via email link.`, mode: 'Online', duration: surveyDays + ' days open', owner: 'TNA Lead', color: 'var(--blue-l)', textColor: 'var(--blue-d)' },
+    { week: 1, date: w(1),       type: 'interview',  title: 'Manager interviews begin', desc: `Structured 30-min interviews with ${Math.ceil(p/10)} BU heads / direct managers. Booking starts this week.`, mode: 'In-person preferred', duration: '30 mins each', owner: 'TNA Lead', color: 'var(--teal-l)', textColor: 'var(--teal-d)' },
+    { week: 2, date: w(2),       type: 'survey',     title: 'Survey closes + reminder', desc: 'Survey closes. One reminder sent at Day 4. Data downloaded and cleaned.', mode: 'Online', duration: '1 day', owner: 'TNA Lead', color: 'var(--blue-l)', textColor: 'var(--blue-d)' },
+    { week: 2, date: w(2),       type: 'interview',  title: 'Participant interviews begin', desc: `1-on-1 structured interviews with sample of participants (${Math.ceil(p*0.15)} people minimum).`, mode: 'In-person / Video', duration: '45 mins each', owner: 'TNA Lead', color: 'var(--teal-l)', textColor: 'var(--teal-d)' },
+    { week: 2, date: w(2),       type: 'r360',       title: '360° TNA instrument sent', desc: 'Rating invitations sent to self, manager, peers, and direct reports for each participant.', mode: 'Online', duration: '10 days open', owner: 'TNA Lead', color: 'var(--amber-l)', textColor: 'var(--amber-d)' },
+    { week: 3, date: w(3),       type: 'focusgroup', title: `Focus groups — ${Math.ceil(p/10)} sessions`, desc: `Cross-functional group discussions of 8–10 participants each. In-person at client premises.`, mode: 'In-person', duration: '90 mins per group', owner: 'TNA Lead', color: 'var(--coral-l)', textColor: 'var(--coral-d)' },
+    { week: 3, date: w(3),       type: 'peer',       title: 'Peer interviews', desc: 'Confidential peer conversations (2–3 peers per participant, nominated by participant).', mode: 'Video call', duration: '20 mins each', owner: 'TNA Lead', color: 'var(--pink-l)', textColor: 'var(--pink-d)' },
+    { week: 4, date: w(4),       type: 'r360',       title: '360° data closes', desc: 'All 360 ratings collected. Data aggregated and anonymised by TNA Lead.', mode: 'Online', duration: '1 day', owner: 'TNA Lead', color: 'var(--amber-l)', textColor: 'var(--amber-d)' },
+    { week: 5, date: w(5),       type: 'synthesis',  title: 'Data synthesis & analysis', desc: 'All data (survey, interviews, 360, focus groups) synthesised into gap analysis and findings report.', mode: 'Internal', duration: '1 week', owner: 'TNA Lead', color: 'var(--gray-l)', textColor: 'var(--gray-d)' },
+    { week: 6, date: w(6),       type: 'report',     title: 'TNA report — internal review', desc: 'Draft TNA report reviewed internally before sharing with client.', mode: 'Internal', duration: '2 days', owner: 'TNA Lead + Partner', color: 'var(--gray-l)', textColor: 'var(--gray-d)' },
+    { week: 7, date: w(7),       type: 'present',    title: 'TNA findings presentation', desc: 'Present findings, gap analysis, and learning recommendations to client leadership. Agree on priorities.', mode: 'In-person', duration: '2 hours', owner: 'TNA Lead', color: 'var(--purple-l)', textColor: 'var(--purple-d)' },
+    { week: 8, date: w(8),       type: 'plan',       title: 'Learning plan signed off', desc: 'Final learning plan, budget, and program design brief agreed and signed off by client.', mode: 'In-person / Video', duration: '1 hour', owner: 'TNA Lead + Client', color: 'var(--teal-l)', textColor: 'var(--teal-d)' },
+  ];
+}
+
+const TYPE_ICONS = { kickoff:'🚀', admin:'📧', interview:'🎙', survey:'📋', r360:'🔄', focusgroup:'👥', peer:'🤝', synthesis:'🔬', report:'📄', present:'📊', plan:'✅' };
+
+function renderTimeline() {
+  if (!activeProject) return;
+  const container = document.getElementById('timeline-content');
+  const inperson = document.getElementById('inperson-tracker');
+  if (!container || !inperson) return;
+
+  container.innerHTML = activeProject.timeline.map(t => `
+    <div class="timeline-row">
+      <div class="timeline-date">
+        <div style="font-size:10px;color:var(--text-3);margin-bottom:2px">Week ${t.week}</div>
+        <input type="date" value="${t.date}" class="inline-edit" style="font-size:12px;font-weight:600;color:var(--text-2);padding:2px 4px;border-radius:4px;cursor:pointer" onchange="updateTimelineDate(${activeProject.timeline.indexOf(t)},this.value)">
+      </div>
+      <div class="timeline-event" style="background:${t.color}">
+        <div class="timeline-event-title" style="color:${t.textColor}">${TYPE_ICONS[t.type]||'•'} ${t.title}</div>
+        <div class="timeline-event-desc" style="color:${t.textColor};opacity:0.85">${t.desc}</div>
+        <div class="timeline-event-meta">
+          <span class="badge" style="background:rgba(255,255,255,0.6);color:${t.textColor};font-size:10px">📍 ${t.mode}</span>
+          <span class="badge" style="background:rgba(255,255,255,0.6);color:${t.textColor};font-size:10px">⏱ ${t.duration}</span>
+          <span class="badge" style="background:rgba(255,255,255,0.6);color:${t.textColor};font-size:10px">👤 ${t.owner}</span>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // In-person tracker
+  const inPersonItems = activeProject.timeline.filter(t => t.mode.includes('In-person'));
+  inperson.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      ${inPersonItems.map(t => `
+        <div class="card" style="background:${t.color};border-color:transparent;padding:0.85rem">
+          <div style="font-size:12.5px;font-weight:600;color:${t.textColor};margin-bottom:4px">${TYPE_ICONS[t.type]||'•'} ${t.title}</div>
+          <div style="font-size:11.5px;color:${t.textColor};opacity:0.85;margin-bottom:6px">${fmtDate(t.date)}</div>
+          <div style="display:flex;flex-direction:column;gap:3px;font-size:11px;color:${t.textColor};opacity:0.8">
+            <div>⏱ ${t.duration}</div>
+            <div>📍 Venue: <input class="inline-edit" placeholder="Enter venue" style="font-size:11px;color:${t.textColor}"></div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function updateTimelineDate(idx, newDate) {
+  if (activeProject && activeProject.timeline[idx]) {
+    activeProject.timeline[idx].date = newDate;
+    renderClientPlan();
+  }
+}
+
+function regenerateTimeline() {
+  if (!activeProject) return;
+  activeProject.timeline = generateTimeline(activeProject.date, activeProject.comps, activeProject.audience);
+  renderTimeline();
+  renderClientPlan();
+}
+
+// ── Client plan ───────────────────────────────────────────
+function renderClientPlan() {
+  if (!activeProject) return;
+  const p = activeProject;
+
+  const cpTitle = document.getElementById('cp-title');
+  const cpSub = document.getElementById('cp-sub');
+  const cpMeta = document.getElementById('cp-meta');
+  const cpScope = document.getElementById('cp-scope');
+  const cpMethods = document.getElementById('cp-methods');
+  const cpMilestones = document.getElementById('cp-milestones');
+  const cpNeeds = document.getElementById('cp-needs');
+  const cpDeliverables = document.getElementById('cp-deliverables');
+
+  if (!cpTitle) return;
+
+  cpTitle.textContent = p.name;
+  cpSub.textContent = `Prepared for ${p.client} · TNA Lead: ${p.lead}`;
+  cpMeta.innerHTML = [
+    `<span class="badge b-green">Active project</span>`,
+    `<span class="badge b-purple">${p.comps.length} competencies</span>`,
+    `<span style="font-size:12px;color:var(--teal-d)">Start: ${fmtDate(p.date)}</span>`,
+    `<span style="font-size:12px;color:var(--teal-d)">End: ${fmtDate(addWeeks(p.date,8))}</span>`,
+  ].join('');
+
+  cpScope.innerHTML = `This Training Needs Analysis will investigate capability gaps across <strong>${p.comps.slice(0,4).join(', ')}</strong> for <strong>${p.audience||'the target group'}</strong>. The TNA will use a multi-method approach combining quantitative survey data with qualitative insights from interviews and focus groups, triangulated with 360° observations. The output will be a prioritised learning needs report and recommended program design brief.`;
+
+  const methods = [
+    { icon:'📋', name:'Participant self-assessment survey', detail:`Online survey to all participants — proficiency ratings, learning priorities, preferred formats`, timeline: `Week 1–2 (${fmtDate(addWeeks(p.date,1))} → ${fmtDate(addWeeks(p.date,2))})` },
+    { icon:'🎙', name:'Participant interviews', detail:`1-on-1 structured interviews with a representative sample — 45 minutes each, in-person or video`, timeline: `Week 2–3 (${fmtDate(addWeeks(p.date,2))} → ${fmtDate(addWeeks(p.date,3))})` },
+    { icon:'👔', name:'Manager interviews', detail:`Structured discussions with BU heads on business goals, team capability requirements, and performance gaps`, timeline: `Week 1–2 (${fmtDate(addWeeks(p.date,1))} → ${fmtDate(addWeeks(p.date,2))})` },
+    { icon:'🤝', name:'Peer conversations', detail:`Confidential peer input on observed behaviours — 2–3 peers per participant, video call`, timeline: `Week 3 (${fmtDate(addWeeks(p.date,3))})` },
+    { icon:'🔄', name:'360° TNA instrument', detail:`Multi-rater assessment — self, manager, peers, and direct reports rate each competency with behavioural examples`, timeline: `Week 2–4 (${fmtDate(addWeeks(p.date,2))} → ${fmtDate(addWeeks(p.date,4))})` },
+    { icon:'👥', name:'Focus group discussions', detail:`Cross-functional group discussions of 8–10 participants — in-person at your premises, 90 minutes each`, timeline: `Week 3 (${fmtDate(addWeeks(p.date,3))})` },
+  ];
+
+  cpMethods.innerHTML = methods.map(m => `
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:20px;flex-shrink:0;margin-top:2px">${m.icon}</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">${m.name}</div>
+        <div style="font-size:12px;color:var(--text-2)">${m.detail}</div>
+      </div>
+      <div style="font-size:11px;color:var(--text-3);white-space:nowrap;flex-shrink:0;text-align:right">${m.timeline}</div>
+    </div>`).join('');
+
+  const keyEvents = p.timeline.filter(t => ['kickoff','focusgroup','present','plan'].includes(t.type));
+  cpMilestones.innerHTML = keyEvents.map((t, i) => `
+    <div class="share-milestone">
+      <div class="share-milestone-dot" style="background:${t.color}">
+        <span style="font-size:14px">${TYPE_ICONS[t.type]||'•'}</span>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:var(--text)">${t.title}</div>
+        <div style="font-size:12px;color:var(--text-2);margin-top:2px">${t.desc}</div>
+        <div style="font-size:11.5px;color:var(--text-3);margin-top:4px">📅 ${fmtDate(t.date)} &nbsp;·&nbsp; 📍 ${t.mode} &nbsp;·&nbsp; ⏱ ${t.duration}</div>
+      </div>
+    </div>`).join('');
+
+  cpNeeds.innerHTML = [
+    `<div class="row" style="gap:8px;align-items:flex-start"><span style="color:var(--coral-d);flex-shrink:0;font-size:13px">⚠</span><span>Participant list with names, email addresses, job titles, and manager names — needed by <strong>${fmtDate(addWeeks(p.date,0))}</strong></span></div>`,
+    `<div class="row" style="gap:8px;align-items:flex-start"><span style="color:var(--amber-d);flex-shrink:0;font-size:13px">△</span><span>Manager list with email addresses — needed by <strong>${fmtDate(addWeeks(p.date,0))}</strong></span></div>`,
+    `<div class="row" style="gap:8px;align-items:flex-start"><span style="color:var(--amber-d);flex-shrink:0;font-size:13px">△</span><span>Venue for focus groups at your premises — 3 rooms for 90-minute sessions on <strong>${fmtDate(addWeeks(p.date,3))}</strong></span></div>`,
+    `<div class="row" style="gap:8px;align-items:flex-start"><span style="color:var(--amber-d);flex-shrink:0;font-size:13px">△</span><span>30 minutes with each BU head for manager interviews — calendar access needed by <strong>${fmtDate(addWeeks(p.date,0))}</strong></span></div>`,
+    `<div class="row" style="gap:8px;align-items:flex-start"><span style="color:var(--teal-d);flex-shrink:0;font-size:13px">✓</span><span>Internal communication to participants explaining the TNA purpose and encouraging honest responses — we will provide the text</span></div>`,
+    `<div class="row" style="gap:8px;align-items:flex-start"><span style="color:var(--teal-d);flex-shrink:0;font-size:13px">✓</span><span>Confirmation that participation data will be treated as confidential and not shared with individuals' managers</span></div>`,
+  ].join('');
+
+  cpDeliverables.innerHTML = [
+    '✓ Full TNA findings report with competency gap analysis by role, function, and individual',
+    '✓ Priority ranking of training needs with business impact scores',
+    '✓ Root cause analysis — why these gaps exist',
+    '✓ Recommended learning interventions with timeline and investment estimate',
+    '✓ Program design brief ready for faculty to use',
+    '✓ Evaluation framework (Kirkpatrick 4-level) built in from the start',
+  ].map(d => `<div>${d}</div>`).join('');
+}
+
+// ── Copy / Download helpers ───────────────────────────────
+function copySurvey() {
+  if (!activeProject) return;
+  let text = `PARTICIPANT SELF-ASSESSMENT SURVEY\n${activeProject.name} — ${activeProject.client}\n${'─'.repeat(50)}\n\n`;
+  activeProject.surveyQuestions.forEach((q, i) => {
+    if (q.type === 'info') { text += `\n${q.text.toUpperCase()}\n${'─'.repeat(30)}\n`; return; }
+    text += `Q${i+1}. ${q.text}\n`;
+    if (q.type === 'scale') text += `  Rating: [1] [2] [3] [4] [5]   (${q.low} → ${q.high})\n`;
+    if (q.type === 'multi') (q.options||[]).forEach(o => { text += `  ○ ${o}\n`; });
+    if (q.type === 'text') text += `  Answer: _______________________________________________\n`;
+    if (q.followup) text += `  Follow-up: ${q.followup}\n`;
+    text += '\n';
+  });
+  navigator.clipboard.writeText(text).then(() => alert('Survey copied to clipboard!'));
+}
+
+function downloadSurvey() {
+  if (!activeProject) return;
+  let text = `PARTICIPANT SELF-ASSESSMENT SURVEY\n${activeProject.name}\nClient: ${activeProject.client}\n${'═'.repeat(50)}\n\n`;
+  activeProject.surveyQuestions.forEach((q, i) => {
+    if (q.type === 'info') { text += `\n── ${q.text} ──\n\n`; return; }
+    text += `${i}. ${q.text}\n`;
+    if (q.type === 'scale') text += `[1]  [2]  [3]  [4]  [5]    ${q.low||''} → ${q.high||''}\n`;
+    if (q.type === 'multi') (q.options||[]).forEach(o => { text += `○  ${o}\n`; });
+    if (q.type === 'text') text += `________________________________________________________________\n`;
+    text += '\n';
+  });
+  const blob = new Blob([text], { type:'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=`TNA-Survey-${activeProject.client}.txt`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyInterview(type) {
+  if (!activeProject) return;
+  const guide = generateInterviewGuide(type, activeProject.comps);
+  let text = `${type.toUpperCase()} INTERVIEW GUIDE\n${activeProject.name} — ${activeProject.client}\n${'═'.repeat(50)}\n\n`;
+  guide.sections.forEach(s => {
+    text += `${s.title}\n${'─'.repeat(s.title.length)}\n`;
+    s.questions.forEach((q, i) => { text += `${i+1}. ${q}\n`; });
+    text += '\n';
+  });
+  navigator.clipboard.writeText(text).then(() => alert(`${type} interview guide copied!`));
+}
+
+function downloadInterview(type) {
+  if (!activeProject) return;
+  const guide = generateInterviewGuide(type, activeProject.comps);
+  let text = `${type.toUpperCase()} INTERVIEW GUIDE\n${activeProject.name}\nClient: ${activeProject.client}\n${'═'.repeat(50)}\n\n`;
+  guide.sections.forEach(s => {
+    text += `\n${s.title}\n${'─'.repeat(40)}\n`;
+    s.questions.forEach((q, i) => { text += `${i+1}. ${q}\n\nNotes:\n_______________________________________________\n\n`; });
+  });
+  const blob = new Blob([text], { type:'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=`TNA-${type}-Interview-${activeProject.client}.txt`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copy360() {
+  if (!activeProject) return;
+  let text = `360° TNA INSTRUMENT\n${activeProject.name} — ${activeProject.client}\n${'═'.repeat(50)}\n\nRating scale: 1=Never observed · 3=Sometimes · 5=Expert level\n\n`;
+  activeProject.comps.forEach(c => {
+    text += `COMPETENCY: ${c}\nRating [1][2][3][4][5]\nExample: _______________________________________________\n\n`;
+  });
+  text += `Overall development priority for this person:\n_______________________________________________\n`;
+  navigator.clipboard.writeText(text).then(() => alert('360° instrument copied!'));
+}
+
+function download360() {
+  if (!activeProject) return;
+  let text = `360° TNA INSTRUMENT\n${activeProject.name}\nClient: ${activeProject.client}\n${'═'.repeat(50)}\n\n`;
+  text += `INSTRUCTIONS:\nRate this person on each competency using the 1–5 scale. Your responses are confidential.\n1 = No evidence  |  2 = Rarely  |  3 = Sometimes  |  4 = Often  |  5 = Expert level\n\n`;
+  activeProject.comps.forEach((c, i) => {
+    text += `${i+1}. ${c}\n   Rating: [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]\n   Behavioural example:\n   _______________________________________________\n   _______________________________________________\n\n`;
+  });
+  text += `\nOverall: What is the single most important development area for this person?\n_______________________________________________\n`;
+  const blob = new Blob([text], { type:'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=`TNA-360-${activeProject.client}.txt`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyFocusGroup() {
+  if (!activeProject) return;
+  let text = `FOCUS GROUP FACILITATION GUIDE\n${activeProject.name} — ${activeProject.client}\n${'═'.repeat(50)}\n\nFormat: 90-minute in-person session | Group size: 8–10\n\n`;
+  const sections = ['Welcome & ground rules (10 mins)','Current challenges (20 mins)','Deep dive on themes (30 mins)','Ideal development (15 mins)','Close (15 mins)'];
+  sections.forEach(s => { text += `${s}\n${'─'.repeat(s.length)}\n[Facilitator notes here]\n\n`; });
+  navigator.clipboard.writeText(text).then(() => alert('Focus group guide copied!'));
+}
+
+function downloadFocusGroup() {
+  if (!activeProject) return;
+  const container = document.getElementById('focusgroup-content');
+  let text = `FOCUS GROUP FACILITATION GUIDE\n${activeProject.name}\nClient: ${activeProject.client}\n${'═'.repeat(50)}\n\nFormat: 90 mins in-person | 8–10 participants per group\n\n`;
+  if (container) {
+    container.querySelectorAll('.interview-section').forEach(section => {
+      const title = section.querySelector('.interview-section-title')?.textContent || '';
+      text += `\n${title}\n${'─'.repeat(title.length)}\n`;
+      section.querySelectorAll('.interview-q').forEach(q => { text += `• ${q.textContent.replace(/^Q  /,'')}\n`; });
+    });
+  }
+  const blob = new Blob([text], { type:'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=`TNA-FocusGroup-${activeProject.client}.txt`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyTimeline() {
+  if (!activeProject) return;
+  let text = `TNA PROJECT TIMELINE\n${activeProject.name} — ${activeProject.client}\n${'═'.repeat(50)}\n\n`;
+  activeProject.timeline.forEach(t => {
+    text += `${fmtDate(t.date)} | Week ${t.week} | ${t.title}\n  ${t.desc}\n  Mode: ${t.mode} | Duration: ${t.duration}\n\n`;
+  });
+  navigator.clipboard.writeText(text).then(() => alert('Timeline copied!'));
+}
+
+function downloadClientPlan() {
+  if (!activeProject) return;
+  const p = activeProject;
+  let text = `TRAINING NEEDS ANALYSIS — CLIENT PROJECT PLAN\n${'═'.repeat(55)}\n`;
+  text += `Project: ${p.name}\nClient: ${p.client}\nTNA Lead: ${p.lead}\nStart date: ${fmtDate(p.date)}\nEstimated completion: ${fmtDate(addWeeks(p.date,8))}\n\n`;
+  text += `SCOPE\n${'─'.repeat(40)}\nThis TNA investigates capability gaps across: ${p.comps.join(', ')}\nTarget audience: ${p.audience || 'As agreed'}\n\n`;
+  text += `DATA COLLECTION METHODS\n${'─'.repeat(40)}\n`;
+  ['Participant self-assessment survey','Participant 1-on-1 interviews (in-person / video)','Manager interviews (in-person preferred)','Peer conversations (video call)','360° TNA multi-rater instrument','Focus group discussions (in-person at your premises)']
+    .forEach((m, i) => { text += `${i+1}. ${m}\n`; });
+  text += `\nKEY MILESTONES\n${'─'.repeat(40)}\n`;
+  p.timeline.forEach(t => {
+    text += `${fmtDate(t.date)} — ${t.title} (${t.mode}, ${t.duration})\n`;
+  });
+  text += `\nWHAT WE NEED FROM YOU\n${'─'.repeat(40)}\n`;
+  ['Participant list with emails and manager details (before start date)','Manager availability for 30-min interviews (Week 1–2)','Venue for in-person focus groups (Week 3)','Internal comms to participants encouraging participation'].forEach((n,i) => { text += `${i+1}. ${n}\n`; });
+  text += `\nDELIVERABLES\n${'─'.repeat(40)}\n`;
+  ['Full TNA findings report with gap analysis','Priority ranking of training needs','Recommended learning interventions with budget','Program design brief for faculty','Evaluation framework (Kirkpatrick)'].forEach((d,i) => { text += `${i+1}. ${d}\n`; });
+  text += `\n${'═'.repeat(55)}\nConfidential — ${p.client} TNA Project\n`;
+  const blob = new Blob([text], { type:'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=`TNA-Client-Plan-${p.client.replace(/ /g,'-')}.txt`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyClientPlan() {
+  downloadClientPlan(); // reuse — adapt if needed
+}
+
+function studioShareClient() {
+  if (!activeProject) { alert('Please create or select a TNA project first.'); return; }
+  studioStep('clientplan', document.querySelectorAll('.step-btn')[8]);
+}
+
+// ── Hook into show() ──────────────────────────────────────
+const _studioOrigShow = show;
+show = function(id, el) {
+  _studioOrigShow(id, el);
+  if (id === 'tna-studio' && !studioInitDone) {
+    studioInitDone = true;
+    setTimeout(() => {
+      if (studioProjects.length === 0) {
+        document.getElementById('studio-empty').style.display = 'block';
+        document.getElementById('studio-workspace').style.display = 'none';
+      } else {
+        document.getElementById('studio-empty').style.display = 'none';
+        document.getElementById('studio-workspace').style.display = 'grid';
+        loadProject(studioProjects[0]);
+      }
+    }, 60);
+  }
+};
 
 </script>
 </body>
