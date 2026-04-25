@@ -1445,6 +1445,10 @@ Topics: P&L reading, ROI thinking, budget ownership
       <div class="tna-phase-num">6</div>
       <div class="tna-phase-label">Learning plan</div>
     </button>
+    <button class="tna-phase-btn" onclick="tnaTab('assess',this)" data-phase="assess" style="border-left:1px solid var(--border)">
+      <div class="tna-phase-num" style="background:var(--teal-l);color:var(--teal-d)">★</div>
+      <div class="tna-phase-label" style="color:var(--teal-d);font-weight:600">Assess new request</div>
+    </button>
   </div>
 
   <!-- ── PHASE 0: OVERVIEW ── -->
@@ -1834,6 +1838,155 @@ Topics: P&L reading, ROI thinking, budget ownership
           <div style="font-size:11px;font-weight:700;color:var(--amber-d);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Level 4 — Results</div>
           <div style="font-size:12px;color:var(--amber-d)">Business impact: participants submit a self-assessed ROI project showing how they applied learnings. Target: 4× ROI</div>
           <div style="font-size:11px;color:var(--amber-d);margin-top:6px;font-weight:500">When: Day 90</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ── PHASE 7: ASSESS NEW REQUIREMENT ── -->
+  <div id="tna-assess" class="tna-panel">
+
+    <div class="card" style="border-color:var(--teal);background:var(--teal-l)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">★</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--teal-d)">Assess a new training request</div>
+          <div style="font-size:12.5px;color:var(--teal-d);margin-top:2px">Paste a new request from a client or business unit. The tool scores its clarity, maps it to competencies, identifies gaps in the brief, and recommends a program design.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <!-- LEFT: Input -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card">
+          <div class="card-title">New training request</div>
+
+          <div style="margin-bottom:10px">
+            <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Submitted by / Client</div>
+            <div class="two-col" style="gap:8px">
+              <input class="comp-input" id="req-submitter" placeholder="Name & designation">
+              <select class="comp-input" id="req-client">
+                <option value="">Select client</option>
+                <option>Tata Consultancy Services</option>
+                <option>Infosys</option>
+                <option>HDFC Bank</option>
+                <option>Mahindra Group</option>
+                <option>New / prospective client</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom:10px">
+            <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Training request <span style="font-weight:400;text-transform:none;font-size:10px;color:var(--text-3)">(paste exactly as received)</span></div>
+            <textarea class="validator-area" id="tna-req-text" style="min-height:200px" placeholder="Paste the training request here exactly as received — email, WhatsApp message, form submission, or verbal summary.
+
+Example:
+'We need some leadership training for our senior managers. They are not thinking strategically and too focused on day-to-day delivery. About 40 people across Mumbai and Bengaluru. Budget approved for Q2.'
+
+The more detail you include, the more accurate the assessment."></textarea>
+            <div style="font-size:11px;color:var(--text-3);text-align:right;margin-top:3px" id="req-word-count">0 words</div>
+          </div>
+
+          <div style="margin-bottom:10px">
+            <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Additional context <span style="font-weight:400;text-transform:none;font-size:10px;color:var(--text-3)">(optional)</span></div>
+            <textarea class="validator-area" id="tna-req-context" style="min-height:70px" placeholder="Context not in the original request — e.g. 'CHRO mentioned digital transformation is the key driver' or 'Failed L&D program last year'"></textarea>
+          </div>
+
+          <div style="margin-bottom:14px">
+            <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Quick tags</div>
+            <div class="row wrap" style="gap:6px" id="req-tags">
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Strategic leadership</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Financial acumen</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Communication</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Change management</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Team management</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Data & analytics</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Executive presence</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Coaching skills</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Women in leadership</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">First-time managers</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Sales effectiveness</span>
+              <span class="chip" onclick="toggleChip(this,'req-tags')">Culture & values</span>
+            </div>
+          </div>
+
+          <button class="btn primary" style="width:100%;padding:10px;font-size:13.5px" id="tna-assess-btn" onclick="runTnaAssessment()">
+            Assess this requirement ↗
+          </button>
+        </div>
+
+        <!-- Saved assessments -->
+        <div class="card" id="tna-saved-section" style="display:none">
+          <div class="card-title">Saved assessments</div>
+          <div id="tna-saved-list" style="display:flex;flex-direction:column;gap:6px"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Results -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+
+        <div class="card" id="tna-assess-thinking" style="display:none">
+          <div style="font-size:12.5px;color:var(--text-2);font-weight:500;margin-bottom:4px">Analysing your training request...</div>
+          <div class="thinking-dots"><span></span><span></span><span></span></div>
+          <div style="font-size:12px;color:var(--text-3)" id="tna-assess-status">Reading the requirement...</div>
+        </div>
+
+        <div class="card" id="tna-assess-empty" style="text-align:center;padding:2.5rem 1.5rem">
+          <div style="font-size:40px;margin-bottom:12px;opacity:0.35">📋</div>
+          <div style="font-size:14px;font-weight:500;color:var(--text-2)">Paste a training request on the left</div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-top:6px;line-height:1.6">The tool will score its clarity, map it to competencies, flag what information is missing, and recommend the right program design and TNA follow-up steps.</div>
+        </div>
+
+        <div id="tna-assess-result" style="display:none;flex-direction:column;gap:12px">
+
+          <!-- Score card -->
+          <div class="card" id="tna-score-card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:10px">
+              <div>
+                <div style="font-size:36px;font-weight:700;letter-spacing:-0.03em;line-height:1" id="tna-req-score">—</div>
+                <div style="font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;color:var(--text-2)">Clarity score / 100</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0">
+                <div id="tna-req-verdict" class="badge" style="font-size:12px;padding:4px 14px;margin-bottom:6px"></div>
+                <div style="font-size:11px;color:var(--text-3)" id="tna-req-type"></div>
+              </div>
+            </div>
+            <div style="font-size:13px;color:var(--text-2);line-height:1.7;border-top:1px solid var(--border);padding-top:10px" id="tna-req-summary"></div>
+          </div>
+
+          <!-- Dimension scores -->
+          <div class="card">
+            <div class="card-title">Requirement quality — 6 dimensions</div>
+            <div id="tna-dim-list"></div>
+          </div>
+
+          <!-- Mapped competencies -->
+          <div class="card">
+            <div class="card-title">Competencies identified</div>
+            <div id="tna-comp-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"></div>
+            <div id="tna-comp-gaps" style="display:flex;flex-direction:column;gap:5px"></div>
+          </div>
+
+          <!-- Questions to ask -->
+          <div class="card">
+            <div class="card-title">Questions to ask before designing</div>
+            <div style="font-size:12px;color:var(--text-3);margin-bottom:10px">These gaps in the request need answers before you commit to a program design.</div>
+            <div id="tna-questions-list" style="display:flex;flex-direction:column;gap:6px"></div>
+          </div>
+
+          <!-- Recommendation -->
+          <div class="card" style="border-color:var(--purple);background:var(--purple-l)">
+            <div class="card-title" style="color:var(--purple-d)">Recommended program design</div>
+            <div id="tna-recommendation" style="font-size:13px;color:var(--purple-d);line-height:1.7"></div>
+            <div class="row" style="gap:8px;margin-top:14px;flex-wrap:wrap">
+              <button class="btn sm primary" onclick="saveTnaAssessment()">Save assessment</button>
+              <button class="btn sm" onclick="copyTnaAssessment()">Copy full report</button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -3999,6 +4152,331 @@ show = function(id, el) {
   if (id === 'renewal' && !renewalInit) { renewalInit = true; setTimeout(buildPipeline, 60); }
   if (id === 'tna' && !tnaCompInit) { tnaCompInit = true; setTimeout(buildCompBuilder, 120); }
 };
+
+
+// ══════════════════════════════════════════════════════════
+// TNA REQUIREMENT ASSESSMENT ENGINE
+// ══════════════════════════════════════════════════════════
+let savedAssessments = [];
+let lastAssessmentResult = null;
+
+// Word counter for request textarea
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('tna-req-text');
+  if (ta) {
+    ta.addEventListener('input', () => {
+      const w = ta.value.trim().split(/\s+/).filter(x=>x).length;
+      document.getElementById('req-word-count').textContent = w + ' words';
+    });
+  }
+});
+
+// ── Requirement analysis patterns ─────────────────────────
+const REQ_SIGNALS = {
+  // Dimension: objective_clarity
+  has_clear_objectives: [/need.*train|want.*develop|improve.*skill|build.*capabilit|strengthen|enhance|equip/i],
+  has_business_link:    [/business|strategic|growth|revenue|digital transform|FY|quarter|target|goal|KPI/i],
+  has_numbers:          [/\d+\s*(people|participant|manager|employee|staff)|batch|cohort/i],
+  has_timeline:         [/Q[1-4]|quarter|month|week|by\s+\w+\s+\d{4}|FY\d{2}|immediate|urgent/i],
+  has_budget:           [/budget|₹|lakh|crore|cost|\$|approved|allocated/i],
+  has_location:         [/mumbai|bengaluru|delhi|pune|hyderabad|chennai|virtual|online|blended|hybrid|on.?site/i],
+  has_level:            [/senior|junior|manager|AVP|VP|director|C-suite|GM|DGM|M[0-9]|grade|level/i],
+  has_outcomes:         [/measur|outcome|result|ROI|impact|before|after|assess|evaluat|KPI/i],
+  has_constraints:      [/cannot|must not|only|restrict|constraint|limit|max|no more than/i],
+  has_urgency:          [/urgent|immediate|ASAP|priority|critical|soon|quickly/i],
+};
+
+const COMP_KEYWORDS = {
+  'Strategic thinking':      [/strateg|vision|business acumen|competitive|long-term|market|BU|business case/i],
+  'Financial acumen':        [/financ|P&L|budget|ROI|revenue|cost|profit|commercial|business case/i],
+  'Change leadership':       [/change|transform|digital|innovation|agile|adapt|resistance/i],
+  'Stakeholder management':  [/stakeholder|influenc|senior client|C-suite|board|negotiat|relationship/i],
+  'Communication & presence':[/communicat|present|storytell|executive presence|speak|articulate/i],
+  'Cross-functional leadership':[/cross.?function|matrix|silo|collaborate|interdepartment/i],
+  'Coaching & feedback':     [/coach|feedback|mentor|1.on.1|develop team|GROW/i],
+  'Data-driven decisions':   [/data|analytic|insight|dashboard|metric|evidence.based/i],
+  'Team management':         [/team|people manag|performance|delegate|motivat/i],
+  'First-time managers':     [/first.?time|new manager|newly promot|just become/i],
+  'Women in leadership':     [/women|female|gender|diversity|inclusion/i],
+  'Executive presence':      [/executive presence|gravitas|command|authority|senior forum/i],
+};
+
+const QUESTIONS_BY_GAP = {
+  missing_objectives:   'What specific behaviours should participants demonstrate after the program? What does "good" look like?',
+  missing_business:     'What business goal or strategic priority is this training meant to support? How will success be measured?',
+  missing_numbers:      'How many participants are involved? Will they be in one batch or multiple cohorts?',
+  missing_timeline:     'What is the target start date and duration? Are there any blackout periods?',
+  missing_budget:       'What budget has been approved for this program (including GST, venue, materials)?',
+  missing_location:     'Where will participants be located? Should delivery be in-person, virtual, or blended?',
+  missing_level:        'What are the job levels / grades / roles of participants? What is their average years of experience?',
+  missing_outcomes:     'How will you measure the success of this training? Are pre/post assessments acceptable?',
+  missing_history:      'Has a similar program been run before? What worked or did not work?',
+  missing_urgency:      'Is there a hard deadline driving this? What happens if it is delayed?',
+};
+
+function runTnaAssessment() {
+  const req = document.getElementById('tna-req-text').value.trim();
+  if (!req || req.length < 20) {
+    alert('Please paste a training requirement before assessing.');
+    return;
+  }
+
+  const btn = document.getElementById('tna-assess-btn');
+  btn.disabled = true; btn.textContent = 'Analysing...';
+  document.getElementById('tna-assess-empty').style.display = 'none';
+  document.getElementById('tna-assess-result').style.display = 'none';
+  document.getElementById('tna-assess-thinking').style.display = 'block';
+
+  const statuses = [
+    'Reading the requirement...', 'Checking for key information elements...',
+    'Mapping to competency framework...', 'Identifying information gaps...',
+    'Scoring requirement quality...', 'Generating recommendations...'
+  ];
+  let si = 0;
+  const statusEl = document.getElementById('tna-assess-status');
+  const interval = setInterval(() => { statusEl.textContent = statuses[Math.min(++si, statuses.length-1)]; }, 500);
+
+  setTimeout(() => {
+    clearInterval(interval);
+    const result = assessRequirement(req);
+    lastAssessmentResult = { ...result, req, client: document.getElementById('req-client').value, submitter: document.getElementById('req-submitter').value, date: new Date() };
+    document.getElementById('tna-assess-thinking').style.display = 'none';
+    renderAssessmentResult(result);
+    btn.disabled = false; btn.textContent = 'Assess this requirement ↗';
+  }, 3000);
+}
+
+function assessRequirement(req) {
+  const text = req.toLowerCase();
+
+  // ── Score each signal ──────────────────────────────────
+  const signals = {};
+  Object.entries(REQ_SIGNALS).forEach(([key, patterns]) => {
+    signals[key] = patterns.some(p => p.test(req));
+  });
+
+  // ── Dimension scores ───────────────────────────────────
+  const dims = [
+    {
+      name: 'Objective clarity',
+      score: calcDimScore([signals.has_clear_objectives, signals.has_business_link]),
+      note: signals.has_clear_objectives && signals.has_business_link
+        ? 'Objectives are clearly stated and linked to business goals'
+        : signals.has_clear_objectives
+        ? 'Objectives stated but not clearly linked to a business goal'
+        : 'Objectives are vague — needs more specificity'
+    },
+    {
+      name: 'Target audience',
+      score: calcDimScore([signals.has_level, signals.has_numbers]),
+      note: signals.has_level && signals.has_numbers
+        ? 'Participant level and numbers are specified'
+        : signals.has_level
+        ? 'Role level mentioned but participant count is missing'
+        : signals.has_numbers
+        ? 'Numbers given but role level or seniority not specified'
+        : 'No clear audience definition — who, how many, what level?'
+    },
+    {
+      name: 'Logistics & constraints',
+      score: calcDimScore([signals.has_timeline, signals.has_location, signals.has_budget]),
+      note: [signals.has_timeline, signals.has_location, signals.has_budget].filter(Boolean).length >= 2
+        ? 'Logistics reasonably specified'
+        : 'Timeline, location, or budget details are missing'
+    },
+    {
+      name: 'Success definition',
+      score: calcDimScore([signals.has_outcomes]),
+      note: signals.has_outcomes
+        ? 'Outcome measurement mentioned'
+        : 'No mention of how success will be measured — critical for program design'
+    },
+    {
+      name: 'Business alignment',
+      score: calcDimScore([signals.has_business_link, signals.has_urgency]),
+      note: signals.has_business_link
+        ? 'Business context provided — helpful for TNA scoping'
+        : 'No business context — hard to prioritise or customise without this'
+    },
+    {
+      name: 'Completeness',
+      score: Math.round((Object.values(signals).filter(Boolean).length / Object.keys(signals).length) * 100),
+      note: Object.values(signals).filter(Boolean).length >= 7
+        ? 'Comprehensive brief — ready for detailed scoping call'
+        : Object.values(signals).filter(Boolean).length >= 4
+        ? 'Reasonable brief — a few clarifications needed'
+        : 'Incomplete brief — significant information gaps to fill before proceeding'
+    }
+  ];
+
+  // ── Overall score ──────────────────────────────────────
+  const overall = Math.round(dims.reduce((s, d) => s + d.score, 0) / dims.length);
+  const wordCount = req.split(/\s+/).filter(x=>x).length;
+  const bonus = wordCount > 100 ? 5 : wordCount > 50 ? 2 : 0;
+  const finalScore = Math.min(100, Math.max(10, overall + bonus));
+
+  const verdict = finalScore >= 80 ? 'Well-defined' : finalScore >= 60 ? 'Usable' : finalScore >= 40 ? 'Needs clarification' : 'Too vague to proceed';
+  const verdictClass = finalScore >= 80 ? 'b-green' : finalScore >= 60 ? 'b-blue' : finalScore >= 40 ? 'b-amber' : 'b-coral';
+
+  // ── Matched competencies ───────────────────────────────
+  const matchedComps = [];
+  Object.entries(COMP_KEYWORDS).forEach(([comp, patterns]) => {
+    if (patterns.some(p => p.test(req))) matchedComps.push(comp);
+  });
+
+  // ── Gaps (missing information) ─────────────────────────
+  const gaps = [];
+  if (!signals.has_clear_objectives) gaps.push({ key:'missing_objectives', sev:'critical' });
+  if (!signals.has_business_link)    gaps.push({ key:'missing_business',    sev:'high' });
+  if (!signals.has_numbers)          gaps.push({ key:'missing_numbers',     sev:'critical' });
+  if (!signals.has_timeline)         gaps.push({ key:'missing_timeline',    sev:'high' });
+  if (!signals.has_budget)           gaps.push({ key:'missing_budget',      sev:'moderate' });
+  if (!signals.has_location)         gaps.push({ key:'missing_location',    sev:'moderate' });
+  if (!signals.has_level)            gaps.push({ key:'missing_level',       sev:'high' });
+  if (!signals.has_outcomes)         gaps.push({ key:'missing_outcomes',    sev:'high' });
+
+  // ── Recommendation ─────────────────────────────────────
+  const tags = [...document.querySelectorAll('#req-tags .chip.sel')].map(c => c.textContent.trim());
+  const allTopics = [...matchedComps, ...tags.filter(t => !matchedComps.includes(t))];
+  const days = allTopics.length >= 5 ? '3' : allTopics.length >= 3 ? '2' : '1';
+  const participants = (req.match(/(\d+)\s*(people|participant|manager)/i)||[])[1];
+  const batches = participants && parseInt(participants) > 20 ? Math.ceil(parseInt(participants)/20) : 1;
+
+  const summary = finalScore >= 70
+    ? `This is a ${verdict.toLowerCase()} training request. ${matchedComps.length > 0 ? `It clearly signals a need for ${matchedComps.slice(0,3).join(', ')} development.` : ''} ${gaps.filter(g=>g.sev==='critical').length > 0 ? `However, ${gaps.filter(g=>g.sev==='critical').length} critical pieces of information are still missing before you can commit to a program design.` : 'You have enough to begin a detailed scoping conversation.'}`
+    : finalScore >= 40
+    ? `This request needs significant clarification before you can design anything. ${matchedComps.length > 0 ? `The content signals are pointing toward ${matchedComps.slice(0,2).join(' and ')}, but ` : ''}${gaps.filter(g=>g.sev==='critical').length} critical details are missing. Run a scoping call using the questions below before sending a proposal.`
+    : `This is too vague to act on. Do not send a proposal yet. The request lacks almost all the information needed to design a program. Use the discovery questions below to run a structured scoping conversation first.`;
+
+  const recommendation = `<strong>Program type:</strong> ${allTopics.length >= 5 ? 'Management Development Program (MDP) — multi-module blended learning' : allTopics.length >= 3 ? 'Focused workshop series (2–3 modules)' : 'Single-topic workshop'}<br><br>
+<strong>Suggested duration:</strong> ${days} day${days>1?'s':''} per batch${batches > 1 ? `, ${batches} batches of up to 20 participants` : ''}<br><br>
+<strong>Key modules to include:</strong> ${allTopics.length > 0 ? allTopics.slice(0,5).map(t=>`${t}`).join(' · ') : 'To be determined after scoping call'}<br><br>
+<strong>Methodology:</strong> Mix of case studies, simulations, and structured discussion. ${signals.has_outcomes ? 'Include pre/post assessment as requested.' : 'Recommend adding pre/post assessment to measure ROI.'}<br><br>
+<strong>Immediate next step:</strong> ${finalScore >= 70 ? 'Send a preliminary proposal with indicative scope and investment. Follow up with a 30-min scoping call to confirm details.' : finalScore >= 40 ? 'Schedule a 45-minute scoping call. Use the discovery questions below to complete the brief before committing to a proposal.' : 'Do not send a proposal. Request a structured scoping meeting to gather the missing information. Share a TNA questionnaire first.'}`;
+
+  return { finalScore, verdict, verdictClass, summary, dims, matchedComps, gaps, recommendation };
+}
+
+function calcDimScore(booleans) {
+  const score = booleans.filter(Boolean).length / booleans.length;
+  return Math.round(score * 100);
+}
+
+function renderAssessmentResult(r) {
+  // Score card
+  const scoreEl = document.getElementById('tna-req-score');
+  const verdictEl = document.getElementById('tna-req-verdict');
+  const summaryEl = document.getElementById('tna-req-summary');
+  const typeEl = document.getElementById('tna-req-type');
+
+  scoreEl.textContent = r.finalScore + '/100';
+  const scoreColor = r.finalScore >= 80 ? 'var(--teal-d)' : r.finalScore >= 60 ? 'var(--blue-d)' : r.finalScore >= 40 ? 'var(--amber-d)' : 'var(--coral-d)';
+  scoreEl.style.color = scoreColor;
+  verdictEl.textContent = r.verdict;
+  verdictEl.className = 'badge ' + r.verdictClass;
+  summaryEl.textContent = r.summary;
+  typeEl.textContent = r.matchedComps.length + ' competencies identified · ' + r.gaps.length + ' gaps found';
+
+  // Dimensions
+  const dimList = document.getElementById('tna-dim-list');
+  dimList.innerHTML = r.dims.map(d => {
+    const barColor = d.score >= 75 ? 'var(--teal)' : d.score >= 50 ? 'var(--amber)' : 'var(--coral)';
+    return `<div style="display:grid;grid-template-columns:1fr 80px;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px">
+      <div>
+        <div style="font-weight:500">${d.name}</div>
+        <div style="font-size:11.5px;color:var(--text-3);margin-top:2px">${d.note}</div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;margin-bottom:3px">
+          <div class="pb" style="width:50px;margin:0"><div class="pbf" style="width:${d.score}%;background:${barColor}"></div></div>
+          <span style="font-size:11.5px;font-weight:600;color:${barColor};min-width:28px;text-align:right">${d.score}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Competencies
+  const compTags = document.getElementById('tna-comp-tags');
+  compTags.innerHTML = r.matchedComps.length > 0
+    ? r.matchedComps.map(c => `<span class="badge b-purple" style="font-size:11.5px">${c}</span>`).join('')
+    : '<span style="font-size:12.5px;color:var(--text-3)">No specific competencies identified — the request is too general</span>';
+
+  const compGaps = document.getElementById('tna-comp-gaps');
+  if (r.matchedComps.length > 0) {
+    const missing = Object.keys(COMP_KEYWORDS).filter(c => !r.matchedComps.includes(c));
+    const relevant = missing.slice(0, 4);
+    compGaps.innerHTML = relevant.length > 0
+      ? `<div style="font-size:11.5px;color:var(--text-3);margin-bottom:4px">Potentially relevant competencies not mentioned in the request:</div>` +
+        relevant.map(c => `<span class="badge b-gray" style="font-size:11px;display:inline-block;margin:2px">${c}</span>`).join('')
+      : '';
+  } else { compGaps.innerHTML = ''; }
+
+  // Questions to ask
+  const qList = document.getElementById('tna-questions-list');
+  const critGaps = r.gaps.filter(g => g.sev === 'critical');
+  const highGaps = r.gaps.filter(g => g.sev === 'high');
+  const modGaps  = r.gaps.filter(g => g.sev === 'moderate');
+  let qHtml = '';
+  if (critGaps.length) {
+    qHtml += `<div style="font-size:10.5px;font-weight:700;color:var(--coral-d);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;margin-top:4px">Must ask before proceeding</div>`;
+    qHtml += critGaps.map(g => `<div class="gap-item" style="background:var(--coral-l)"><span class="gap-icon">⚠</span><span style="color:var(--coral-d)">${QUESTIONS_BY_GAP[g.key]}</span></div>`).join('');
+  }
+  if (highGaps.length) {
+    qHtml += `<div style="font-size:10.5px;font-weight:700;color:var(--amber-d);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;margin-top:8px">Important — ask in scoping call</div>`;
+    qHtml += highGaps.map(g => `<div class="gap-item" style="background:var(--amber-l)"><span class="gap-icon">△</span><span style="color:var(--amber-d)">${QUESTIONS_BY_GAP[g.key]}</span></div>`).join('');
+  }
+  if (modGaps.length) {
+    qHtml += `<div style="font-size:10.5px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;margin-top:8px">Good to know</div>`;
+    qHtml += modGaps.map(g => `<div class="gap-item" style="background:var(--bg)"><span class="gap-icon">○</span><span style="color:var(--text-2)">${QUESTIONS_BY_GAP[g.key]}</span></div>`).join('');
+  }
+  if (!qHtml) qHtml = '<div style="font-size:13px;color:var(--teal-d);padding:8px 0">✓ No major gaps — this is a well-specified request. Proceed to proposal.</div>';
+  qList.innerHTML = qHtml;
+
+  // Recommendation
+  document.getElementById('tna-recommendation').innerHTML = r.recommendation;
+
+  document.getElementById('tna-assess-result').style.display = 'flex';
+}
+
+function saveTnaAssessment() {
+  if (!lastAssessmentResult) return;
+  savedAssessments.unshift(lastAssessmentResult);
+  const section = document.getElementById('tna-saved-section');
+  const list = document.getElementById('tna-saved-list');
+  section.style.display = 'block';
+  list.innerHTML = savedAssessments.map((a, i) => `
+    <div class="history-item" onclick="loadSavedAssessment(${i})">
+      <div class="row between">
+        <div style="font-size:13px;font-weight:500">${a.client || 'Unknown client'} — ${a.submitter || 'Unknown'}</div>
+        <span class="badge ${a.verdictClass || 'b-gray'}">${a.finalScore}/100</span>
+      </div>
+      <div style="font-size:11.5px;color:var(--text-3);margin-top:3px">${a.verdict} · ${a.date.toLocaleDateString('en-IN')} · Click to reload</div>
+    </div>`).join('');
+  alert('Assessment saved! You can reload it from the saved assessments panel.');
+}
+
+function loadSavedAssessment(i) {
+  const a = savedAssessments[i];
+  document.getElementById('tna-req-text').value = a.req;
+  document.getElementById('req-client').value = a.client || '';
+  document.getElementById('req-submitter').value = a.submitter || '';
+  renderAssessmentResult(a);
+}
+
+function copyTnaAssessment() {
+  if (!lastAssessmentResult) return;
+  const r = lastAssessmentResult;
+  let text = `TNA REQUIREMENT ASSESSMENT\n${'─'.repeat(40)}\n`;
+  text += `Client: ${r.client || 'Not specified'} | Submitted by: ${r.submitter || 'Not specified'}\n`;
+  text += `Date: ${r.date?.toLocaleDateString('en-IN') || 'Today'}\n\n`;
+  text += `CLARITY SCORE: ${r.finalScore}/100 — ${r.verdict}\n\n`;
+  text += `SUMMARY:\n${r.summary}\n\n`;
+  text += `COMPETENCIES IDENTIFIED:\n${r.matchedComps.join(', ') || 'None clearly identified'}\n\n`;
+  text += `QUESTIONS TO ASK BEFORE PROCEEDING:\n`;
+  r.gaps.forEach((g, i) => { text += `${i+1}. [${g.sev.toUpperCase()}] ${QUESTIONS_BY_GAP[g.key]}\n`; });
+  text += `\nRECOMMENDATION:\n${document.getElementById('tna-recommendation')?.innerText || ''}`;
+  navigator.clipboard.writeText(text).then(() => alert('Assessment copied to clipboard!'));
+}
 
 </script>
 </body>
