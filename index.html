@@ -263,6 +263,41 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
   .pb-row,.pb-col-hdr{grid-template-columns:1fr}
   .mod-row{grid-template-columns:1fr}
 }
+
+/* ── PROSPECT INTELLIGENCE ── */
+.pi-tab{padding:7px 16px;font-size:12.5px;border:1px solid var(--border);border-radius:20px;cursor:pointer;background:transparent;color:var(--text-2);font-family:var(--font);transition:all 0.12s;font-weight:500}
+.pi-tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.pi-tab:hover:not(.active){background:var(--bg)}
+.pi-panel{display:none;flex-direction:column;gap:1.25rem;animation:fadeIn 0.15s ease}
+.pi-panel.active{display:flex}
+.field-label{font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px}
+.field-row{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:5px 12px;font-size:12px;border:1px solid var(--border);border-radius:20px;cursor:pointer;background:var(--card);color:var(--text-2);transition:all 0.1s;user-select:none;font-family:var(--font)}
+.chip:hover{border-color:var(--blue);color:var(--blue-d)}
+.chip.sel{background:var(--blue-l);border-color:var(--blue);color:var(--blue-d);font-weight:500}
+.pi-input{width:100%;padding:9px 12px;border:1px solid var(--border-2);border-radius:var(--r-md);font-family:var(--font);font-size:13px;color:var(--text);background:var(--card);transition:border-color 0.15s}
+.pi-input:focus{outline:none;border-color:var(--blue)}
+.query-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px;font-family:var(--mono);font-size:12px;color:var(--blue-d);line-height:1.7;word-break:break-all;min-height:44px;position:relative}
+.platform-btn{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--card);cursor:pointer;font-size:12.5px;color:var(--text);font-family:var(--font);font-weight:500;transition:all 0.12s;text-decoration:none}
+.platform-btn:hover{border-color:var(--blue);background:var(--blue-l);color:var(--blue-d)}
+.platform-icon{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.prospect-card{border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem;background:var(--card);display:flex;gap:12px;align-items:flex-start;box-shadow:var(--shadow)}
+.prospect-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.prospect-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.prospect-name{font-size:13.5px;font-weight:600;color:var(--text)}
+.prospect-title{font-size:12px;color:var(--text-2);margin-top:1px}
+.prospect-co{font-size:11.5px;color:var(--text-3);margin-top:1px}
+.prospect-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.event-card{border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem 1.1rem;background:var(--card);box-shadow:var(--shadow)}
+.event-date{font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+.event-name{font-size:13.5px;font-weight:600;color:var(--text)}
+.event-meta{font-size:12px;color:var(--text-2);margin-top:3px}
+.event-tags{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.stat-cell{background:var(--card);padding:0.85rem 1rem;text-align:center}
+.stat-val{font-size:20px;font-weight:600;color:var(--text)}
+.stat-lbl{font-size:10.5px;color:var(--text-3);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em}
+.stage-pill{padding:3px 9px;font-size:11px;border-radius:20px;font-weight:500;white-space:nowrap;cursor:pointer;border:1px solid transparent}
 </style>
 </head>
 <body>
@@ -339,6 +374,12 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
   <div class="nav-item" onclick="show('validator',this)">
     <div class="nav-dot" style="background:var(--teal)"></div>Curriculum Validator
     <span class="nav-badge" style="background:var(--teal-l);color:var(--teal-d)">AI</span>
+  </div>
+
+  <div class="sb-section">Prospects</div>
+  <div class="nav-item" onclick="show('prospects',this)">
+    <div class="nav-dot" style="background:var(--blue)"></div>Prospect Intelligence
+    <span class="nav-badge" style="background:var(--blue-l);color:var(--blue-d)">New</span>
   </div>
 
   <div class="sb-footer">
@@ -940,7 +981,339 @@ Topics: P&L reading, ROI thinking, budget ownership
     <div id="history-list" style="display:flex;flex-direction:column;gap:6px"></div>
   </div>
 
+
+<!-- ════════ PROSPECT INTELLIGENCE ════════ -->
+<div id="view-prospects" class="view">
+  <div class="topbar">
+    <div>
+      <div class="page-title">Prospect Intelligence</div>
+      <div class="page-sub">Find HR &amp; L&D decision-makers · Search conference alumni · Track outreach · All legal, all public sources</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn primary" onclick="showAddProspect()">+ Add prospect</button>
+    </div>
+  </div>
+
+  <!-- Stats strip -->
+  <div class="stat-strip">
+    <div class="stat-cell"><div class="stat-val" id="pi-total">12</div><div class="stat-lbl">Prospects tracked</div></div>
+    <div class="stat-cell"><div class="stat-val" id="pi-contacted" style="color:var(--blue-d)">5</div><div class="stat-lbl">Contacted</div></div>
+    <div class="stat-cell"><div class="stat-val" id="pi-warm" style="color:var(--amber-d)">3</div><div class="stat-lbl">Warm leads</div></div>
+    <div class="stat-cell"><div class="stat-val" id="pi-converted" style="color:var(--teal-d)">2</div><div class="stat-lbl">Converted</div></div>
+  </div>
+
+  <!-- Tab navigation -->
+  <div class="row wrap" style="gap:8px">
+    <button class="pi-tab active" onclick="piTab('search',this)">🔍 Search builder</button>
+    <button class="pi-tab" onclick="piTab('events',this)">🎟 Conference finder</button>
+    <button class="pi-tab" onclick="piTab('tracker',this)">📋 Prospect tracker</button>
+    <button class="pi-tab" onclick="piTab('outreach',this)">✉ Outreach templates</button>
+  </div>
+
+  <!-- ── TAB 1: SEARCH BUILDER ── -->
+  <div id="pi-search" class="pi-panel active">
+    <div class="two-col">
+      <!-- LinkedIn People Search -->
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:34px;height:34px;border-radius:8px;background:#0077B5;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">in</div>
+          <div>
+            <div style="font-size:13px;font-weight:600">LinkedIn People Search</div>
+            <div style="font-size:11.5px;color:var(--text-3)">Generates targeted Google dork queries to surface LinkedIn profiles</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:10px">
+          <div class="field-label">Job title / role</div>
+          <div class="field-row" id="li-roles">
+            <span class="chip sel" onclick="toggleChip(this,'li-roles')">Head of L&D</span>
+            <span class="chip sel" onclick="toggleChip(this,'li-roles')">CHRO</span>
+            <span class="chip" onclick="toggleChip(this,'li-roles')">VP HR</span>
+            <span class="chip" onclick="toggleChip(this,'li-roles')">HR Director</span>
+            <span class="chip" onclick="toggleChip(this,'li-roles')">L&D Manager</span>
+            <span class="chip" onclick="toggleChip(this,'li-roles')">Talent Development</span>
+            <span class="chip" onclick="toggleChip(this,'li-roles')">OD Head</span>
+            <span class="chip" onclick="toggleChip(this,'li-roles')">People & Culture</span>
+            <span class="chip" onclick="toggleChip(this,'li-roles')">Training Manager</span>
+            <span class="chip" onclick="toggleChip(this,'li-roles')">CLO</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:10px">
+          <div class="field-label">Industry / sector</div>
+          <div class="field-row" id="li-industries">
+            <span class="chip sel" onclick="toggleChip(this,'li-industries')">IT Services</span>
+            <span class="chip" onclick="toggleChip(this,'li-industries')">Banking & Finance</span>
+            <span class="chip" onclick="toggleChip(this,'li-industries')">Pharma</span>
+            <span class="chip" onclick="toggleChip(this,'li-industries')">Manufacturing</span>
+            <span class="chip" onclick="toggleChip(this,'li-industries')">FMCG</span>
+            <span class="chip" onclick="toggleChip(this,'li-industries')">Consulting</span>
+            <span class="chip" onclick="toggleChip(this,'li-industries')">Retail</span>
+            <span class="chip" onclick="toggleChip(this,'li-industries')">Healthcare</span>
+            <span class="chip" onclick="toggleChip(this,'li-industries')">Automotive</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:10px">
+          <div class="field-label">City / location</div>
+          <div class="field-row" id="li-cities">
+            <span class="chip sel" onclick="toggleChip(this,'li-cities')">Mumbai</span>
+            <span class="chip sel" onclick="toggleChip(this,'li-cities')">Bengaluru</span>
+            <span class="chip" onclick="toggleChip(this,'li-cities')">Delhi NCR</span>
+            <span class="chip" onclick="toggleChip(this,'li-cities')">Pune</span>
+            <span class="chip" onclick="toggleChip(this,'li-cities')">Hyderabad</span>
+            <span class="chip" onclick="toggleChip(this,'li-cities')">Chennai</span>
+            <span class="chip" onclick="toggleChip(this,'li-cities')">Ahmedabad</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <div class="field-label">Company size (optional)</div>
+          <div class="field-row" id="li-size">
+            <span class="chip" onclick="toggleChip(this,'li-size')">Startup (50–500)</span>
+            <span class="chip" onclick="toggleChip(this,'li-size')">Mid-size (500–5000)</span>
+            <span class="chip sel" onclick="toggleChip(this,'li-size')">Enterprise (5000+)</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <div class="field-label">Keyword (optional)</div>
+          <input class="pi-input" id="li-keyword" placeholder="e.g. leadership development, MDP, management training" oninput="buildLiQuery()">
+        </div>
+
+        <button class="btn primary" style="width:100%;margin-bottom:10px" onclick="buildLiQuery()">Generate search query</button>
+
+        <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px">Your search query</div>
+        <div class="query-box" id="li-query" style="color:var(--text-3);font-style:italic">Click "Generate search query" above to build your Google dork</div>
+        <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn sm" onclick="copyQuery('li-query')">Copy query</button>
+          <button class="btn sm primary" onclick="openQuery('li-query')">Open in Google ↗</button>
+        </div>
+      </div>
+
+      <!-- Other sources -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+
+        <!-- People Matters / HR communities -->
+        <div class="card">
+          <div style="font-size:13px;font-weight:600;margin-bottom:12px">HR community search</div>
+          <div style="margin-bottom:10px">
+            <div class="field-label">What are you looking for?</div>
+            <div class="field-row" id="comm-type">
+              <span class="chip sel" onclick="toggleChip(this,'comm-type')">HR professionals</span>
+              <span class="chip" onclick="toggleChip(this,'comm-type')">L&D practitioners</span>
+              <span class="chip" onclick="toggleChip(this,'comm-type')">OD consultants</span>
+              <span class="chip" onclick="toggleChip(this,'comm-type')">HR tech buyers</span>
+            </div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div class="field-label">Source</div>
+            <div class="field-row" id="comm-source">
+              <span class="chip sel" onclick="toggleChip(this,'comm-source')">People Matters</span>
+              <span class="chip" onclick="toggleChip(this,'comm-source')">SHRM India</span>
+              <span class="chip" onclick="toggleChip(this,'comm-source')">NHRD Network</span>
+              <span class="chip" onclick="toggleChip(this,'comm-source')">Josh Bersin</span>
+              <span class="chip" onclick="toggleChip(this,'comm-source')">LinkedIn articles</span>
+            </div>
+          </div>
+          <button class="btn primary" style="width:100%;margin-bottom:10px" onclick="buildCommQuery()">Generate query</button>
+          <div class="query-box" id="comm-query" style="color:var(--text-3);font-style:italic">Select options and click Generate</div>
+          <div class="row" style="gap:8px;margin-top:10px">
+            <button class="btn sm" onclick="copyQuery('comm-query')">Copy</button>
+            <button class="btn sm primary" onclick="openQuery('comm-query')">Search ↗</button>
+          </div>
+        </div>
+
+        <!-- Conference alumni search -->
+        <div class="card">
+          <div style="font-size:13px;font-weight:600;margin-bottom:12px">Conference alumni search</div>
+          <div style="margin-bottom:10px">
+            <div class="field-label">Event / conference</div>
+            <div class="field-row" id="conf-name">
+              <span class="chip sel" onclick="toggleChip(this,'conf-name')">TechHR 2024</span>
+              <span class="chip" onclick="toggleChip(this,'conf-name')">SHRM India 2024</span>
+              <span class="chip" onclick="toggleChip(this,'conf-name')">NHRD Conclave</span>
+              <span class="chip" onclick="toggleChip(this,'conf-name')">CII HR Summit</span>
+              <span class="chip" onclick="toggleChip(this,'conf-name')">L&D India Summit</span>
+              <span class="chip" onclick="toggleChip(this,'conf-name')">People Matters L&D</span>
+            </div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div class="field-label">Or type a custom event name</div>
+            <input class="pi-input" id="conf-custom" placeholder="e.g. ATD India Conference 2024" oninput="buildConfQuery()">
+          </div>
+          <button class="btn primary" style="width:100%;margin-bottom:10px" onclick="buildConfQuery()">Generate attendee search</button>
+          <div class="query-box" id="conf-query" style="color:var(--text-3);font-style:italic">Generates search to find public attendee lists and speaker profiles</div>
+          <div class="row" style="gap:8px;margin-top:10px">
+            <button class="btn sm" onclick="copyQuery('conf-query')">Copy</button>
+            <button class="btn sm primary" onclick="openQuery('conf-query')">Search ↗</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- How it works banner -->
+    <div class="info-banner blue">
+      <div style="font-size:12px;font-weight:600;color:var(--blue-d);margin-bottom:8px">How this works — Google dork searches</div>
+      <div style="font-size:12.5px;color:var(--blue-d);line-height:1.7">
+        These queries use advanced Google search operators to surface <strong>public LinkedIn profiles, event speaker pages, HR community articles, and conference attendee lists</strong> that are already indexed by Google.
+        Copy the query → paste into Google → browse results → manually add promising prospects to your tracker below.
+        This is 100% legal — you are only accessing information people have made publicly available. No scraping, no bots, no ToS violations.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB 2: CONFERENCE FINDER ── -->
+  <div id="pi-events" class="pi-panel">
+    <div class="card">
+      <div class="card-title">Upcoming HR &amp; L&D conferences — India 2025</div>
+      <div style="font-size:12px;color:var(--text-3);margin-bottom:14px">These events publish speaker and delegate lists publicly. Use the search builder to find attendees on LinkedIn.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px" id="event-filters">
+        <span class="chip sel" onclick="toggleChip(this,'event-filters');filterEvents()">All</span>
+        <span class="chip" onclick="toggleChip(this,'event-filters');filterEvents()">HR Leadership</span>
+        <span class="chip" onclick="toggleChip(this,'event-filters');filterEvents()">L&D Focus</span>
+        <span class="chip" onclick="toggleChip(this,'event-filters');filterEvents()">Tech HR</span>
+        <span class="chip" onclick="toggleChip(this,'event-filters');filterEvents()">Networking</span>
+      </div>
+      <div id="events-list" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Search for attendees of a specific event</div>
+      <div style="margin-bottom:10px">
+        <div class="field-label">Event name</div>
+        <input class="pi-input" id="event-search-name" placeholder="e.g. TechHR Summit 2024, People Matters L&D Conference">
+      </div>
+      <div style="margin-bottom:12px">
+        <div class="field-label">What you are looking for</div>
+        <div class="field-row" id="event-looking">
+          <span class="chip sel" onclick="toggleChip(this,'event-looking')">Attendees / delegates</span>
+          <span class="chip" onclick="toggleChip(this,'event-looking')">Speakers / panellists</span>
+          <span class="chip" onclick="toggleChip(this,'event-looking')">Sponsors / exhibitors</span>
+          <span class="chip" onclick="toggleChip(this,'event-looking')">Organisers</span>
+        </div>
+      </div>
+      <button class="btn primary" onclick="buildEventSearch()" style="margin-bottom:10px">Generate attendee search</button>
+      <div class="query-box" id="event-query" style="color:var(--text-3);font-style:italic">Fill in the event name and click Generate</div>
+      <div class="row" style="gap:8px;margin-top:10px">
+        <button class="btn sm" onclick="copyQuery('event-query')">Copy</button>
+        <button class="btn sm primary" onclick="openQuery('event-query')">Search ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB 3: PROSPECT TRACKER ── -->
+  <div id="pi-tracker" class="pi-panel">
+    <!-- Add prospect form -->
+    <div class="card" id="add-prospect-form" style="display:none;border-color:var(--blue)">
+      <div style="font-size:13px;font-weight:600;color:var(--blue-d);margin-bottom:14px">Add new prospect</div>
+      <div class="two-col" style="gap:10px;margin-bottom:10px">
+        <div><div class="field-label">Full name</div><input class="pi-input" id="p-name" placeholder="Anita Sharma"></div>
+        <div><div class="field-label">Job title</div><input class="pi-input" id="p-title" placeholder="Head of L&D"></div>
+      </div>
+      <div class="two-col" style="gap:10px;margin-bottom:10px">
+        <div><div class="field-label">Company</div><input class="pi-input" id="p-company" placeholder="Tata Consultancy Services"></div>
+        <div><div class="field-label">Location</div><input class="pi-input" id="p-location" placeholder="Mumbai"></div>
+      </div>
+      <div class="two-col" style="gap:10px;margin-bottom:10px">
+        <div><div class="field-label">LinkedIn URL</div><input class="pi-input" id="p-linkedin" placeholder="linkedin.com/in/..."></div>
+        <div><div class="field-label">Email (if known)</div><input class="pi-input" id="p-email" placeholder="anita@company.com"></div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div class="field-label">Source / how found</div>
+        <div class="field-row" id="p-source-chips">
+          <span class="chip" onclick="toggleChip(this,'p-source-chips')">LinkedIn search</span>
+          <span class="chip" onclick="toggleChip(this,'p-source-chips')">Conference</span>
+          <span class="chip" onclick="toggleChip(this,'p-source-chips')">Referral</span>
+          <span class="chip" onclick="toggleChip(this,'p-source-chips')">Inbound</span>
+          <span class="chip" onclick="toggleChip(this,'p-source-chips')">Google search</span>
+          <span class="chip" onclick="toggleChip(this,'p-source-chips')">People Matters</span>
+        </div>
+      </div>
+      <div style="margin-bottom:14px">
+        <div class="field-label">Notes</div>
+        <input class="pi-input" id="p-notes" placeholder="Attended TechHR 2024, posted about leadership development...">
+      </div>
+      <div class="row" style="gap:8px">
+        <button class="btn primary" onclick="addProspect()">Add to tracker</button>
+        <button class="btn" onclick="document.getElementById('add-prospect-form').style.display='none'">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="row wrap" style="gap:8px">
+      <input class="pi-input" id="prospect-search" placeholder="Search by name, company, or title..." style="max-width:280px" oninput="renderProspects()">
+      <div class="field-row" id="stage-filter" style="margin:0">
+        <span class="chip sel" onclick="toggleChip(this,'stage-filter');renderProspects()">All stages</span>
+        <span class="chip" onclick="toggleChip(this,'stage-filter');renderProspects()">New</span>
+        <span class="chip" onclick="toggleChip(this,'stage-filter');renderProspects()">Contacted</span>
+        <span class="chip" onclick="toggleChip(this,'stage-filter');renderProspects()">Warm</span>
+        <span class="chip" onclick="toggleChip(this,'stage-filter');renderProspects()">Meeting booked</span>
+        <span class="chip" onclick="toggleChip(this,'stage-filter');renderProspects()">Converted</span>
+      </div>
+      <button class="btn sm primary" onclick="showAddProspect()" style="margin-left:auto">+ Add prospect</button>
+    </div>
+
+    <div id="prospects-list" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+
+  <!-- ── TAB 4: OUTREACH TEMPLATES ── -->
+  <div id="pi-outreach" class="pi-panel">
+    <div class="two-col">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="card">
+          <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">LinkedIn connection request</div>
+          <div style="font-size:12.5px;color:var(--text);line-height:1.7;background:var(--bg);padding:12px;border-radius:var(--r-md);margin-bottom:10px">
+            Hi [Name], I came across your profile while researching L&amp;D leaders in [Industry]. Your work on [specific initiative / article they wrote] stood out. I run management development programs for corporate teams — would love to connect and learn from your perspective.
+          </div>
+          <button class="btn sm" onclick="copyText(this.previousElementSibling.textContent)">Copy template</button>
+        </div>
+        <div class="card">
+          <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Follow-up after connecting</div>
+          <div style="font-size:12.5px;color:var(--text);line-height:1.7;background:var(--bg);padding:12px;border-radius:var(--r-md);margin-bottom:10px">
+            Thanks for connecting, [Name]. We design and deliver leadership and management development programs for [industry] companies — helping mid to senior managers build strategy, influence, and financial acumen. Given your role at [Company], I thought it might be worth a 20-minute conversation. Would that work for you?
+          </div>
+          <button class="btn sm" onclick="copyText(this.previousElementSibling.textContent)">Copy template</button>
+        </div>
+        <div class="card">
+          <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Conference follow-up</div>
+          <div style="font-size:12.5px;color:var(--text);line-height:1.7;background:var(--bg);padding:12px;border-radius:var(--r-md);margin-bottom:10px">
+            Hi [Name], great to connect after [Event Name]. Your point about [topic from their session/panel] really resonated — it's something we address directly in our management development programs. I'd love to share how we've tackled this for teams at [similar company]. Quick call this week?
+          </div>
+          <button class="btn sm" onclick="copyText(this.previousElementSibling.textContent)">Copy template</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="card">
+          <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Cold email — subject: Leadership development at [Company]</div>
+          <div style="font-size:12.5px;color:var(--text);line-height:1.7;background:var(--bg);padding:12px;border-radius:var(--r-md);margin-bottom:10px">
+            Hi [Name],<br><br>I lead a management development practice that designs and delivers MDPs for companies like [TCS / Infosys / HDFC]. Our programs focus on building strategic thinking, cross-functional leadership, and financial acumen in senior managers.<br><br>Given [Company]'s growth in [area], I suspect leadership capability is a priority. Would a 20-minute call make sense to explore if there's a fit?<br><br>Best,<br>[Your name]
+          </div>
+          <button class="btn sm" onclick="copyText(this.previousElementSibling.textContent)">Copy template</button>
+        </div>
+        <div class="card">
+          <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">WhatsApp intro (warm introduction)</div>
+          <div style="font-size:12.5px;color:var(--text);line-height:1.7;background:var(--bg);padding:12px;border-radius:var(--r-md);margin-bottom:10px">
+            Hi [Name], [Mutual contact] suggested I reach out. I run leadership development programs for corporate teams — recently delivered an MDP for [similar company]. [Mutual contact] thought there might be a fit with what you're working on at [Company]. Happy to share a brief overview if you'd like?
+          </div>
+          <button class="btn sm" onclick="copyText(this.previousElementSibling.textContent)">Copy template</button>
+        </div>
+        <div class="card" style="background:var(--blue-l);border-color:rgba(55,138,221,0.2)">
+          <div style="font-size:12px;font-weight:600;color:var(--blue-d);margin-bottom:8px">Personalisation tips</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--blue-d)">
+            <div class="row" style="gap:6px;align-items:flex-start"><span style="flex-shrink:0">✓</span><span>Reference a post or article they wrote on LinkedIn before reaching out</span></div>
+            <div class="row" style="gap:6px;align-items:flex-start"><span style="flex-shrink:0">✓</span><span>Mention a mutual connection, event you both attended, or shared interest</span></div>
+            <div class="row" style="gap:6px;align-items:flex-start"><span style="flex-shrink:0">✓</span><span>Name a client you've worked with in their industry — it builds instant credibility</span></div>
+            <div class="row" style="gap:6px;align-items:flex-start"><span style="flex-shrink:0">✓</span><span>Keep first message under 60 words — curiosity beats information</span></div>
+            <div class="row" style="gap:6px;align-items:flex-start"><span style="flex-shrink:0">✓</span><span>Follow up exactly once after 5–7 days if no response</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 </div><!-- end view-wrap -->
 </div><!-- end main -->
@@ -1737,6 +2110,364 @@ function restoreHistory(i) {
   document.getElementById('thinking-card').style.display = 'none';
   renderResult(h.result, true);
 }
+// ══════════════════════════════════════════════════════════
+// PROSPECT INTELLIGENCE ENGINE
+// ══════════════════════════════════════════════════════════
+
+// ── Tab switcher ───────────────────────────────────────────
+function piTab(id, el) {
+  document.querySelectorAll('.pi-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pi-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('pi-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── Chip toggler ───────────────────────────────────────────
+function toggleChip(el, groupId) {
+  el.classList.toggle('sel');
+  // Rebuild queries on change
+  if (groupId.startsWith('li-'))    setTimeout(buildLiQuery, 50);
+  if (groupId.startsWith('comm-'))  setTimeout(buildCommQuery, 50);
+  if (groupId.startsWith('conf-'))  setTimeout(buildConfQuery, 50);
+}
+
+// ── Get selected chips from a group ────────────────────────
+function getSelected(groupId) {
+  return [...document.querySelectorAll(`#${groupId} .chip.sel`)].map(c => c.textContent.trim());
+}
+
+// ── LinkedIn Google Dork builder ───────────────────────────
+function buildLiQuery() {
+  const roles      = getSelected('li-roles');
+  const industries = getSelected('li-industries');
+  const cities     = getSelected('li-cities');
+  const sizes      = getSelected('li-size');
+  const keyword    = document.getElementById('li-keyword').value.trim();
+
+  if (!roles.length && !industries.length) {
+    document.getElementById('li-query').textContent = 'Select at least one role and industry to generate a query.';
+    document.getElementById('li-query').style.fontStyle = 'italic';
+    document.getElementById('li-query').style.color = 'var(--text-3)';
+    return;
+  }
+
+  const roleStr = roles.map(r => `"${r}"`).join(' OR ');
+  const indStr  = industries.length ? industries.map(i => `"${i}"`).join(' OR ') : '';
+  const cityStr = cities.length ? cities.map(c => `"${c}"`).join(' OR ') : '';
+
+  let query = `site:linkedin.com/in`;
+  if (roleStr)    query += ` (${roleStr})`;
+  if (indStr)     query += ` (${indStr})`;
+  if (cityStr)    query += ` (${cityStr})`;
+  if (keyword)    query += ` "${keyword}"`;
+  if (sizes.includes('Enterprise (5000+)')) query += ` "5001 employees" OR "10,001 employees"`;
+
+  const el = document.getElementById('li-query');
+  el.textContent = query;
+  el.style.fontStyle = 'normal';
+  el.style.color = 'var(--blue-d)';
+}
+
+// ── HR Community search builder ────────────────────────────
+function buildCommQuery() {
+  const types   = getSelected('comm-type');
+  const sources = getSelected('comm-source');
+
+  if (!types.length || !sources.length) {
+    document.getElementById('comm-query').textContent = 'Select type and source above.';
+    return;
+  }
+
+  const siteMap = {
+    'People Matters': 'site:peoplematters.in',
+    'SHRM India':     'site:shrm.org',
+    'NHRD Network':   'site:nhrd.net',
+    'Josh Bersin':    'site:joshbersin.com',
+    'LinkedIn articles': 'site:linkedin.com/pulse',
+  };
+
+  const typeMap = {
+    'HR professionals':  '"HR" OR "human resources" OR "CHRO" OR "HR director"',
+    'L&D practitioners': '"learning and development" OR "L&D" OR "training" OR "talent development"',
+    'OD consultants':    '"organisational development" OR "OD" OR "change management"',
+    'HR tech buyers':    '"HR technology" OR "HRtech" OR "HRMS" OR "HR software"',
+  };
+
+  const siteStr = sources.map(s => siteMap[s] || `site:${s.toLowerCase().replace(/ /g,'')+'.com'}`).join(' OR ');
+  const typeStr = types.map(t => typeMap[t] || `"${t}"`).join(' OR ');
+
+  const query = `(${siteStr}) (${typeStr}) India`;
+  const el = document.getElementById('comm-query');
+  el.textContent = query;
+  el.style.fontStyle = 'normal';
+  el.style.color = 'var(--blue-d)';
+}
+
+// ── Conference attendee search builder ─────────────────────
+function buildConfQuery() {
+  const selected = getSelected('conf-name');
+  const custom   = document.getElementById('conf-custom').value.trim();
+  const eventName = custom || (selected.length ? selected[selected.length-1] : '');
+
+  if (!eventName) {
+    document.getElementById('conf-query').textContent = 'Select a conference or type a custom event name.';
+    return;
+  }
+
+  const query = `"${eventName}" (attendees OR delegates OR speakers OR participants) site:linkedin.com OR site:peoplematters.in OR site:eventbrite.com OR site:townscript.com`;
+
+  const el = document.getElementById('conf-query');
+  el.textContent = query;
+  el.style.fontStyle = 'normal';
+  el.style.color = 'var(--blue-d)';
+}
+
+// ── Event-tab search builder ───────────────────────────────
+function buildEventSearch() {
+  const name    = document.getElementById('event-search-name').value.trim();
+  const looking = getSelected('event-looking');
+  if (!name) { alert('Please enter an event name.'); return; }
+  const lookStr = looking.length ? `(${looking.map(l => `"${l.split('/')[0].trim()}"`).join(' OR ')})` : '';
+  const query = `"${name}" ${lookStr} site:linkedin.com OR site:peoplematters.in OR site:eventbrite.in`;
+  const el = document.getElementById('event-query');
+  el.textContent = query;
+  el.style.fontStyle = 'normal';
+  el.style.color = 'var(--blue-d)';
+}
+
+// ── Copy and open helpers ──────────────────────────────────
+function copyQuery(elId) {
+  const text = document.getElementById(elId).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--teal-l)';
+    btn.style.color = 'var(--teal-d)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1500);
+  });
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text.trim()).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--teal-l)';
+    btn.style.color = 'var(--teal-d)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1500);
+  });
+}
+
+function openQuery(elId) {
+  const text = document.getElementById(elId).textContent;
+  if (text.includes('Click') || text.includes('Select') || text.includes('Fill')) {
+    alert('Please generate a query first.'); return;
+  }
+  window.open('https://www.google.com/search?q=' + encodeURIComponent(text), '_blank');
+}
+
+// ── Prospect data store ────────────────────────────────────
+let prospects = [
+  { id:1, name:'Anita Sharma',   title:'Head of L&D',      company:'Tata Consultancy Services', location:'Mumbai',    source:'LinkedIn search', stage:'Converted',       notes:'Signed TCS SLA program Apr 2025',   tags:['IT Services','Enterprise','L&D Head'], linkedin:'', email:'anita@tcs.com' },
+  { id:2, name:'Rajesh Menon',   title:'VP HR',             company:'Wipro',                     location:'Bengaluru', source:'Conference',      stage:'Converted',       notes:'Met at TechHR 2024',                tags:['IT Services','Enterprise','CHRO'],     linkedin:'', email:'' },
+  { id:3, name:'Sunita Rao',     title:'CHRO',              company:'HDFC Bank',                 location:'Mumbai',    source:'Referral',        stage:'Warm',            notes:'Referred by Anita Sharma',          tags:['Banking','Enterprise','CHRO'],         linkedin:'', email:'' },
+  { id:4, name:'Karan Mehta',    title:'L&D Manager',       company:'Mahindra & Mahindra',       location:'Pune',      source:'LinkedIn search', stage:'Meeting booked',  notes:'Meeting 28 April — 11am',           tags:['Automotive','L&D Manager'],            linkedin:'', email:'' },
+  { id:5, name:'Priya Nair',     title:'HR Director',       company:'Asian Paints',              location:'Mumbai',    source:'People Matters',  stage:'Contacted',       notes:'Commented on L&D article — reached out', tags:['FMCG','HR Director'],              linkedin:'', email:'' },
+  { id:6, name:'Amit Joshi',     title:'Head of Talent',    company:'Bajaj Auto',                location:'Pune',      source:'Google search',   stage:'Contacted',       notes:'Found via conference attendee list',tags:['Automotive','Talent Head'],            linkedin:'', email:'' },
+  { id:7, name:'Divya Krishnan', title:'L&D Head',          company:'Biocon',                    location:'Bengaluru', source:'NHRD Network',    stage:'New',             notes:'Active in NHRD community',          tags:['Pharma','L&D Head'],                   linkedin:'', email:'' },
+  { id:8, name:'Rohit Gupta',    title:'CHRO',              company:'Godrej Industries',         location:'Mumbai',    source:'Conference',      stage:'New',             notes:'Speaker at SHRM India 2024',        tags:['Conglomerate','CHRO'],                 linkedin:'', email:'' },
+  { id:9, name:'Meera Pillai',   title:'VP Talent Dev.',    company:'Infosys BPM',               location:'Bengaluru', source:'LinkedIn search', stage:'Warm',            notes:'Liked 3 posts about MDP — warm',    tags:['IT Services','Talent Dev'],            linkedin:'', email:'' },
+  { id:10,name:'Sanjay Kapoor',  title:'Head HR',           company:'Reliance Retail',           location:'Mumbai',    source:'Referral',        stage:'New',             notes:'Referred by Rohit Gupta',           tags:['Retail','HR Head'],                    linkedin:'', email:'' },
+  { id:11,name:'Vandana Iyer',   title:'L&D Director',      company:'HCL Technologies',          location:'Noida',     source:'LinkedIn search', stage:'Contacted',       notes:'Sent connection request — pending', tags:['IT Services','L&D Director'],          linkedin:'', email:'' },
+  { id:12,name:'Nikhil Batra',   title:'Head of OD',        company:'Lupin Pharmaceuticals',     location:'Mumbai',    source:'People Matters',  stage:'New',             notes:'Wrote article on leadership devmt', tags:['Pharma','OD Head'],                    linkedin:'', email:'' },
+];
+let nextId = 13;
+
+const stageColors = {
+  'New':             'b-gray',
+  'Contacted':       'b-blue',
+  'Warm':            'b-amber',
+  'Meeting booked':  'b-purple',
+  'Converted':       'b-green',
+  'Not interested':  'b-coral',
+};
+
+function updateStats() {
+  document.getElementById('pi-total').textContent     = prospects.length;
+  document.getElementById('pi-contacted').textContent = prospects.filter(p => p.stage === 'Contacted').length;
+  document.getElementById('pi-warm').textContent      = prospects.filter(p => ['Warm','Meeting booked'].includes(p.stage)).length;
+  document.getElementById('pi-converted').textContent = prospects.filter(p => p.stage === 'Converted').length;
+}
+
+function renderProspects() {
+  const search      = (document.getElementById('prospect-search')?.value || '').toLowerCase();
+  const stageFilter = getSelected('stage-filter');
+  const useAllStages = stageFilter.includes('All stages') || !stageFilter.length;
+
+  const filtered = prospects.filter(p => {
+    const matchSearch = !search ||
+      p.name.toLowerCase().includes(search) ||
+      p.company.toLowerCase().includes(search) ||
+      p.title.toLowerCase().includes(search);
+    const matchStage = useAllStages || stageFilter.includes(p.stage);
+    return matchSearch && matchStage;
+  });
+
+  const list = document.getElementById('prospects-list');
+  if (!list) return;
+  list.innerHTML = '';
+
+  if (!filtered.length) {
+    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:13px">No prospects match your filter. Try adjusting the search or stage filter.</div>';
+    return;
+  }
+
+  filtered.forEach(p => {
+    const initials = p.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    const avColors = ['var(--purple-l)','var(--teal-l)','var(--blue-l)','var(--amber-l)','var(--pink-l)'];
+    const avTextColors = ['var(--purple-d)','var(--teal-d)','var(--blue-d)','var(--amber-d)','var(--pink-d)'];
+    const ci = p.id % avColors.length;
+
+    const card = document.createElement('div');
+    card.className = 'prospect-card';
+    card.innerHTML = `
+      <div class="prospect-av" style="background:${avColors[ci]};color:${avTextColors[ci]}">${initials}</div>
+      <div class="prospect-info">
+        <div class="prospect-name">${p.name}</div>
+        <div class="prospect-title">${p.title}</div>
+        <div class="prospect-co">🏢 ${p.company} &nbsp;·&nbsp; 📍 ${p.location} &nbsp;·&nbsp; Found via: ${p.source}</div>
+        ${p.notes ? `<div style="font-size:11.5px;color:var(--text-3);margin-top:4px;font-style:italic">${p.notes}</div>` : ''}
+        <div class="prospect-tags">
+          ${p.tags.map(t=>`<span class="badge b-gray" style="font-size:10px">${t}</span>`).join('')}
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0">
+        <span class="badge ${stageColors[p.stage]||'b-gray'}">${p.stage}</span>
+        <select class="stage-select" onchange="changeStage(${p.id},this.value)">
+          ${['New','Contacted','Warm','Meeting booked','Converted','Not interested'].map(s=>`<option ${s===p.stage?'selected':''}>${s}</option>`).join('')}
+        </select>
+        ${p.linkedin ? `<a href="${p.linkedin.startsWith('http')?p.linkedin:'https://'+p.linkedin}" target="_blank" class="btn sm" style="text-decoration:none">LinkedIn ↗</a>` : ''}
+        <button class="btn sm danger" onclick="removeProspect(${p.id})">Remove</button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+  updateStats();
+}
+
+function changeStage(id, newStage) {
+  const p = prospects.find(p => p.id === id);
+  if (p) { p.stage = newStage; renderProspects(); }
+}
+
+function removeProspect(id) {
+  prospects = prospects.filter(p => p.id !== id);
+  renderProspects();
+}
+
+function showAddProspect() {
+  const form = document.getElementById('add-prospect-form');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  if (form.style.display !== 'none') {
+    // Switch to tracker tab
+    document.querySelectorAll('.pi-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.pi-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('pi-tracker').classList.add('active');
+    document.querySelectorAll('.pi-tab')[2].classList.add('active');
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function addProspect() {
+  const name    = document.getElementById('p-name').value.trim();
+  const title   = document.getElementById('p-title').value.trim();
+  const company = document.getElementById('p-company').value.trim();
+  if (!name || !title || !company) { alert('Please fill in at least name, title, and company.'); return; }
+
+  const source  = getSelected('p-source-chips')[0] || 'Manual entry';
+  prospects.unshift({
+    id: nextId++,
+    name, title, company,
+    location: document.getElementById('p-location').value.trim() || '—',
+    linkedin:  document.getElementById('p-linkedin').value.trim(),
+    email:     document.getElementById('p-email').value.trim(),
+    source,
+    stage: 'New',
+    notes: document.getElementById('p-notes').value.trim(),
+    tags:  [title.split(' ').slice(-1)[0]],
+  });
+
+  // Reset form
+  ['p-name','p-title','p-company','p-location','p-linkedin','p-email','p-notes'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.querySelectorAll('#p-source-chips .chip').forEach(c => c.classList.remove('sel'));
+  document.getElementById('add-prospect-form').style.display = 'none';
+  renderProspects();
+}
+
+// ── Conference events data ─────────────────────────────────
+const events = [
+  { name:'People Matters TechHR India 2025',       date:'Aug 2025',       location:'Gurgaon',    attendees:'3,000+', focus:['Tech HR','HR Leadership'],    url:'https://techhr.peoplematters.in',               desc:'Largest HR tech conference in Asia — CHROs, L&D heads, HR tech buyers' },
+  { name:'SHRM India Annual Conference 2025',       date:'Sep 2025',       location:'Mumbai',     attendees:'1,500+', focus:['HR Leadership','Networking'],  url:'https://www.shrmindia.org',                     desc:'Premier HR leadership forum — senior HR practitioners and people leaders' },
+  { name:'NHRD National Conclave 2025',             date:'Nov 2025',       location:'Delhi',      attendees:'800+',   focus:['HR Leadership','L&D Focus'],   url:'https://www.nhrd.net',                          desc:'National HRD Network — OD, L&D and HR strategy practitioners' },
+  { name:'People Matters L&D Conference 2025',      date:'Mar 2025',       location:'Mumbai',     attendees:'600+',   focus:['L&D Focus'],                   url:'https://lndsummit.peoplematters.in',            desc:'Focused exclusively on L&D — CLOs, L&D directors, training managers' },
+  { name:'CII HR Leadership Summit 2025',           date:'Oct 2025',       location:'Mumbai',     attendees:'500+',   focus:['HR Leadership'],               url:'https://www.cii.in',                            desc:'CII HR summit — manufacturing, industrial and enterprise HR leaders' },
+  { name:'ETHRWorld Future of Work Summit',         date:'Jul 2025',       location:'Bengaluru',  attendees:'700+',   focus:['Tech HR','HR Leadership'],     url:'https://hr.economictimes.com',                  desc:'Economic Times HR forum — HR transformation and future of work' },
+  { name:'Indian L&D Summit 2025',                  date:'Jun 2025',       location:'Pune',       attendees:'400+',   focus:['L&D Focus','Networking'],      url:'https://ldsummit.in',                           desc:'Dedicated L&D conference — training managers and learning architects' },
+  { name:'ATD India Conference 2025',               date:'Sep 2025',       location:'Hyderabad',  attendees:'500+',   focus:['L&D Focus','Tech HR'],         url:'https://www.td.org',                            desc:'ATD India chapter — global L&D standards, instructional design practitioners' },
+  { name:'Aon Best Employers India Summit',         date:'Dec 2025',       location:'Mumbai',     attendees:'400+',   focus:['HR Leadership','Networking'],  url:'https://www.aon.com',                           desc:'CHROs and HRDs from India\'s best employer companies' },
+  { name:'FICCI HR & IR Conference 2025',           date:'Nov 2025',       location:'Delhi',      attendees:'600+',   focus:['HR Leadership'],               url:'https://www.ficci.in',                          desc:'FICCI industrial relations — HR heads from manufacturing and industry' },
+];
+
+function filterEvents() {
+  const selected = getSelected('event-filters');
+  const useAll = selected.includes('All') || !selected.length;
+  renderEvents(useAll ? events : events.filter(e => e.focus.some(f => selected.includes(f))));
+}
+
+function renderEvents(list) {
+  const el = document.getElementById('events-list');
+  if (!el) return;
+  el.innerHTML = '';
+  list.forEach(e => {
+    const div = document.createElement('div');
+    div.className = 'event-card';
+    div.innerHTML = `
+      <div class="event-date">${e.date} &nbsp;·&nbsp; ${e.location} &nbsp;·&nbsp; ${e.attendees} attendees</div>
+      <div class="event-name">${e.name}</div>
+      <div class="event-meta">${e.desc}</div>
+      <div class="event-tags">
+        ${e.focus.map(f=>`<span class="badge b-blue" style="font-size:10px">${f}</span>`).join('')}
+        <button class="btn sm" style="margin-left:auto;font-size:10.5px" onclick="prefillEvent('${e.name.replace(/'/g,"\\'")}')">Find attendees ↗</button>
+        <a href="${e.url}" target="_blank" class="btn sm" style="text-decoration:none;font-size:10.5px">Website ↗</a>
+      </div>
+    `;
+    el.appendChild(div);
+  });
+}
+
+function prefillEvent(name) {
+  // Switch to search tab and pre-fill conference search
+  document.querySelectorAll('.pi-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pi-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('pi-search').classList.add('active');
+  document.querySelectorAll('.pi-tab')[0].classList.add('active');
+  // Clear conf chips and set custom
+  document.querySelectorAll('#conf-name .chip').forEach(c => c.classList.remove('sel'));
+  document.getElementById('conf-custom').value = name;
+  buildConfQuery();
+  document.getElementById('conf-query').scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+// Initialise on load
+document.addEventListener('DOMContentLoaded', () => {
+  renderEvents(events);
+  renderProspects();
+  buildLiQuery();
+});
+
 </script>
 </body>
 </html>
