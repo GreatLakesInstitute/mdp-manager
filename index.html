@@ -342,6 +342,34 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 .gantt-label{font-size:12px;color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gantt-bar{height:24px;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden}
 
+
+/* ── CONTRACTS & SOW ── */
+.sow-card{border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem 1.1rem;background:var(--card);box-shadow:var(--shadow);transition:box-shadow 0.12s}
+.sow-card:hover{box-shadow:0 2px 10px rgba(0,0,0,0.08)}
+.sow-status-bar{height:5px;border-radius:3px;margin-top:8px;overflow:hidden;background:var(--bg)}
+.sow-status-fill{height:100%;border-radius:3px}
+.clause-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.clause-row:last-child{border-bottom:none}
+.clause-num{width:22px;height:22px;border-radius:50%;background:var(--purple-l);color:var(--purple-d);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* ── RENEWAL PIPELINE ── */
+.pipeline-col{flex:1;min-width:155px;display:flex;flex-direction:column;gap:8px}
+.pipeline-hdr{padding:8px 12px;border-radius:var(--r-md) var(--r-md) 0 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;text-align:center}
+.pipeline-body{flex:1;background:var(--bg);border-radius:0 0 var(--r-md) var(--r-md);padding:8px;display:flex;flex-direction:column;gap:6px;min-height:180px}
+.pipeline-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;cursor:pointer;transition:all 0.12s;box-shadow:var(--shadow)}
+.pipeline-card:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,0.1)}
+.pipe-client{font-size:12.5px;font-weight:600;color:var(--text)}
+.pipe-prog{font-size:11px;color:var(--text-2);margin-top:2px}
+.pipe-val{font-size:12px;font-weight:600;color:var(--purple-d);margin-top:5px}
+.pipe-date{font-size:10.5px;color:var(--text-3);margin-top:2px}
+/* ── TNA COMPETENCY BUILDER ── */
+.comp-builder-row{display:grid;grid-template-columns:1fr 120px 120px 100px 36px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.comp-builder-row:last-child{border-bottom:none}
+.comp-input{padding:6px 10px;border:1px solid var(--border-2);border-radius:var(--r-md);font-size:12.5px;font-family:var(--font);color:var(--text);background:var(--card);width:100%}
+.comp-input:focus{outline:none;border-color:var(--teal)}
+.tna-export-btn{display:flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid var(--border-2);border-radius:var(--r-lg);background:var(--card);cursor:pointer;font-size:13px;font-family:var(--font);color:var(--text);font-weight:500;transition:all 0.12s;width:100%;text-align:left}
+.tna-export-btn:hover{border-color:var(--teal);background:var(--teal-l);color:var(--teal-d)}
+.tna-export-icon{width:36px;height:36px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+
 </style>
 </head>
 <body>
@@ -402,6 +430,14 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
   <div class="sb-section">Finance</div>
   <div class="nav-item" onclick="show('billing',this)">
     <div class="nav-dot" style="background:var(--amber)"></div>Billing & invoices
+  </div>
+  <div class="nav-item" onclick="show('contracts',this)">
+    <div class="nav-dot" style="background:var(--purple)"></div>Contracts & SOW
+    <span class="nav-badge" style="background:var(--purple-l);color:var(--purple-d)">New</span>
+  </div>
+  <div class="nav-item" onclick="show('renewal',this)">
+    <div class="nav-dot" style="background:var(--teal)"></div>Renewal pipeline
+    <span class="nav-badge" style="background:var(--teal-l);color:var(--teal-d)">New</span>
   </div>
 
   <div class="sb-section">Client View</div>
@@ -1030,6 +1066,7 @@ Topics: P&L reading, ROI thinking, budget ownership
     <div id="history-list" style="display:flex;flex-direction:column;gap:6px"></div>
   </div>
 
+</div>
 
 <!-- ════════ PROSPECT INTELLIGENCE ════════ -->
 <div id="view-prospects" class="view">
@@ -1546,6 +1583,14 @@ Topics: P&L reading, ROI thinking, budget ownership
         </div>
       </div>
     </div>
+  
+    <div class="card" style="margin-top:0">
+      <div class="card-title">Custom competency builder</div>
+      <div style="font-size:12.5px;color:var(--text-3);margin-bottom:10px">Edit competencies, required proficiency levels, and weights. These feed the gap analysis and report.</div>
+      <div id="comp-builder-container"></div>
+      <button class="btn sm" style="margin-top:10px" onclick="addComp()">+ Add competency</button>
+    </div>
+
   </div>
 
   <!-- ── PHASE 2: COLLECT DATA ── -->
@@ -1794,6 +1839,175 @@ Topics: P&L reading, ROI thinking, budget ownership
     </div>
   </div>
 
+</div>
+
+
+<!-- ════════ CONTRACTS & SOW ════════ -->
+<div id="view-contracts" class="view">
+  <div class="topbar">
+    <div><div class="page-title">Contracts & SOW tracker</div><div class="page-sub">All client agreements · Scope, milestones, amendments, and renewal dates in one place</div></div>
+    <div class="btn-row">
+      <button class="btn" onclick="showContractForm()">+ New contract</button>
+      <button class="btn primary" onclick="contractTab('list',this)">All contracts</button>
+    </div>
+  </div>
+
+  <div class="metrics four">
+    <div class="metric"><div class="metric-label">Active contracts</div><div class="metric-value">4</div><div class="metric-sub">₹1.23Cr total value</div></div>
+    <div class="metric"><div class="metric-label">Expiring in 90d</div><div class="metric-value" style="color:var(--amber-d)">2</div><div class="metric-sub">TCS & Infosys</div></div>
+    <div class="metric"><div class="metric-label">Pending signature</div><div class="metric-value" style="color:var(--coral-d)">1</div><div class="metric-sub">Mahindra SOW</div></div>
+    <div class="metric"><div class="metric-label">Amendments this year</div><div class="metric-value">3</div><div class="metric-sub">All approved</div></div>
+  </div>
+
+  <!-- Contract tabs -->
+  <div class="row wrap" style="gap:8px">
+    <button class="pi-tab active" onclick="contractTab('list',this)">All contracts</button>
+    <button class="pi-tab" onclick="contractTab('detail',this)">Contract detail</button>
+    <button class="pi-tab" onclick="contractTab('sow',this)">SOW builder</button>
+    <button class="pi-tab" onclick="contractTab('amendments',this)">Amendments</button>
+  </div>
+
+  <!-- LIST TAB -->
+  <div id="ct-list" class="pi-panel active">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Contract ID</th><th>Client</th><th>Program</th><th>Value (₹)</th><th>Start</th><th>End date</th><th>Signed by</th><th>Status</th><th>Days left</th><th>Action</th></tr></thead>
+        <tbody id="contracts-tbody"></tbody>
+      </table>
+    </div>
+    <!-- Add contract form -->
+    <div id="contract-form" style="display:none" class="card" style="border-color:var(--purple)">
+      <div class="card-title" style="color:var(--purple-d)">New contract / SOW</div>
+      <div class="two-col" style="gap:10px;margin-bottom:10px">
+        <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Client</div>
+          <select class="comp-input" id="ct-client"><option>Tata Consultancy Services</option><option>Infosys</option><option>HDFC Bank</option><option>Mahindra Group</option><option>Wipro</option></select></div>
+        <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Program name</div>
+          <input class="comp-input" id="ct-program" placeholder="e.g. Senior Leadership Track"></div>
+      </div>
+      <div class="two-col" style="gap:10px;margin-bottom:10px">
+        <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Contract value (₹)</div>
+          <input class="comp-input" id="ct-value" type="number" placeholder="4500000"></div>
+        <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Signed by (client)</div>
+          <input class="comp-input" id="ct-signatory" placeholder="Anita Sharma, Head L&D"></div>
+      </div>
+      <div class="two-col" style="gap:10px;margin-bottom:14px">
+        <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Start date</div>
+          <input class="comp-input" id="ct-start" type="date"></div>
+        <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">End date</div>
+          <input class="comp-input" id="ct-end" type="date"></div>
+      </div>
+      <div class="row" style="gap:8px">
+        <button class="btn primary" onclick="addContract()">Save contract</button>
+        <button class="btn" onclick="document.getElementById('contract-form').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETAIL TAB -->
+  <div id="ct-detail" class="pi-panel">
+    <div class="row" style="gap:10px;margin-bottom:4px;flex-wrap:wrap">
+      <select class="comp-input" style="max-width:280px" id="ct-select" onchange="renderContractDetail()">
+        <option value="0">TCS — Senior Leadership Track</option>
+        <option value="1">Infosys — First-time Managers</option>
+        <option value="2">HDFC Bank — Women in Leadership</option>
+        <option value="3">Mahindra — Executive Presence</option>
+      </select>
+    </div>
+    <div id="contract-detail-body"></div>
+  </div>
+
+  <!-- SOW BUILDER TAB -->
+  <div id="ct-sow" class="pi-panel">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">SOW builder — standard clauses</div>
+        <div style="font-size:12.5px;color:var(--text-3);margin-bottom:12px">Toggle clauses, edit content, then copy or download the final SOW.</div>
+        <div id="sow-clauses"></div>
+        <div class="row" style="gap:8px;margin-top:14px;flex-wrap:wrap">
+          <button class="btn primary" onclick="copySow()">Copy SOW text</button>
+          <button class="btn" onclick="downloadSow()">Download as .txt</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">SOW preview</div>
+        <div id="sow-preview" style="font-size:12px;color:var(--text);line-height:1.8;white-space:pre-wrap;max-height:480px;overflow-y:auto;font-family:var(--mono)"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AMENDMENTS TAB -->
+  <div id="ct-amendments" class="pi-panel">
+    <div class="card">
+      <div class="card-title">Amendment log</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Amend #</th><th>Contract</th><th>Client</th><th>Date</th><th>Change description</th><th>Value impact</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">#A001</td><td>CT-2025-001</td><td>TCS</td><td>Feb 14, 2025</td><td>Added 1 extra module (Executive Presence) — Day 4 added to cohort 3</td><td style="color:var(--teal-d);font-weight:500">+₹2.8L</td><td><span class="badge b-green">Approved</span></td></tr>
+            <tr><td class="mono">#A002</td><td>CT-2025-002</td><td>Infosys</td><td>Mar 5, 2025</td><td>Batch size reduced from 25 to 20 per session — venue constraint</td><td style="color:var(--text-3)">No change</td><td><span class="badge b-green">Approved</span></td></tr>
+            <tr><td class="mono">#A003</td><td>CT-2025-003</td><td>HDFC Bank</td><td>Apr 2, 2025</td><td>Postponed Module 3 by 4 weeks — facilitator unavailability</td><td style="color:var(--text-3)">No change</td><td><span class="badge b-green">Approved</span></td></tr>
+            <tr><td class="mono">#A004</td><td>CT-2025-004</td><td>Mahindra</td><td>Pending</td><td>Request to add 8 more participants — awaiting budget approval</td><td style="color:var(--amber-d);font-weight:500">+₹1.4L (est.)</td><td><span class="badge b-amber">Pending</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Log new amendment</div>
+      <div class="two-col" style="gap:10px;margin-bottom:10px">
+        <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Contract</div>
+          <select class="comp-input"><option>CT-2025-001 — TCS</option><option>CT-2025-002 — Infosys</option><option>CT-2025-003 — HDFC</option><option>CT-2025-004 — Mahindra</option></select></div>
+        <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Value impact (₹)</div>
+          <input class="comp-input" placeholder="0 if no financial change"></div>
+      </div>
+      <div style="margin-bottom:10px"><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Description of change</div>
+        <textarea class="validator-area" style="min-height:80px" placeholder="Describe what is being changed and why..."></textarea></div>
+      <button class="btn primary">Submit amendment</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ RENEWAL PIPELINE ════════ -->
+<div id="view-renewal" class="view">
+  <div class="topbar">
+    <div><div class="page-title">Renewal pipeline</div><div class="page-sub">Track upsell and renewal opportunities · From early signal to signed contract</div></div>
+    <div class="btn-row">
+      <button class="btn primary" onclick="addRenewal()">+ Add opportunity</button>
+    </div>
+  </div>
+
+  <div class="metrics four">
+    <div class="metric"><div class="metric-label">Pipeline value</div><div class="metric-value">₹1.84Cr</div><div class="metric-sub">Across all stages</div></div>
+    <div class="metric"><div class="metric-label">Likely to close</div><div class="metric-value" style="color:var(--teal-d)">₹98L</div><div class="metric-sub">Probability ≥ 70%</div></div>
+    <div class="metric"><div class="metric-label">Closing this quarter</div><div class="metric-value">3</div><div class="metric-sub">Q2 FY26</div></div>
+    <div class="metric"><div class="metric-label">Avg. deal size</div><div class="metric-value">₹32L</div><div class="metric-sub">vs ₹28L last year</div></div>
+  </div>
+
+  <!-- Kanban pipeline -->
+  <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px" id="pipeline-board"></div>
+
+  <!-- Opportunity detail -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Renewal signals — what to watch</div>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:12.5px">
+        <div class="gap-item" style="background:var(--teal-l)"><span style="color:var(--teal-d);font-size:13px;flex-shrink:0">✓</span><div><strong style="color:var(--teal-d)">High NPS (≥70) + program ending in 90 days</strong><br><span style="color:var(--teal-d)">Strongest renewal signal — send proposal within 2 weeks of program end</span></div></div>
+        <div class="gap-item" style="background:var(--teal-l)"><span style="color:var(--teal-d);font-size:13px;flex-shrink:0">✓</span><div><strong style="color:var(--teal-d)">Client sponsor shares results internally</strong><br><span style="color:var(--teal-d)">When they present to their leadership, they are building internal buy-in for renewal</span></div></div>
+        <div class="gap-item" style="background:var(--amber-l)"><span style="color:var(--amber-d);font-size:13px;flex-shrink:0">△</span><div><strong style="color:var(--amber-d)">Asks about next cohort before current ends</strong><br><span style="color:var(--amber-d)">Good signal — respond with a phased proposal that expands scope</span></div></div>
+        <div class="gap-item" style="background:var(--amber-l)"><span style="color:var(--amber-d);font-size:13px;flex-shrink:0">△</span><div><strong style="color:var(--amber-d)">New role group not covered in current program</strong><br><span style="color:var(--amber-d)">Upsell opportunity — propose an extension for the next level</span></div></div>
+        <div class="gap-item" style="background:var(--coral-l)"><span style="color:var(--coral-d);font-size:13px;flex-shrink:0">⚠</span><div><strong style="color:var(--coral-d)">Budget freeze or leadership change at client</strong><br><span style="color:var(--coral-d)">Pause outreach, re-engage after transition. Do not push — it reads as tone-deaf.</span></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Upsell playbook</div>
+      <div style="display:flex;flex-direction:column;gap:9px;font-size:12.5px">
+        <div style="border-left:3px solid var(--purple);padding-left:10px"><div style="font-weight:600;color:var(--purple-d);margin-bottom:2px">Expand to next cohort</div><div style="color:var(--text-2)">Same program, next batch. Easiest renewal — reference existing results, propose dates immediately.</div></div>
+        <div style="border-left:3px solid var(--teal);padding-left:10px"><div style="font-weight:600;color:var(--teal-d);margin-bottom:2px">Expand to next level</div><div style="color:var(--text-2)">If senior managers completed the MDP, propose a program for their direct reports. Natural cascade.</div></div>
+        <div style="border-left:3px solid var(--blue);padding-left:10px"><div style="font-weight:600;color:var(--blue-d);margin-bottom:2px">Add a new competency track</div><div style="color:var(--text-2)">Use TNA data to propose a follow-on track addressing gaps not covered in the first program.</div></div>
+        <div style="border-left:3px solid var(--amber);padding-left:10px"><div style="font-weight:600;color:var(--amber-d);margin-bottom:2px">Enterprise-wide license</div><div style="color:var(--text-2)">After 2+ successful programs, propose an annual retainer covering all L&D needs across BUs.</div></div>
+        <div style="border-left:3px solid var(--coral);padding-left:10px"><div style="font-weight:600;color:var(--coral-d);margin-bottom:2px">Refer to other BUs</div><div style="color:var(--text-2)">Ask the sponsor to introduce you to L&D heads in other business units — warm referral is 5× faster than cold outreach.</div></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 </div><!-- end view-wrap -->
@@ -3409,6 +3623,382 @@ function addPopRow() {
   div.innerHTML = '<div class="row between"><input class="pi-input" placeholder="Role title" style="max-width:180px"><div class="row" style="gap:6px"><input class="pi-input" placeholder="Count" style="width:70px"><input class="pi-input" placeholder="Function" style="width:110px"><button class="btn sm danger" onclick="this.closest(\'.tna-pop-row\').remove()">✕</button></div></div>';
   container.appendChild(div);
 }
+
+
+// ══════════════════════════════════════════════════════════
+// CONTRACTS & SOW TRACKER
+// ══════════════════════════════════════════════════════════
+let contracts = [
+  { id:'CT-2025-001', client:'Tata Consultancy Services', program:'Senior Leadership Track', value:4500000, start:'2025-01-15', end:'2025-08-30', signatory:'Anita Sharma', status:'Active', driveLink:'#', notes:'3rd year renewal. 2 cohorts of 20.' },
+  { id:'CT-2025-002', client:'Infosys', program:'First-time Managers', value:2800000, start:'2025-02-01', end:'2025-07-31', signatory:'Rajesh Nair', status:'Active', driveLink:'#', notes:'5th cohort. Expanded from 3 to 5 batches.' },
+  { id:'CT-2025-003', client:'HDFC Bank', program:'Women in Leadership', value:3200000, start:'2025-03-15', end:'2025-09-30', signatory:'Prerna Kapoor', status:'At Risk', driveLink:'#', notes:'Facilitator gap — needs resolution.' },
+  { id:'CT-2025-004', client:'Mahindra Group', program:'Executive Presence', value:1800000, start:'2025-05-01', end:'2025-11-30', signatory:'Pending', status:'Pending signature', driveLink:'#', notes:'Kickoff May 1 — SOW not yet signed.' },
+];
+let contractNextId = 5;
+
+function daysLeft(endDate) {
+  const diff = new Date(endDate) - new Date();
+  return Math.ceil(diff / (1000*60*60*24));
+}
+
+function contractStatusBadge(s) {
+  return s === 'Active' ? 'b-green' : s === 'At Risk' ? 'b-coral' : s === 'Pending signature' ? 'b-amber' : s === 'Completed' ? 'b-gray' : 'b-purple';
+}
+
+function renderContractsList() {
+  const tbody = document.getElementById('contracts-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = contracts.map(c => {
+    const dl = daysLeft(c.end);
+    const dlColor = dl < 30 ? 'color:var(--coral-d);font-weight:600' : dl < 90 ? 'color:var(--amber-d);font-weight:500' : 'color:var(--text-2)';
+    const val = '₹' + (c.value/100000).toFixed(1) + 'L';
+    return `<tr>
+      <td class="mono">${c.id}</td>
+      <td style="font-weight:500">${c.client}</td>
+      <td>${c.program}</td>
+      <td style="font-weight:600">${val}</td>
+      <td style="font-size:12px;color:var(--text-2)">${c.start}</td>
+      <td style="font-size:12px;color:var(--text-2)">${c.end}</td>
+      <td style="font-size:12px;color:var(--text-2)">${c.signatory}</td>
+      <td><span class="badge ${contractStatusBadge(c.status)}">${c.status}</span></td>
+      <td style="${dlColor}">${dl > 0 ? dl + 'd' : 'Expired'}</td>
+      <td><button class="btn sm" onclick="viewContractDetail(${contracts.indexOf(c)})">View</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function contractTab(tab, el) {
+  document.querySelectorAll('#view-contracts .pi-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#view-contracts .pi-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('ct-' + tab).classList.add('active');
+  if (el) el.classList.add('active');
+  if (tab === 'sow') renderSow();
+  if (tab === 'detail') renderContractDetail();
+}
+
+function showContractForm() {
+  const f = document.getElementById('contract-form');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function addContract() {
+  const client = document.getElementById('ct-client').value;
+  const program = document.getElementById('ct-program').value;
+  const value = parseFloat(document.getElementById('ct-value').value) || 0;
+  const signatory = document.getElementById('ct-signatory').value;
+  const start = document.getElementById('ct-start').value;
+  const end = document.getElementById('ct-end').value;
+  if (!program || !start || !end) { alert('Please fill in program name, start and end dates.'); return; }
+  contracts.push({ id: 'CT-2025-00' + contractNextId++, client, program, value, start, end, signatory: signatory || 'Pending', status: 'Pending signature', driveLink: '#', notes: '' });
+  document.getElementById('contract-form').style.display = 'none';
+  renderContractsList();
+}
+
+function viewContractDetail(idx) {
+  document.getElementById('ct-select').value = idx;
+  contractTab('detail', document.querySelectorAll('#view-contracts .pi-tab')[1]);
+  renderContractDetail();
+}
+
+function renderContractDetail() {
+  const idx = parseInt(document.getElementById('ct-select')?.value || 0);
+  const c = contracts[idx];
+  if (!c) return;
+  const body = document.getElementById('contract-detail-body');
+  if (!body) return;
+  const dl = daysLeft(c.end);
+  const pct = Math.max(0, Math.min(100, Math.round((new Date() - new Date(c.start)) / (new Date(c.end) - new Date(c.start)) * 100)));
+  const val = '₹' + (c.value/100000).toFixed(1) + 'L';
+  body.innerHTML = `
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">${c.id} — ${c.program}</div>
+        <div style="display:flex;flex-direction:column;gap:9px;font-size:13px">
+          <div class="row between"><span style="color:var(--text-2)">Client</span><span style="font-weight:600">${c.client}</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Contract value</span><span style="font-weight:600;color:var(--purple-d)">${val} + GST</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Period</span><span style="font-weight:500">${c.start} → ${c.end}</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Signed by (client)</span><span style="font-weight:500">${c.signatory}</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Status</span><span class="badge ${contractStatusBadge(c.status)}">${c.status}</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Days remaining</span><span style="font-weight:600;${dl<90?'color:var(--amber-d)':''}">${dl > 0 ? dl + ' days' : 'Expired'}</span></div>
+          <div>
+            <div class="row between" style="margin-bottom:4px"><span style="color:var(--text-2)">Delivery progress</span><span style="font-weight:500">${pct}%</span></div>
+            <div class="pb"><div class="pbf" style="width:${pct}%;background:var(--purple)"></div></div>
+          </div>
+        </div>
+        <div class="row" style="gap:8px;margin-top:14px;flex-wrap:wrap">
+          <button class="btn sm primary" onclick="contractTab('sow',document.querySelectorAll(\'#view-contracts .pi-tab\')[2])">View SOW →</button>
+          <button class="btn sm" onclick="contractTab('amendments',document.querySelectorAll(\'#view-contracts .pi-tab\')[3])">Log amendment →</button>
+          <button class="btn sm" onclick="show('renewal',document.querySelectorAll(\'.nav-item\')[11])">Open renewal →</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Milestone & payment schedule</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+          <div class="row between"><span style="color:var(--text-2)">On signing (30%)</span><span style="font-weight:600">₹${(c.value*0.30/100000).toFixed(1)}L</span><span class="badge b-green">Received</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Mid-programme (40%)</span><span style="font-weight:600">₹${(c.value*0.40/100000).toFixed(1)}L</span><span class="badge ${pct>=50?'b-green':'b-amber'}">${pct>=50?'Received':'Due at 50%'}</span></div>
+          <div class="row between"><span style="color:var(--text-2)">On completion (30%)</span><span style="font-weight:600">₹${(c.value*0.30/100000).toFixed(1)}L</span><span class="badge b-gray">Pending</span></div>
+          <hr>
+          <div class="row between"><span style="color:var(--text-2)">GST 18%</span><span style="font-weight:600">₹${(c.value*0.18/100000).toFixed(1)}L</span></div>
+          <div class="row between"><span style="font-weight:600">Total payable</span><span style="font-weight:700;color:var(--purple-d)">₹${(c.value*1.18/100000).toFixed(1)}L</span></div>
+        </div>
+        ${c.notes ? `<div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:var(--r-md);font-size:12px;color:var(--text-2)"><strong>Notes:</strong> ${c.notes}</div>` : ''}
+      </div>
+    </div>`;
+}
+
+const SOW_CLAUSES = [
+  { id:'scope', title:'1. Scope of work', enabled:true, text:`The service provider agrees to design, develop and deliver a Management Development Program ("MDP") as detailed in Schedule A attached hereto. The program shall cover the modules, timelines, participant numbers and delivery format as mutually agreed.` },
+  { id:'payment', title:'2. Payment terms', enabled:true, text:`The client agrees to pay the service provider as follows: 30% of the total contract value upon signing this agreement; 40% upon delivery of 50% of the program modules; 30% upon full program completion and submission of the final report. All payments are subject to GST at 18%.` },
+  { id:'ip', title:'3. Intellectual property', enabled:true, text:`All program content, materials, frameworks, case studies and toolkits created by the service provider for this engagement remain the sole intellectual property of the service provider. The client receives a non-exclusive licence to use materials internally for participants of this program only.` },
+  { id:'confidentiality', title:'4. Confidentiality', enabled:true, text:`Both parties agree to maintain strict confidentiality of all proprietary information shared during this engagement. The service provider shall not disclose participant data, performance results or business information to any third party without prior written consent from the client.` },
+  { id:'cancellation', title:'5. Cancellation & rescheduling', enabled:true, text:`The client may cancel or reschedule a module with a minimum of 14 days notice at no charge. Cancellations within 7 days of a scheduled session will attract a cancellation fee of 25% of that module's fee. Program-level cancellation after signing will attract a fee of 30% of total contract value.` },
+  { id:'facilitation', title:'6. Facilitator standards', enabled:true, text:`The service provider guarantees delivery by qualified facilitators with a minimum of 8 years of relevant industry experience. Facilitator replacements, if required, will be communicated to the client at least 5 working days in advance and will be of equivalent or superior qualification.` },
+  { id:'evaluation', title:'7. Evaluation & reporting', enabled:true, text:`The service provider will conduct participant feedback surveys after each module and provide the client with a consolidated post-program report covering satisfaction scores, pre/post assessment results, and recommended next steps within 15 working days of program completion.` },
+  { id:'liability', title:'8. Limitation of liability', enabled:false, text:`The total liability of the service provider under this agreement shall not exceed the total fees paid by the client under this agreement. The service provider shall not be liable for indirect, incidental or consequential damages.` },
+  { id:'dispute', title:'9. Dispute resolution', enabled:false, text:`Any disputes arising from this agreement shall first be resolved through good-faith negotiation. If unresolved within 30 days, disputes shall be referred to arbitration under the Arbitration and Conciliation Act, 1996, with the seat of arbitration in Mumbai, Maharashtra.` },
+  { id:'governing', title:'10. Governing law', enabled:true, text:`This agreement shall be governed by the laws of India. The parties consent to the exclusive jurisdiction of the courts in Mumbai, Maharashtra.` },
+];
+
+function renderSow() {
+  const container = document.getElementById('sow-clauses');
+  if (!container || container.children.length > 0) { updateSowPreview(); return; }
+  SOW_CLAUSES.forEach(clause => {
+    const div = document.createElement('div');
+    div.className = 'clause-row';
+    div.innerHTML = `
+      <div class="clause-num">${clause.id.slice(0,2).toUpperCase()}</div>
+      <div style="flex:1">
+        <div class="row" style="gap:8px;margin-bottom:4px">
+          <span style="font-weight:600;font-size:12.5px">${clause.title}</span>
+          <label style="margin-left:auto;display:flex;align-items:center;gap:5px;cursor:pointer;font-size:11.5px;color:var(--text-2)">
+            <input type="checkbox" ${clause.enabled ? 'checked' : ''} onchange="toggleClause('${clause.id}',this.checked)" style="accent-color:var(--purple)">Include
+          </label>
+        </div>
+        <div style="font-size:11.5px;color:var(--text-3);line-height:1.6" id="clause-preview-${clause.id}">${clause.text.slice(0,120)}...</div>
+      </div>`;
+    container.appendChild(div);
+  });
+  updateSowPreview();
+}
+
+function toggleClause(id, enabled) {
+  const c = SOW_CLAUSES.find(c => c.id === id);
+  if (c) { c.enabled = enabled; updateSowPreview(); }
+}
+
+function updateSowPreview() {
+  const preview = document.getElementById('sow-preview');
+  if (!preview) return;
+  const enabled = SOW_CLAUSES.filter(c => c.enabled);
+  preview.textContent = `STATEMENT OF WORK\nManagement Development Program\n${'─'.repeat(40)}\n\n` +
+    enabled.map(c => `${c.title}\n\n${c.text}\n`).join('\n') +
+    `\n${'─'.repeat(40)}\nSigned for and on behalf of:\n\nService Provider: ___________________  Date: ________\n\nClient: ___________________  Date: ________`;
+}
+
+function copySow() {
+  const text = document.getElementById('sow-preview')?.textContent || '';
+  navigator.clipboard.writeText(text).then(() => alert('SOW copied to clipboard!'));
+}
+
+function downloadSow() {
+  const text = document.getElementById('sow-preview')?.textContent || '';
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'SOW-MDP.txt'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ══════════════════════════════════════════════════════════
+// RENEWAL PIPELINE
+// ══════════════════════════════════════════════════════════
+let renewalOpps = [
+  { id:1, client:'Tata Consultancy Services', program:'Senior Leadership Track — Year 4', value:5200000, prob:90, stage:'Proposal sent', endDate:'2025-06-15', owner:'Dr. Mehta', notes:'Client confirmed budget. Proposal sent Apr 10. Decision expected by May 15.', type:'renewal' },
+  { id:2, client:'Tata Consultancy Services', program:'First-Time Managers (new cohort)', value:2800000, prob:75, stage:'Negotiating', endDate:'2025-07-01', owner:'Prof. Singh', notes:'BU Head wants to expand to junior managers. Scoping call done.', type:'upsell' },
+  { id:3, client:'Infosys', program:'Women in Leadership (new program)', value:3600000, prob:65, stage:'Proposal sent', endDate:'2025-08-30', owner:'Dr. Mehta', notes:'Infosys HRD interested after seeing HDFC case study.', type:'upsell' },
+  { id:4, client:'HDFC Bank', program:'Women in Leadership — Cohort 2', value:3200000, prob:50, stage:'Interested', endDate:'2025-09-30', owner:'Program Mgr', notes:'Sponsor very happy with current program. Renewal discussion scheduled.', type:'renewal' },
+  { id:5, client:'Mahindra Group', program:'Executive Presence — Cohort 2', value:1900000, prob:60, stage:'Interested', endDate:'2025-12-01', owner:'Vikram Bose', notes:'Current program not yet started but sponsor already asking about next.', type:'upsell' },
+  { id:6, client:'Wipro', program:'Change Leadership — Year 2', value:4200000, prob:40, stage:'Early signal', endDate:'2025-12-31', owner:'Program Mgr', notes:'Program completed March. Positive NPS 74. No formal renewal discussion yet.', type:'renewal' },
+  { id:7, client:'Asian Paints', program:'Senior Leadership MDP', value:3800000, prob:25, stage:'Early signal', endDate:'2026-03-01', owner:'Program Mgr', notes:'Introduced via Priya Nair. Exploratory call scheduled.', type:'new' },
+];
+let renewalNextId = 8;
+
+const PIPELINE_STAGES = [
+  { id:'Early signal', label:'Early signal', color:'var(--gray)', bg:'var(--gray-l)' },
+  { id:'Interested', label:'Interested', color:'var(--blue)', bg:'var(--blue-l)' },
+  { id:'Proposal sent', label:'Proposal sent', color:'var(--purple)', bg:'var(--purple-l)' },
+  { id:'Negotiating', label:'Negotiating', color:'var(--amber)', bg:'var(--amber-l)' },
+  { id:'Closed won', label:'Closed won', color:'var(--teal)', bg:'var(--teal-l)' },
+];
+
+function buildPipeline() {
+  const board = document.getElementById('pipeline-board');
+  if (!board || board.children.length > 0) return;
+  PIPELINE_STAGES.forEach(stage => {
+    const col = document.createElement('div');
+    col.className = 'pipeline-col';
+    const stageOpps = renewalOpps.filter(o => o.stage === stage.id);
+    const stageVal = stageOpps.reduce((s, o) => s + o.value, 0);
+    col.innerHTML = `
+      <div class="pipeline-hdr" style="background:${stage.bg};color:${stage.color}">
+        ${stage.label}
+        <div style="font-size:10px;font-weight:400;margin-top:2px">${stageOpps.length} deals · ₹${(stageVal/100000).toFixed(0)}L</div>
+      </div>
+      <div class="pipeline-body" id="pipe-${stage.id.replace(/ /g,'-')}">
+        ${stageOpps.map(o => `
+          <div class="pipeline-card" onclick="showOppDetail(${o.id})">
+            <div class="pipe-client">${o.client}</div>
+            <div class="pipe-prog">${o.program}</div>
+            <div class="pipe-val">₹${(o.value/100000).toFixed(1)}L · ${o.prob}% prob.</div>
+            <div class="pipe-date">Close: ${o.endDate} · <span class="badge ${o.type==='renewal'?'b-green':o.type==='upsell'?'b-purple':'b-blue'}" style="font-size:9.5px">${o.type}</span></div>
+          </div>`).join('')}
+      </div>`;
+    board.appendChild(col);
+  });
+}
+
+function showOppDetail(id) {
+  const o = renewalOpps.find(o => o.id === id);
+  if (!o) return;
+  alert(`${o.client}\n${o.program}\n\nValue: ₹${(o.value/100000).toFixed(1)}L | Probability: ${o.prob}%\nOwner: ${o.owner}\nExpected close: ${o.endDate}\n\nNotes: ${o.notes}`);
+}
+
+function addRenewal() {
+  const client = prompt('Client name:');
+  const program = prompt('Program / opportunity name:');
+  if (!client || !program) return;
+  const value = parseFloat(prompt('Estimated value (₹):') || '0');
+  renewalOpps.push({ id: renewalNextId++, client, program, value, prob: 25, stage: 'Early signal', endDate: '2026-01-01', owner: 'Program Mgr', notes: '', type: 'new' });
+  const board = document.getElementById('pipeline-board');
+  if (board) { board.innerHTML = ''; buildPipeline(); }
+}
+
+// ══════════════════════════════════════════════════════════
+// TNA COMPETENCY BUILDER + EXPORT
+// ══════════════════════════════════════════════════════════
+let customComps = [
+  { name:'Strategic thinking & business acumen', category:'Leadership', required:4.5, weight:'High' },
+  { name:'Financial literacy & commercial awareness', category:'Business', required:4.2, weight:'High' },
+  { name:'Cross-functional & stakeholder leadership', category:'Leadership', required:4.1, weight:'High' },
+  { name:'Executive communication & influence', category:'Communication', required:4.3, weight:'Medium' },
+  { name:'Data-driven decision making', category:'Business', required:4.0, weight:'Medium' },
+  { name:'Change leadership & digital transformation', category:'Leadership', required:4.0, weight:'Medium' },
+  { name:'Coaching & developing others', category:'People', required:3.8, weight:'Low' },
+  { name:'Innovation & design thinking', category:'Business', required:3.5, weight:'Low' },
+];
+
+function buildCompBuilder() {
+  const container = document.getElementById('comp-builder-container');
+  if (!container || container.children.length > 0) return;
+
+  // Header
+  const hdr = document.createElement('div');
+  hdr.className = 'comp-builder-row';
+  hdr.style.fontWeight = '600';
+  hdr.style.fontSize = '10.5px';
+  hdr.style.color = 'var(--text-2)';
+  hdr.style.textTransform = 'uppercase';
+  hdr.style.letterSpacing = '0.05em';
+  hdr.innerHTML = '<span>Competency name</span><span>Category</span><span style="text-align:center">Required (1–5)</span><span>Weight</span><span></span>';
+  container.appendChild(hdr);
+
+  customComps.forEach((c, i) => {
+    const row = document.createElement('div');
+    row.className = 'comp-builder-row';
+    row.id = 'comp-row-' + i;
+    row.innerHTML = `
+      <input class="comp-input" value="${c.name}" onchange="customComps[${i}].name=this.value">
+      <select class="comp-input" style="padding:6px 8px" onchange="customComps[${i}].category=this.value">
+        ${['Leadership','Business','Communication','People','Technical'].map(cat => `<option ${c.category===cat?'selected':''}>${cat}</option>`).join('')}
+      </select>
+      <input class="comp-input" type="number" min="1" max="5" step="0.1" value="${c.required}" style="text-align:center" onchange="customComps[${i}].required=parseFloat(this.value)">
+      <select class="comp-input" style="padding:6px 8px" onchange="customComps[${i}].weight=this.value">
+        ${['High','Medium','Low'].map(w => `<option ${c.weight===w?'selected':''}>${w}</option>`).join('')}
+      </select>
+      <button class="btn sm danger" onclick="removeComp(${i})" style="padding:4px 8px">✕</button>`;
+    container.appendChild(row);
+  });
+}
+
+function addComp() {
+  customComps.push({ name:'New competency', category:'Leadership', required:3.5, weight:'Medium' });
+  const container = document.getElementById('comp-builder-container');
+  if (container) { container.innerHTML = ''; buildCompBuilder(); }
+}
+
+function removeComp(idx) {
+  customComps.splice(idx, 1);
+  const container = document.getElementById('comp-builder-container');
+  if (container) { container.innerHTML = ''; buildCompBuilder(); }
+}
+
+function exportTnaReport() {
+  const client = document.getElementById('tna-context')?.value?.split('\n')[0] || 'Client';
+  let report = `TRAINING NEEDS ANALYSIS REPORT\n${'═'.repeat(50)}\n`;
+  report += `Generated: ${new Date().toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})}\n`;
+  report += `Client: ${client}\n\n`;
+
+  report += `COMPETENCY FRAMEWORK\n${'─'.repeat(40)}\n`;
+  customComps.forEach((c, i) => {
+    report += `${i+1}. ${c.name}\n   Category: ${c.category} | Required proficiency: ${c.required}/5 | Weight: ${c.weight}\n`;
+  });
+
+  report += `\nGAP ANALYSIS SUMMARY\n${'─'.repeat(40)}\n`;
+  TNA_DATA.competencies.forEach((comp, ci) => {
+    const avgScore = TNA_DATA.roles.reduce((s, r) => s + r.scores[ci], 0) / TNA_DATA.roles.length;
+    const gap = (comp.required - avgScore).toFixed(1);
+    const severity = gap >= 3 ? 'CRITICAL' : gap >= 2 ? 'HIGH' : gap >= 1 ? 'MODERATE' : 'LOW';
+    report += `${comp.name}: Avg current ${avgScore.toFixed(1)} | Required ${comp.required} | Gap ${gap} [${severity}]\n`;
+  });
+
+  report += `\nPRIORITY TRAINING NEEDS\n${'─'.repeat(40)}\n`;
+  PRIORITY_DATA.forEach((p, i) => {
+    report += `${i+1}. ${p.need}\n   Priority: ${p.priority} | Business impact: ${p.impact}/10 | Gap: ${p.gap}/5 | ${p.people} people\n   Recommended: ${p.timing}\n\n`;
+  });
+
+  report += `RECOMMENDED INTERVENTIONS\n${'─'.repeat(40)}\n`;
+  SOLUTIONS.forEach(s => {
+    report += `• ${s.need}\n  Type: ${s.type} | ${s.duration} | ${s.reach} | ${s.cost} | ${s.timing}\n  Facilitator: ${s.facilitator}\n\n`;
+  });
+
+  report += `EVALUATION FRAMEWORK (KIRKPATRICK)\n${'─'.repeat(40)}\n`;
+  report += `Level 1 Reaction: Post-module survey — target NPS ≥ 60, satisfaction ≥ 4.0/5\n`;
+  report += `Level 2 Learning: Pre/post assessment — target ≥ 20% score improvement\n`;
+  report += `Level 3 Behaviour: Manager rating at Day 60 and Day 90 — target ≥ 4/5\n`;
+  report += `Level 4 Results: Participant ROI project at Day 90 — target 4× ROI\n\n`;
+  report += `Total estimated investment: ₹47.2L | Per participant: ₹17,800 | Expected ROI: 4.2× (12 months)\n`;
+  report += `\n${'═'.repeat(50)}\nConfidential — prepared by MDP Command Centre\n`;
+
+  const blob = new Blob([report], { type:'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'TNA-Report.txt'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportTnaCsv() {
+  let csv = 'Competency,Category,Avg Current Score,Required Score,Gap,Severity,Priority,Recommended Intervention\n';
+  TNA_DATA.competencies.forEach((comp, ci) => {
+    const avgScore = (TNA_DATA.roles.reduce((s, r) => s + r.scores[ci], 0) / TNA_DATA.roles.length).toFixed(1);
+    const gap = (comp.required - parseFloat(avgScore)).toFixed(1);
+    const severity = gap >= 3 ? 'Critical' : gap >= 2 ? 'High' : gap >= 1 ? 'Moderate' : 'Low';
+    const sol = SOLUTIONS.find(s => s.need.toLowerCase().includes(comp.name.split(' ')[0].toLowerCase()));
+    csv += `"${comp.name}","${customComps[ci]?.category||'Leadership'}",${avgScore},${comp.required},${gap},${severity},${sol?.need||''},${sol?.type||''}\n`;
+  });
+  const blob = new Blob([csv], { type:'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'TNA-Data.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Hook into show() for new pages ────────────────────────
+let contractsInit = false, renewalInit = false, tnaCompInit = false;
+const _origShow = show;
+show = function(id, el) {
+  _origShow(id, el);
+  if (id === 'contracts' && !contractsInit) { contractsInit = true; setTimeout(() => { renderContractsList(); renderContractDetail(); renderSow(); }, 60); }
+  if (id === 'renewal' && !renewalInit) { renewalInit = true; setTimeout(buildPipeline, 60); }
+  if (id === 'tna' && !tnaCompInit) { tnaCompInit = true; setTimeout(buildCompBuilder, 120); }
+};
 
 </script>
 </body>
