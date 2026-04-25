@@ -298,6 +298,50 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 .stat-val{font-size:20px;font-weight:600;color:var(--text)}
 .stat-lbl{font-size:10.5px;color:var(--text-3);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em}
 .stage-pill{padding:3px 9px;font-size:11px;border-radius:20px;font-weight:500;white-space:nowrap;cursor:pointer;border:1px solid transparent}
+
+/* ── TNA TOOL ── */
+.tna-phase-btn{flex:1;padding:10px 8px;border:none;background:transparent;cursor:pointer;font-family:var(--font);border-right:1px solid var(--border);transition:background 0.12s;text-align:center}
+.tna-phase-btn:last-child{border-right:none}
+.tna-phase-btn:hover{background:var(--bg)}
+.tna-phase-btn.active{background:var(--purple-l)}
+.tna-phase-btn.active .tna-phase-num{background:var(--purple);color:#fff}
+.tna-phase-num{width:22px;height:22px;border-radius:50%;background:var(--bg);color:var(--text-2);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 4px}
+.tna-phase-label{font-size:11px;color:var(--text-2);font-weight:500;white-space:nowrap}
+.tna-phase-btn.active .tna-phase-label{color:var(--purple-d);font-weight:600}
+.tna-panel{display:none;flex-direction:column;gap:1.25rem;animation:fadeIn 0.15s ease}
+.tna-panel.active{display:flex}
+.tna-step{padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--card);min-width:110px;text-align:center;cursor:pointer;transition:all 0.12s;flex-shrink:0}
+.tna-step:hover{border-color:var(--purple);transform:translateY(-1px)}
+.tna-step.done{border-color:var(--teal);background:var(--teal-l)}
+.tna-step.current{border-color:var(--purple);background:var(--purple-l)}
+.tna-step.pending{opacity:0.6}
+.tna-step-num{font-size:18px;font-weight:700;color:var(--text-3);margin-bottom:3px}
+.tna-step.done .tna-step-num{color:var(--teal-d)}
+.tna-step.current .tna-step-num{color:var(--purple-d)}
+.tna-step-name{font-size:11.5px;font-weight:600;color:var(--text)}
+.tna-step-status{font-size:10px;color:var(--text-3);margin-top:2px}
+.tna-step.done .tna-step-status{color:var(--teal-d)}
+.tna-step.current .tna-step-status{color:var(--purple-d)}
+.tna-arrow{font-size:20px;color:var(--text-3);padding:0 6px;flex-shrink:0;align-self:center}
+.tna-pop-row{border:1px solid var(--border);border-radius:var(--r-md);padding:8px 12px;background:var(--card);margin-bottom:5px}
+.tna-comp-row{border-bottom:1px solid var(--border);padding:7px 0}
+.tna-comp-row:last-child{border-bottom:none}
+.tna-obj-row{display:flex;align-items:flex-start;font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--border)}
+.tna-obj-row:last-child{border-bottom:none}
+.tna-method-card{border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem;background:var(--card);display:flex;flex-direction:column;gap:5px;box-shadow:var(--shadow)}
+.tna-method-icon{width:36px;height:36px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:4px}
+.tna-gap-cell{padding:7px 10px;font-size:12px;text-align:center;font-weight:600;border-radius:4px}
+.tna-gap-critical{background:var(--coral-l);color:var(--coral-d)}
+.tna-gap-high{background:var(--amber-l);color:var(--amber-d)}
+.tna-gap-moderate{background:var(--blue-l);color:var(--blue-d)}
+.tna-gap-low{background:var(--teal-l);color:var(--teal-d)}
+.matrix-bubble{position:absolute;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;cursor:pointer;transition:transform 0.15s;border:2px solid rgba(255,255,255,0.5);transform:translate(-50%,-50%)}
+.matrix-bubble:hover{transform:translate(-50%,-50%) scale(1.15);z-index:10}
+.tna-solution-row{border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem;background:var(--card);display:grid;grid-template-columns:28px 1fr 130px 110px 90px 90px;align-items:center;gap:12px;font-size:12.5px}
+.gantt-row{display:grid;grid-template-columns:180px repeat(12,1fr);gap:2px;align-items:center;min-height:32px}
+.gantt-label{font-size:12px;color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gantt-bar{height:24px;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden}
+
 </style>
 </head>
 <body>
@@ -344,6 +388,10 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
   </div>
 
   <div class="sb-section">Learning</div>
+  <div class="nav-item" onclick="show('tna',this)">
+    <div class="nav-dot" style="background:var(--teal)"></div>TNA / TNI Tool
+    <span class="nav-badge" style="background:var(--teal-l);color:var(--teal-d)">New</span>
+  </div>
   <div class="nav-item" onclick="show('competency',this)">
     <div class="nav-dot" style="background:var(--purple)"></div>Competency map
   </div>
@@ -852,14 +900,15 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
     </div>
     <div class="btn-row">
       <button class="btn" onclick="clearValidator()">Clear</button>
-      <button class="btn" onclick="loadExample('selected')" style="border-color:var(--teal);color:var(--teal-d);display:flex;align-items:center;gap:6px">
-        <span style="width:8px;height:8px;border-radius:50%;background:var(--teal);display:inline-block;flex-shrink:0"></span>
-        Selected (85–87%)
-      </button>
-      <button class="btn" onclick="loadExample('rejected')" style="border-color:var(--coral);color:var(--coral-d);display:flex;align-items:center;gap:6px">
-        <span style="width:8px;height:8px;border-radius:50%;background:var(--coral);display:inline-block;flex-shrink:0"></span>
-        Rejected (50–55%)
-      </button>
+      <div style="position:relative;display:inline-block">
+        <button class="btn" onclick="toggleExamplesMenu()" id="examples-menu-btn" style="display:flex;align-items:center;gap:6px">
+          Load example <span style="font-size:10px">▾</span>
+        </button>
+        <div id="examples-menu" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--card);border:1px solid var(--border-2);border-radius:var(--r-lg);box-shadow:0 4px 16px rgba(0,0,0,0.12);min-width:320px;z-index:100;overflow:hidden">
+          <div style="padding:8px 12px;font-size:10.5px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;background:var(--bg);border-bottom:1px solid var(--border)">Sample requirements &amp; outlines</div>
+          <div id="examples-list"></div>
+        </div>
+      </div>
       <button class="btn primary" id="analyse-btn" onclick="runAnalysis()">Analyse alignment ↗</button>
     </div>
   </div>
@@ -1315,11 +1364,445 @@ Topics: P&L reading, ROI thinking, budget ownership
 </div>
 
 
+
+<!-- ════════ TNA / TNI TOOL ════════ -->
+<div id="view-tna" class="view">
+  <div class="topbar">
+    <div>
+      <div class="page-title">TNA / TNI Tool</div>
+      <div class="page-sub">Training Needs Analysis & Training Needs Identification · End-to-end process from data collection to final learning plan</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="tnaTab('overview',this)">Overview</button>
+      <button class="btn primary" onclick="tnaExport()">Export report</button>
+    </div>
+  </div>
+
+  <!-- Phase tabs -->
+  <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;background:var(--card)">
+    <button class="tna-phase-btn active" onclick="tnaTab('overview',this)" data-phase="overview">
+      <div class="tna-phase-num">0</div>
+      <div class="tna-phase-label">Overview</div>
+    </button>
+    <button class="tna-phase-btn" onclick="tnaTab('define',this)" data-phase="define">
+      <div class="tna-phase-num">1</div>
+      <div class="tna-phase-label">Define scope</div>
+    </button>
+    <button class="tna-phase-btn" onclick="tnaTab('collect',this)" data-phase="collect">
+      <div class="tna-phase-num">2</div>
+      <div class="tna-phase-label">Collect data</div>
+    </button>
+    <button class="tna-phase-btn" onclick="tnaTab('analyse',this)" data-phase="analyse">
+      <div class="tna-phase-num">3</div>
+      <div class="tna-phase-label">Analyse gaps</div>
+    </button>
+    <button class="tna-phase-btn" onclick="tnaTab('prioritise',this)" data-phase="prioritise">
+      <div class="tna-phase-num">4</div>
+      <div class="tna-phase-label">Prioritise</div>
+    </button>
+    <button class="tna-phase-btn" onclick="tnaTab('design',this)" data-phase="design">
+      <div class="tna-phase-num">5</div>
+      <div class="tna-phase-label">Design solutions</div>
+    </button>
+    <button class="tna-phase-btn" onclick="tnaTab('plan',this)" data-phase="plan">
+      <div class="tna-phase-num">6</div>
+      <div class="tna-phase-label">Learning plan</div>
+    </button>
+  </div>
+
+  <!-- ── PHASE 0: OVERVIEW ── -->
+  <div id="tna-overview" class="tna-panel active">
+    <div class="metrics four">
+      <div class="metric"><div class="metric-label">Roles assessed</div><div class="metric-value" id="tna-roles-count">6</div><div class="metric-sub">Across 3 functions</div></div>
+      <div class="metric"><div class="metric-label">Respondents</div><div class="metric-value" id="tna-resp-count">124</div><div class="metric-sub">82% response rate</div></div>
+      <div class="metric"><div class="metric-label">Needs identified</div><div class="metric-value" id="tna-needs-count">18</div><div class="metric-sub">7 critical priority</div></div>
+      <div class="metric"><div class="metric-label">Interventions planned</div><div class="metric-value" id="tna-int-count">9</div><div class="metric-sub">Est. ₹24L investment</div></div>
+    </div>
+
+    <!-- TNA process map -->
+    <div class="card">
+      <div class="card-title">TNA process — where you are</div>
+      <div style="display:flex;align-items:center;gap:0;margin-top:4px;overflow-x:auto">
+        <div class="tna-step done" onclick="tnaTab('define',document.querySelector('[data-phase=define]'))">
+          <div class="tna-step-num">1</div>
+          <div class="tna-step-name">Define scope</div>
+          <div class="tna-step-status">Complete</div>
+        </div>
+        <div class="tna-arrow">›</div>
+        <div class="tna-step done" onclick="tnaTab('collect',document.querySelector('[data-phase=collect]'))">
+          <div class="tna-step-num">2</div>
+          <div class="tna-step-name">Collect data</div>
+          <div class="tna-step-status">Complete</div>
+        </div>
+        <div class="tna-arrow">›</div>
+        <div class="tna-step done" onclick="tnaTab('analyse',document.querySelector('[data-phase=analyse]'))">
+          <div class="tna-step-num">3</div>
+          <div class="tna-step-name">Analyse gaps</div>
+          <div class="tna-step-status">Complete</div>
+        </div>
+        <div class="tna-arrow">›</div>
+        <div class="tna-step current" onclick="tnaTab('prioritise',document.querySelector('[data-phase=prioritise]'))">
+          <div class="tna-step-num">4</div>
+          <div class="tna-step-name">Prioritise</div>
+          <div class="tna-step-status">In progress</div>
+        </div>
+        <div class="tna-arrow">›</div>
+        <div class="tna-step pending" onclick="tnaTab('design',document.querySelector('[data-phase=design]'))">
+          <div class="tna-step-num">5</div>
+          <div class="tna-step-name">Design solutions</div>
+          <div class="tna-step-status">Pending</div>
+        </div>
+        <div class="tna-arrow">›</div>
+        <div class="tna-step pending" onclick="tnaTab('plan',document.querySelector('[data-phase=plan]'))">
+          <div class="tna-step-num">6</div>
+          <div class="tna-step-name">Learning plan</div>
+          <div class="tna-step-status">Pending</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Top 5 training needs identified</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="font-weight:500">Strategic thinking</span><span class="badge b-coral">Critical</span></div><div class="pb"><div class="pbf" style="width:88%;background:var(--coral)"></div></div><div style="font-size:11px;color:var(--text-3);margin-top:2px">Gap: 4.2 pts · 78% of Senior Managers below target</div></div>
+          <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="font-weight:500">Financial acumen</span><span class="badge b-coral">Critical</span></div><div class="pb"><div class="pbf" style="width:82%;background:var(--coral)"></div></div><div style="font-size:11px;color:var(--text-3);margin-top:2px">Gap: 3.8 pts · 71% across all functions</div></div>
+          <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="font-weight:500">Data-driven decision making</span><span class="badge b-amber">High</span></div><div class="pb"><div class="pbf" style="width:74%;background:var(--amber)"></div></div><div style="font-size:11px;color:var(--text-3);margin-top:2px">Gap: 3.1 pts · Strongest in technology roles</div></div>
+          <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="font-weight:500">Stakeholder management</span><span class="badge b-amber">High</span></div><div class="pb"><div class="pbf" style="width:68%;background:var(--amber)"></div></div><div style="font-size:11px;color:var(--text-3);margin-top:2px">Gap: 2.9 pts · Strongest in Sales & BD</div></div>
+          <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="font-weight:500">Change leadership</span><span class="badge b-amber">High</span></div><div class="pb"><div class="pbf" style="width:61%;background:var(--amber)"></div></div><div style="font-size:11px;color:var(--text-3);margin-top:2px">Gap: 2.5 pts · Linked to digital transformation goals</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Data collection summary</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+          <div class="row between"><span style="color:var(--text-2)">Method used</span><span style="font-weight:500">Mixed — survey + interviews</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Survey respondents</span><span style="font-weight:500">124 of 151 (82%)</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Manager interviews</span><span style="font-weight:500">18 conducted</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Focus groups</span><span style="font-weight:500">4 (cross-functional)</span></div>
+          <div class="row between"><span style="color:var(--text-2)">360° data used</span><span style="font-weight:500">Yes — last cycle</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Business goals linked</span><span style="font-weight:500">Yes — FY26 plan</span></div>
+          <hr>
+          <div class="row between"><span style="color:var(--text-2)">TNA period</span><span style="font-weight:500">Jan–Mar 2025</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Client</span><span style="font-weight:500">Tata Consultancy Services</span></div>
+          <div class="row between"><span style="color:var(--text-2)">TNA lead</span><span style="font-weight:500">Dr. Sunita Mehta</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 1: DEFINE SCOPE ── -->
+  <div id="tna-define" class="tna-panel">
+    <div class="card">
+      <div class="card-title">Step 1 — Define the scope of the TNA</div>
+      <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">Set the boundaries before you collect any data. Unclear scope = wasted effort and unfocused findings.</div>
+      <div class="two-col">
+        <div>
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Business context & trigger</div>
+          <textarea class="validator-area" id="tna-context" style="min-height:100px" placeholder="Why is this TNA being done? What business problem or goal is driving it?">TCS FY26 strategy requires senior managers (M4+) to shift from delivery leadership to business leadership. The organisation is losing senior talent to competitors who offer better development. Business context: ₹50K Cr growth target requires stronger strategic capability at mid-senior levels. New digital transformation mandate requires data fluency across functions.</textarea>
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin:10px 0 6px">Target population</div>
+          <div style="display:flex;flex-direction:column;gap:6px" id="tna-population">
+            <div class="tna-pop-row"><div class="row between"><span style="font-size:13px;font-weight:500">Senior Managers (M4)</span><div class="row" style="gap:6px"><span class="badge b-blue">156 people</span><span class="badge b-gray">IT Delivery</span></div></div></div>
+            <div class="tna-pop-row"><div class="row between"><span style="font-size:13px;font-weight:500">General Managers (M5)</span><div class="row" style="gap:6px"><span class="badge b-blue">78 people</span><span class="badge b-gray">Multiple functions</span></div></div></div>
+            <div class="tna-pop-row"><div class="row between"><span style="font-size:13px;font-weight:500">AVPs (M6)</span><div class="row" style="gap:6px"><span class="badge b-blue">34 people</span><span class="badge b-gray">Sales & Commercial</span></div></div></div>
+          </div>
+          <button class="btn sm" style="margin-top:8px" onclick="addPopRow()">+ Add role group</button>
+        </div>
+        <div>
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Competency framework to use</div>
+          <div style="display:flex;flex-direction:column;gap:5px" id="tna-competencies">
+            <div class="tna-comp-row row between"><span style="font-size:13px">Strategic thinking & business acumen</span><select class="stage-select" style="font-size:11px"><option>Core</option><option>Priority</option><option>Nice to have</option></select></div>
+            <div class="tna-comp-row row between"><span style="font-size:13px">Financial literacy & commercial awareness</span><select class="stage-select" style="font-size:11px"><option>Core</option><option>Priority</option><option>Nice to have</option></select></div>
+            <div class="tna-comp-row row between"><span style="font-size:13px">Cross-functional & stakeholder leadership</span><select class="stage-select" style="font-size:11px"><option selected>Priority</option><option>Core</option><option>Nice to have</option></select></div>
+            <div class="tna-comp-row row between"><span style="font-size:13px">Executive communication & influence</span><select class="stage-select" style="font-size:11px"><option selected>Priority</option><option>Core</option><option>Nice to have</option></select></div>
+            <div class="tna-comp-row row between"><span style="font-size:13px">Data-driven decision making</span><select class="stage-select" style="font-size:11px"><option>Core</option><option selected>Priority</option><option>Nice to have</option></select></div>
+            <div class="tna-comp-row row between"><span style="font-size:13px">Change leadership & digital transformation</span><select class="stage-select" style="font-size:11px"><option>Core</option><option selected>Priority</option><option>Nice to have</option></select></div>
+            <div class="tna-comp-row row between"><span style="font-size:13px">Coaching & people development</span><select class="stage-select" style="font-size:11px"><option>Nice to have</option><option>Core</option><option selected>Priority</option></select></div>
+            <div class="tna-comp-row row between"><span style="font-size:13px">Innovation & design thinking</span><select class="stage-select" style="font-size:11px"><option>Nice to have</option><option>Core</option><option>Priority</option></select></div>
+          </div>
+          <button class="btn sm" style="margin-top:8px">+ Add competency</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">TNA objectives & success metrics</div>
+      <div class="two-col">
+        <div>
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">What this TNA should answer</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+            <div class="tna-obj-row"><span class="badge b-purple" style="margin-right:6px;flex-shrink:0">Q1</span>What are the critical capability gaps at M4–M6 levels?</div>
+            <div class="tna-obj-row"><span class="badge b-purple" style="margin-right:6px;flex-shrink:0">Q2</span>Which gaps directly block the FY26 business objectives?</div>
+            <div class="tna-obj-row"><span class="badge b-purple" style="margin-right:6px;flex-shrink:0">Q3</span>Are gaps consistent across functions or role-specific?</div>
+            <div class="tna-obj-row"><span class="badge b-purple" style="margin-right:6px;flex-shrink:0">Q4</span>What is the recommended intervention sequence and investment?</div>
+          </div>
+        </div>
+        <div>
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">How success will be measured</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+            <div class="tna-obj-row"><span class="badge b-green" style="margin-right:6px;flex-shrink:0">KPI</span>Pre/post competency score improvement ≥ 20%</div>
+            <div class="tna-obj-row"><span class="badge b-green" style="margin-right:6px;flex-shrink:0">KPI</span>Manager rating of participant improvement ≥ 4/5</div>
+            <div class="tna-obj-row"><span class="badge b-green" style="margin-right:6px;flex-shrink:0">KPI</span>Participant NPS of learning intervention ≥ 60</div>
+            <div class="tna-obj-row"><span class="badge b-green" style="margin-right:6px;flex-shrink:0">KPI</span>Business impact: self-reported ROI project at 90 days</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 2: COLLECT DATA ── -->
+  <div id="tna-collect" class="tna-panel">
+    <div class="card">
+      <div class="card-title">Step 2 — Data collection methods</div>
+      <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">Use multiple methods for triangulation. No single method gives the full picture.</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+
+        <div class="tna-method-card" style="border-color:var(--blue)">
+          <div class="tna-method-icon" style="background:var(--blue-l);color:var(--blue-d)">📋</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">Self-assessment survey</div>
+          <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Participants rate current vs. required proficiency on each competency</div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Respondents</span><span style="font-weight:500">124 / 151</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Response rate</span><span style="font-weight:500;color:var(--teal-d)">82%</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Status</span><span class="badge b-green" style="font-size:10px">Complete</span></div>
+          <button class="btn sm" style="margin-top:8px;width:100%" onclick="tnaShowSurvey()">View survey template ↗</button>
+        </div>
+
+        <div class="tna-method-card" style="border-color:var(--purple)">
+          <div class="tna-method-icon" style="background:var(--purple-l);color:var(--purple-d)">🎙</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">Manager interviews</div>
+          <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Structured 45-min interviews with BU heads on team capability requirements</div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Conducted</span><span style="font-weight:500">18 interviews</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Functions</span><span style="font-weight:500">All 5 BUs</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Status</span><span class="badge b-green" style="font-size:10px">Complete</span></div>
+          <button class="btn sm" style="margin-top:8px;width:100%" onclick="tnaShowGuide()">Interview guide ↗</button>
+        </div>
+
+        <div class="tna-method-card" style="border-color:var(--teal)">
+          <div class="tna-method-icon" style="background:var(--teal-l);color:var(--teal-d)">👥</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">Focus groups</div>
+          <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Cross-functional groups explore shared challenges and aspirations</div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Sessions</span><span style="font-weight:500">4 groups of 8</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Duration</span><span style="font-weight:500">90 mins each</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Status</span><span class="badge b-green" style="font-size:10px">Complete</span></div>
+          <button class="btn sm" style="margin-top:8px;width:100%">View notes ↗</button>
+        </div>
+
+        <div class="tna-method-card" style="border-color:var(--amber)">
+          <div class="tna-method-icon" style="background:var(--amber-l);color:var(--amber-d)">📊</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">360° feedback data</div>
+          <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Last cycle ratings from managers, peers, and direct reports on leadership behaviours</div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Participants</span><span style="font-weight:500">89 profiles</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Raters per person</span><span style="font-weight:500">Avg. 8.4</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Status</span><span class="badge b-green" style="font-size:10px">Integrated</span></div>
+          <button class="btn sm" style="margin-top:8px;width:100%">View 360 summary ↗</button>
+        </div>
+
+        <div class="tna-method-card" style="border-color:var(--coral)">
+          <div class="tna-method-icon" style="background:var(--coral-l);color:var(--coral-d)">📈</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">Performance data analysis</div>
+          <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Linking performance appraisal ratings to competency scores to identify patterns</div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Records analysed</span><span style="font-weight:500">268 appraisals</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Cycles</span><span style="font-weight:500">FY24 + FY25</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Status</span><span class="badge b-green" style="font-size:10px">Complete</span></div>
+          <button class="btn sm" style="margin-top:8px;width:100%">View analysis ↗</button>
+        </div>
+
+        <div class="tna-method-card" style="border-color:var(--pink)">
+          <div class="tna-method-icon" style="background:var(--pink-l);color:var(--pink-d)">🎯</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">Business goals alignment</div>
+          <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Mapping capability gaps directly to FY26 strategic priorities and growth plans</div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Goals mapped</span><span style="font-weight:500">12 strategic goals</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Linkage</span><span style="font-weight:500">All 8 competencies</span></div>
+          <div class="row between" style="font-size:12px"><span style="color:var(--text-3)">Status</span><span class="badge b-green" style="font-size:10px">Complete</span></div>
+          <button class="btn sm" style="margin-top:8px;width:100%">View linkage map ↗</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Survey template modal-style section -->
+    <div class="card" id="tna-survey-template" style="display:none;border-color:var(--blue)">
+      <div class="row between" style="margin-bottom:14px">
+        <div class="card-title" style="margin:0;color:var(--blue-d)">Self-assessment survey template</div>
+        <button class="btn sm" onclick="document.getElementById('tna-survey-template').style.display='none'">Close ✕</button>
+      </div>
+      <div style="font-size:12.5px;color:var(--text-2);margin-bottom:12px">Instructions given to participants: <em>"Rate yourself on each competency. 1 = No awareness, 3 = Developing, 5 = Expert. Then rate how important this is for your current role."</em></div>
+      <table style="min-width:unset">
+        <thead><tr><th>Competency</th><th>Current proficiency (1–5)</th><th>Required proficiency (1–5)</th><th>Importance to role (1–5)</th><th>Training interest (Y/N)</th></tr></thead>
+        <tbody>
+          <tr><td>Strategic thinking & business acumen</td><td><input type="number" min="1" max="5" value="2.8" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><input type="number" min="1" max="5" value="4.5" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><input type="number" min="1" max="5" value="5" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><select class="stage-select"><option>Yes</option><option>No</option></select></td></tr>
+          <tr><td>Financial literacy</td><td><input type="number" min="1" max="5" value="2.4" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><input type="number" min="1" max="5" value="4.2" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><input type="number" min="1" max="5" value="4" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><select class="stage-select"><option>Yes</option><option>No</option></select></td></tr>
+          <tr><td>Stakeholder management</td><td><input type="number" min="1" max="5" value="3.1" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><input type="number" min="1" max="5" value="4.4" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><input type="number" min="1" max="5" value="5" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><select class="stage-select"><option>Yes</option><option>No</option></select></td></tr>
+          <tr><td>Data-driven decisions</td><td><input type="number" min="1" max="5" value="2.9" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><input type="number" min="1" max="5" value="4.0" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><input type="number" min="1" max="5" value="4" style="width:60px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:12px"></td><td><select class="stage-select"><option>Yes</option><option>No</option></select></td></tr>
+        </tbody>
+      </table>
+      <button class="btn sm primary" style="margin-top:10px">Copy full survey template</button>
+    </div>
+  </div>
+
+  <!-- ── PHASE 3: ANALYSE GAPS ── -->
+  <div id="tna-analyse" class="tna-panel">
+    <div class="card">
+      <div class="card-title">Step 3 — Gap analysis matrix</div>
+      <div style="font-size:12.5px;color:var(--text-3);margin-bottom:10px">Gap = Required proficiency − Current proficiency. Colour indicates severity. Sort by function or competency.</div>
+      <div class="row" style="gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <span style="font-size:12px;color:var(--text-2)">View by:</span>
+        <button class="btn sm" onclick="tnaGapView('comp')" id="gap-btn-comp" style="background:var(--purple);color:#fff;border-color:var(--purple)">Competency</button>
+        <button class="btn sm" onclick="tnaGapView('role')" id="gap-btn-role">Role</button>
+        <button class="btn sm" onclick="tnaGapView('func')" id="gap-btn-func">Function</button>
+        <div class="row" style="gap:8px;margin-left:auto;font-size:11.5px;flex-wrap:wrap">
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--coral-l);border:1px solid var(--coral);border-radius:2px;display:inline-block"></span>Critical (gap ≥ 3)</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--amber-l);border:1px solid var(--amber);border-radius:2px;display:inline-block"></span>High (gap 2–3)</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--blue-l);border:1px solid var(--blue);border-radius:2px;display:inline-block"></span>Moderate (gap 1–2)</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--teal-l);border:1px solid var(--teal);border-radius:2px;display:inline-block"></span>Low (gap &lt; 1)</span>
+        </div>
+      </div>
+      <div class="table-wrap" id="tna-gap-table"></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Key findings from analysis</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+          <div class="gap-item" style="background:var(--coral-l)"><span class="gap-icon">⚠</span><div><strong style="color:var(--coral-d)">Strategic thinking is the widest gap</strong><br><span style="color:var(--coral-d)">Average gap of 4.2 pts — consistent across all roles and functions. Root cause: hiring has prioritised technical delivery over business thinking.</span></div></div>
+          <div class="gap-item" style="background:var(--coral-l)"><span class="gap-icon">⚠</span><div><strong style="color:var(--coral-d)">Financial acumen gap is role-agnostic</strong><br><span style="color:var(--coral-d)">Even Sales/BD managers score low. Suggests a systemic gap, not a role-specific one. Linked to difficulty building business cases for new pursuits.</span></div></div>
+          <div class="gap-item" style="background:var(--amber-l)"><span class="gap-icon">△</span><div><strong style="color:var(--amber-d)">Data skills gap is function-specific</strong><br><span style="color:var(--amber-d)">Technology BU gap is 1.8 pts. Commercial/Sales BU gap is 3.4 pts — they have the least data exposure despite the most need for analytics in client conversations.</span></div></div>
+          <div class="gap-item" style="background:var(--blue-l)"><span class="gap-icon">○</span><div><strong style="color:var(--blue-d)">Coaching & people development — lower priority</strong><br><span style="color:var(--blue-d)">Gap is real (2.1 pts) but less business-critical in FY26. Recommend including in FY27 planning cycle.</span></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Root cause analysis</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+          <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">Why do these gaps exist?</div>
+          <div class="tna-obj-row"><span class="badge b-purple" style="margin-right:6px;flex-shrink:0;font-size:10px">Org</span>Promotion criteria focused on delivery metrics, not leadership capability</div>
+          <div class="tna-obj-row"><span class="badge b-purple" style="margin-right:6px;flex-shrink:0;font-size:10px">Org</span>No structured development at M4–M5 level previously</div>
+          <div class="tna-obj-row"><span class="badge b-amber" style="margin-right:6px;flex-shrink:0;font-size:10px">Role</span>Managers rarely exposed to P&L or business case conversations</div>
+          <div class="tna-obj-row"><span class="badge b-amber" style="margin-right:6px;flex-shrink:0;font-size:10px">Role</span>Limited cross-functional rotation — siloed career paths</div>
+          <div class="tna-obj-row"><span class="badge b-blue" style="margin-right:6px;flex-shrink:0;font-size:10px">Skill</span>Self-assessed vs. 360° scores show consistent over-rating by 1.2 pts avg.</div>
+          <div class="tna-obj-row"><span class="badge b-blue" style="margin-right:6px;flex-shrink:0;font-size:10px">Env</span>No on-the-job stretch assignments or action learning culture</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 4: PRIORITISE ── -->
+  <div id="tna-prioritise" class="tna-panel">
+    <div class="card">
+      <div class="card-title">Step 4 — Prioritisation matrix</div>
+      <div style="font-size:12.5px;color:var(--text-3);margin-bottom:12px">Plot each need by Business impact (X) vs. Gap severity (Y). Top-right quadrant = address immediately.</div>
+      <div style="width:100%;aspect-ratio:2/1;position:relative;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;background:var(--bg)" id="tna-matrix">
+        <!-- Quadrant labels -->
+        <div style="position:absolute;top:8px;left:8px;font-size:10.5px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.05em">Low impact,<br>High gap<br><span style="font-weight:400">(Build capability)</span></div>
+        <div style="position:absolute;top:8px;right:8px;font-size:10.5px;color:var(--coral-d);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;text-align:right">HIGH IMPACT,<br>HIGH GAP<br><span style="font-weight:400">(Priority 1)</span></div>
+        <div style="position:absolute;bottom:8px;left:8px;font-size:10.5px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.05em">Low impact,<br>Low gap<br><span style="font-weight:400">(Monitor)</span></div>
+        <div style="position:absolute;bottom:8px;right:8px;font-size:10.5px;color:var(--amber-d);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;text-align:right">HIGH IMPACT,<br>LOW GAP<br><span style="font-weight:400">(Reinforce)</span></div>
+        <!-- Dividing lines -->
+        <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border)"></div>
+        <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border)"></div>
+        <!-- Axis labels -->
+        <div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-3)">← Business impact →</div>
+        <!-- Bubbles placed by JS -->
+        <div id="matrix-bubbles"></div>
+      </div>
+      <div style="font-size:11.5px;color:var(--text-3);margin-top:6px;text-align:center">Bubble size = number of people affected. Hover for details.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Priority ranking</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Rank</th><th>Training need</th><th>Business impact</th><th>Gap severity</th><th>People affected</th><th>Priority</th><th>Recommended timing</th></tr></thead>
+          <tbody id="tna-priority-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 5: DESIGN SOLUTIONS ── -->
+  <div id="tna-design" class="tna-panel">
+    <div class="card">
+      <div class="card-title">Step 5 — Learning solution design</div>
+      <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">Match each training need to the most appropriate intervention. Consider cost, reach, depth, and timeline.</div>
+      <div style="display:flex;flex-direction:column;gap:10px" id="tna-solutions-list"></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Intervention types — reference guide</div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:12.5px">
+          <div class="row" style="gap:8px;align-items:flex-start"><span class="badge b-purple" style="flex-shrink:0">MDP</span><span>Management Development Program — intensive multi-module residential or blended program. Best for deep behavioural change. 3–5 day, cohort-based.</span></div>
+          <div class="row" style="gap:8px;align-items:flex-start"><span class="badge b-blue" style="flex-shrink:0">Workshop</span><span>Focused 1–2 day intervention on a specific skill. Good for knowledge and tools. Quick to deploy.</span></div>
+          <div class="row" style="gap:8px;align-items:flex-start"><span class="badge b-teal b-green" style="flex-shrink:0">Coaching</span><span>Individual or peer coaching over 3–6 months. Best for leadership mindset shifts and senior executives.</span></div>
+          <div class="row" style="gap:8px;align-items:flex-start"><span class="badge b-amber" style="flex-shrink:0">Action learning</span><span>Teams solve real business challenges under facilitated guidance. High transfer, requires buy-in.</span></div>
+          <div class="row" style="gap:8px;align-items:flex-start"><span class="badge b-gray" style="flex-shrink:0">eLearning</span><span>Self-paced digital modules. High reach, low cost per head. Good for knowledge, poor for skill practice.</span></div>
+          <div class="row" style="gap:8px;align-items:flex-start"><span class="badge b-coral" style="flex-shrink:0">On-the-job</span><span>Stretch assignments, job rotation, shadowing. Highest transfer — requires manager involvement.</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Budget estimate</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+          <div class="row between"><span style="color:var(--text-2)">MDP — Strategic leadership</span><span style="font-weight:500">₹8.5L/batch × 2</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Workshop — Financial acumen</span><span style="font-weight:500">₹3.2L/batch × 3</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Workshop — Data & analytics</span><span style="font-weight:500">₹2.8L/batch × 2</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Coaching — AVP cohort</span><span style="font-weight:500">₹1.2L/person × 8</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Action learning sets</span><span style="font-weight:500">₹1.8L (facilitation)</span></div>
+          <hr>
+          <div class="row between"><span style="font-weight:600">Total estimated investment</span><span style="font-weight:700;color:var(--purple-d)">₹47.2L</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Per participant (avg.)</span><span style="font-weight:500">₹17,800</span></div>
+          <div class="row between"><span style="color:var(--text-2)">Expected ROI (self-reported)</span><span style="font-weight:500;color:var(--teal-d)">4.2× (12 months)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 6: LEARNING PLAN ── -->
+  <div id="tna-plan" class="tna-panel">
+    <div class="card">
+      <div class="card-title">Step 6 — Annual learning plan</div>
+      <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">Full-year intervention calendar. Each bar shows duration and cohort size.</div>
+      <div style="overflow-x:auto">
+        <div style="min-width:700px">
+          <!-- Month headers -->
+          <div style="display:grid;grid-template-columns:180px repeat(12,1fr);gap:2px;margin-bottom:4px">
+            <div style="font-size:10px;color:var(--text-3)"></div>
+            <div style="font-size:10px;color:var(--text-3);text-align:center">Jan</div><div style="font-size:10px;color:var(--text-3);text-align:center">Feb</div><div style="font-size:10px;color:var(--text-3);text-align:center">Mar</div><div style="font-size:10px;color:var(--text-3);text-align:center">Apr</div><div style="font-size:10px;color:var(--text-3);text-align:center">May</div><div style="font-size:10px;color:var(--text-3);text-align:center">Jun</div><div style="font-size:10px;color:var(--text-3);text-align:center">Jul</div><div style="font-size:10px;color:var(--text-3);text-align:center">Aug</div><div style="font-size:10px;color:var(--text-3);text-align:center">Sep</div><div style="font-size:10px;color:var(--text-3);text-align:center">Oct</div><div style="font-size:10px;color:var(--text-3);text-align:center">Nov</div><div style="font-size:10px;color:var(--text-3);text-align:center">Dec</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px" id="tna-gantt"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Evaluation plan — Kirkpatrick model</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+        <div style="background:var(--blue-l);border:1px solid rgba(55,138,221,0.2);border-radius:var(--r-md);padding:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--blue-d);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Level 1 — Reaction</div>
+          <div style="font-size:12px;color:var(--blue-d)">Participant satisfaction survey at end of each module. Target: NPS ≥ 60, satisfaction ≥ 4.0/5</div>
+          <div style="font-size:11px;color:var(--blue-d);margin-top:6px;font-weight:500">When: Immediately after</div>
+        </div>
+        <div style="background:var(--purple-l);border:1px solid rgba(127,119,221,0.2);border-radius:var(--r-md);padding:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--purple-d);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Level 2 — Learning</div>
+          <div style="font-size:12px;color:var(--purple-d)">Pre/post knowledge assessment on each competency. Target: ≥ 20% score improvement per participant</div>
+          <div style="font-size:11px;color:var(--purple-d);margin-top:6px;font-weight:500">When: Day 0 and Day 30</div>
+        </div>
+        <div style="background:var(--teal-l);border:1px solid rgba(29,158,117,0.2);border-radius:var(--r-md);padding:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--teal-d);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Level 3 — Behaviour</div>
+          <div style="font-size:12px;color:var(--teal-d)">Manager + peer rating on observable behaviours at 60 and 90 days. Target: ≥ 4/5 manager endorsement</div>
+          <div style="font-size:11px;color:var(--teal-d);margin-top:6px;font-weight:500">When: Day 60 and Day 90</div>
+        </div>
+        <div style="background:var(--amber-l);border:1px solid rgba(239,159,39,0.2);border-radius:var(--r-md);padding:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--amber-d);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Level 4 — Results</div>
+          <div style="font-size:12px;color:var(--amber-d)">Business impact: participants submit a self-assessed ROI project showing how they applied learnings. Target: 4× ROI</div>
+          <div style="font-size:11px;color:var(--amber-d);margin-top:6px;font-weight:500">When: Day 90</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 </div><!-- end view-wrap -->
 </div><!-- end main -->
 
 <script>
 // ── Navigation ─────────────────────────────────────────────
+let prospectsInitialised = false;
+let tnaInitDone = false;
 function show(id, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   const t = document.getElementById('view-' + id);
@@ -1327,6 +1810,14 @@ function show(id, el) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   if (el) el.classList.add('active');
   window.scrollTo(0,0);
+  if (id === 'prospects' && !prospectsInitialised) {
+    prospectsInitialised = true;
+    setTimeout(initProspects, 60);
+  }
+  if (id === 'tna' && !tnaInitDone) {
+    tnaInitDone = true;
+    setTimeout(initTNA, 60);
+  }
 }
 
 // ── Module planner ─────────────────────────────────────────
@@ -1456,189 +1947,134 @@ function clearValidator() {
   document.getElementById('validator-results').style.display = 'none';
 }
 
-function loadExample(type) {
-  const banner = document.getElementById('example-banner');
+function toggleExamplesMenu() {
+  const menu = document.getElementById('examples-menu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
 
-  if (type === 'selected') {
-    banner.style.display = 'flex';
-    banner.style.background = 'var(--teal-l)';
-    banner.style.borderColor = 'rgba(29,158,117,0.25)';
-    banner.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;flex:1">
-        <span style="width:10px;height:10px;border-radius:50%;background:var(--teal);flex-shrink:0"></span>
-        <div>
-          <div style="font-size:12.5px;font-weight:600;color:var(--teal-d)">Example 1 — SELECTED &nbsp;·&nbsp; Expected score: 85–87%</div>
-          <div style="font-size:11.5px;color:var(--teal-d);margin-top:1px">TCS Senior Leadership Program · Faculty outline closely matches all 5 client objectives with strong methodology and assessment plan</div>
-        </div>
-      </div>
-      <span style="font-size:11px;color:var(--teal-d);font-weight:500;padding:3px 10px;border:1px solid var(--teal);border-radius:20px;white-space:nowrap">✓ Approved for delivery</span>`;
+// Close menu on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('#examples-menu') && !e.target.closest('#examples-menu-btn')) {
+    const m = document.getElementById('examples-menu');
+    if (m) m.style.display = 'none';
+  }
+});
 
-    document.getElementById('client-req').value = `CLIENT REQUIREMENT — TCS Senior Leadership Program
+const EXAMPLES = [
+  {
+    id: 'tcs-selected',
+    label: 'TCS — Senior Leadership MDP',
+    verdict: 'Selected',
+    score: '85–87%',
+    color: 'var(--teal)',
+    bg: 'var(--teal-l)',
+    desc: 'Strong match · All 5 objectives covered · Good assessment plan',
+    req: `CLIENT REQUIREMENT — TCS Senior Leadership Program
 Submitted by: Anita Sharma, Head of L&D, Tata Consultancy Services
-Date: April 2025
 
-We require a structured 3-day Management Development Program for 40 senior managers (Grade M4 and above) across our Mumbai and Bengaluru offices.
+We require a 3-day Management Development Program for 40 senior managers (Grade M4+) across Mumbai and Bengaluru.
 
 CORE OBJECTIVES:
-1. Strategic thinking & business acumen — managers must be able to contribute to BU-level strategy discussions, not just operational execution
-2. Cross-functional leadership — ability to lead teams and projects that cut across delivery, sales, and support functions without direct authority
-3. Executive communication & stakeholder management — presenting to senior clients, internal leadership, and board-level stakeholders
-4. Financial literacy — reading P&L statements, understanding ROI, building business cases for investment proposals
-5. Leading change & digital transformation — equipping managers to champion and implement change initiatives within their teams
+1. Strategic thinking & business acumen — contribute to BU-level strategy, not just operations
+2. Cross-functional leadership — lead projects that cut across delivery, sales, and support without direct authority
+3. Executive communication & stakeholder management — presenting to senior clients and C-suite
+4. Financial literacy — P&L statements, ROI thinking, business case building
+5. Leading change & digital transformation — champion and implement change within teams
 
 DELIVERY REQUIREMENTS:
-• Methodology: Mix of case studies, simulations, and classroom sessions — no purely lecture-based modules
-• Industry relevance: Case studies must be from IT services / technology sector (not generic business cases)
-• Batch size: Maximum 20 participants per batch (2 batches of 20)
-• Duration: 3 full days per batch
-• Pre-program diagnostic assessment to establish baseline
-• Post-program assessment at Day 30 to measure learning transfer
-• Action learning project: Each participant commits to applying one learning to a real business challenge
+• Mix of case studies, simulations, and classroom — no purely lecture-based modules
+• IT services / technology sector case studies only
+• Max 20 participants per batch (2 batches of 20)
+• Pre-program diagnostic + Day 30 post-assessment
+• Action learning project tied to a real business challenge
+• Budget: ₹8.5L per batch`,
+    outline: `PROGRAM OUTLINE — Senior Leadership Accelerator
+Faculty: Dr. Sunita Mehta & Prof. Ajay Singh | 3 days | 20 per batch
 
-CONSTRAINTS:
-• Budget: ₹8.5L per batch (inclusive of faculty fees, materials, and venue)
-• Venue: Client office in Mumbai (Day 1 & 2) and Bengaluru (Day 3 for Bengaluru batch)
-• Dates: Program to run in June–July 2025
-• Participants will be nominated by their respective BU heads`;
-
-    document.getElementById('faculty-outline').value = `PROGRAM OUTLINE — Senior Leadership Accelerator (SLA)
-Designed by: Dr. Sunita Mehta & Prof. Ajay Singh
-Duration: 3 days | Batch size: 20 per batch | Industry: IT Services
-
-═══════════════════════════════════════
 DAY 1 — STRATEGY & BUSINESS THINKING
-═══════════════════════════════════════
 
-Module 1 (9:00am – 12:30pm): Strategic Thinking for Business Leaders
-  Topics:
-  - From operational to strategic mindset — the leadership shift
-  - Business unit strategy: vision, mission, and competitive positioning
+Module 1 (9am–12:30pm): Strategic Thinking for Business Leaders
+  - From operational to strategic mindset
   - Porter's Five Forces applied to IT services
-  - Understanding market dynamics in technology sector
-  Activity: Strategy canvas exercise using a real TCS business unit scenario
-  Case Study: Infosys's pivot from legacy IT to digital services (2015–2022)
-  Debrief: What strategic decisions drove the transformation?
+  - Case Study: Infosys's pivot to digital services (2015–2022)
+  - Activity: Strategy canvas using a real TCS business unit
 
-Module 2 (1:30pm – 5:00pm): Executive Communication & Stakeholder Management
-  Topics:
+Module 2 (1:30pm–5pm): Executive Communication & Stakeholder Management
   - Executive storytelling — structure, brevity, impact
-  - Presenting to the C-suite and senior clients
+  - Presenting to C-suite and senior clients
   - Stakeholder mapping and influence strategy
-  - Managing upward, downward, and lateral relationships
-  Activity: Recorded 5-minute presentation with structured peer feedback
-  Simulation: Navigating a difficult stakeholder conversation (role play)
+  - Simulation: Difficult stakeholder conversation (role play)
 
-═══════════════════════════════════════
-DAY 2 — CROSS-FUNCTIONAL LEADERSHIP & PEOPLE
-═══════════════════════════════════════
+DAY 2 — CROSS-FUNCTIONAL LEADERSHIP
 
-Module 3 (9:00am – 12:30pm): Leading Without Authority
-  Topics:
+Module 3 (9am–12:30pm): Leading Without Authority
   - Cross-functional leadership in a matrix organisation
-  - Influence frameworks: reciprocity, coalition building, logical persuasion
-  - Identifying and managing resistance in cross-functional teams
-  - Conflict resolution across functions
-  Simulation: Cross-functional project negotiation (competing priorities)
-  Case Study: A cross-team delivery failure at a leading IT firm — what went wrong?
+  - Influence frameworks: coalition building, logical persuasion
+  - Simulation: Cross-functional project negotiation
 
-Module 4 (1:30pm – 5:00pm): Coaching & Developing High-Performing Teams
-  Topics:
-  - Manager as coach vs. manager as director — when to use each
-  - The GROW coaching model in practice
-  - Giving developmental feedback vs. performance feedback
-  - Recognising and addressing underperformance early
-  Role Play: 1-on-1 coaching conversation with a struggling team member
-  Activity: Personal coaching style self-assessment
+Module 4 (1:30pm–5pm): Coaching & Developing High-Performing Teams
+  - Manager as coach — GROW model in practice
+  - Giving developmental vs. performance feedback
+  - Role Play: 1-on-1 coaching with struggling team member
 
-═══════════════════════════════════════
-DAY 3 — FINANCIAL ACUMEN & CHANGE LEADERSHIP
-═══════════════════════════════════════
+DAY 3 — FINANCIAL ACUMEN & CHANGE
 
-Module 5 (9:00am – 12:30pm): Financial Literacy for Senior Managers
-  Topics:
-  - Reading and interpreting a P&L statement
-  - Understanding balance sheets and cash flow — what managers need to know
-  - ROI thinking: building a business case for a team investment
-  - Budget ownership and variance analysis
-  Case Study: Make-or-buy decision at a mid-size IT services firm
-  Activity: Participants build a mini business case for a real initiative from their role
+Module 5 (9am–12:30pm): Financial Literacy for Senior Managers
+  - Reading a P&L and balance sheet
+  - ROI thinking — building a business case
+  - Case Study: Make-or-buy decision at an IT firm
+  - Activity: Participants build a business case from their role
 
-Module 6 (1:30pm – 4:30pm): Leading Change & Digital Transformation
-  Topics:
-  - Why change initiatives fail — the top 5 reasons
-  - Kotter's 8-step change model applied to digital transformation
-  - Leading your team through uncertainty and ambiguity
-  - Building a change-ready culture in your function
-  Case Study: A digital transformation at a major Indian IT firm
-  Group Activity: Participants design a change roadmap for a real challenge in their team
+Module 6 (1:30pm–4:30pm): Leading Change & Digital Transformation
+  - Why change initiatives fail
+  - Kotter's 8-step model applied to digital transformation
+  - Case Study: Digital transformation at a major Indian IT firm
+  - Group Activity: Change roadmap for a real team challenge
 
-Closing Session (4:30pm – 5:30pm): Action Learning Project Kickoff
-  - Each participant identifies one real business challenge from their role
-  - Commits to a 30-day action plan applying program learnings
-  - Groups of 4 form accountability pods for peer support
-  - Post-program assessment scheduled for Day 30 (online survey + manager rating)
+Closing (4:30–5:30pm): Action Learning Project Kickoff
+  - Each participant selects a real business challenge
+  - 30-day action plan + accountability pods
+  - Post-program assessment scheduled Day 30`
+  },
+  {
+    id: 'hdfc-rejected',
+    label: 'HDFC — Women in Leadership (Rejected)',
+    verdict: 'Rejected',
+    score: '50–55%',
+    color: 'var(--coral)',
+    bg: 'var(--coral-l)',
+    desc: 'Weak match · Wrong methodology · Missing assessment · Batch size mismatch',
+    req: `CLIENT REQUIREMENT — Women in Leadership Program
+Submitted by: Prerna Kapoor, VP HR, HDFC Bank
 
-═══════════════════════════════════════
-ASSESSMENT & EVALUATION
-═══════════════════════════════════════
-Pre-program: Diagnostic survey sent 1 week before (strategic thinking, financial literacy baseline)
-Post-program (Day 30): Online assessment + 360° manager rating on 5 competencies
-Action learning: Participants submit a 1-page implementation report at Day 30
-Facilitator evaluation: Participant feedback collected at end of each day`;
-
-  } else {
-    banner.style.display = 'flex';
-    banner.style.background = 'var(--coral-l)';
-    banner.style.borderColor = 'rgba(216,90,48,0.25)';
-    banner.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;flex:1">
-        <span style="width:10px;height:10px;border-radius:50%;background:var(--coral);flex-shrink:0"></span>
-        <div>
-          <div style="font-size:12.5px;font-weight:600;color:var(--coral-d)">Example 2 — REJECTED &nbsp;·&nbsp; Expected score: 50–55%</div>
-          <div style="font-size:11.5px;color:var(--coral-d);margin-top:1px">HDFC Bank Women in Leadership · Outline has critical gaps — missing assessment plan, wrong methodology, batch size mismatch</div>
-        </div>
-      </div>
-      <span style="font-size:11px;color:var(--coral-d);font-weight:500;padding:3px 10px;border:1px solid var(--coral);border-radius:20px;white-space:nowrap">✗ Returned for revision</span>`;
-
-    document.getElementById('client-req').value = `CLIENT REQUIREMENT — Women in Leadership Program
-Submitted by: Prerna Kapoor, VP Human Resources, HDFC Bank
-Date: March 2025
-
-HDFC Bank wishes to commission a Women in Leadership program for 35 high-potential women managers at Deputy Manager and Assistant Vice President levels.
+HDFC Bank requires a Women in Leadership program for 35 high-potential women managers at DM and AVP levels.
 
 CORE OBJECTIVES:
-1. Build leadership identity and executive confidence — participants should leave with a clear sense of their leadership brand and presence
-2. Navigating organisational politics — how to build influence, manage sponsors, and advance their careers in a traditionally male-dominated sector
-3. Stakeholder management and negotiation skills — specifically for dealing with senior male colleagues and external partners
-4. Work-life integration strategies — practical tools for managing dual responsibilities without compromising career ambition
-5. Building a personal board of advisors and peer network — structured mentoring and sponsorship relationships
-6. Data-driven decision making — using analytics and data to build stronger business cases
+1. Leadership identity and executive confidence — clear leadership brand
+2. Navigating organisational politics — build influence in a male-dominated sector
+3. Stakeholder management and negotiation — dealing with senior colleagues and external partners
+4. Work-life integration strategies — managing dual responsibilities without compromising ambition
+5. Personal board of advisors — structured mentoring and sponsorship relationships
+6. Data-driven decision making — using analytics to build stronger business cases
 
 DELIVERY REQUIREMENTS:
-• Safe, women-only learning environment — all facilitators must be women
-• Small intimate group sessions — maximum 12 participants per session
-• Duration: 2 days per batch (3 batches of 12 participants)
-• Significant peer learning and sharing component — participants learn as much from each other as from faculty
-• Pre-program 360-degree assessment from managers, peers, and direct reports
-• Post-program coaching: 3 individual coaching sessions per participant (1 per month for 3 months)
-• Action learning: A real leadership challenge each participant tackles with peer group support
-• Ongoing alumni network — WhatsApp group + quarterly meetups post-program
-
-CONSTRAINTS:
-• All sessions must be held at HDFC Bank premises (Nariman Point, Mumbai)
-• Budget: ₹6L for all 35 participants including coaching sessions
-• No sessions on Mondays (senior management meetings)
-• Program must conclude before September 30, 2025`;
-
-    document.getElementById('faculty-outline').value = `PROGRAM OUTLINE — Emerging Leaders Workshop
-Designed by: Prof. Rajan Nair (IIM Ahmedabad visiting faculty)
-Duration: 2 days | Target: Middle managers
+• Women-only learning environment — all facilitators must be women
+• Max 12 participants per session (intimate group)
+• 2 days per batch, 3 batches of 12
+• Peer learning component — participants learn from each other
+• Pre-program 360-degree assessment from managers and peers
+• Post-program: 3 individual coaching sessions per participant (monthly for 3 months)
+• Ongoing alumni network — quarterly meetups
+• All sessions at HDFC premises, Nariman Point Mumbai
+• Budget: ₹6L for all 35 participants including coaching`,
+    outline: `PROGRAM OUTLINE — Emerging Leaders Workshop
+Faculty: Prof. Rajan Nair | 2 days | General management
 
 DAY 1 — LEADERSHIP FUNDAMENTALS
 
 Session 1 (10am–1pm): What Makes a Great Leader?
   - Leadership theories: transformational, transactional, servant leadership
-  - Myers Briggs personality types and leadership style
+  - Myers Briggs personality types
   - Video: TED talk on vulnerability by Brene Brown
   - Discussion: What kind of leader do you want to be?
 
@@ -1646,15 +2082,15 @@ Session 2 (2pm–5pm): Communication for Leaders
   - Verbal and non-verbal communication
   - Active listening techniques
   - Body language in meetings
-  - Exercise: Pair sharing — communication strengths and weaknesses
+  - Exercise: Pair sharing — strengths and weaknesses
 
 DAY 2 — TEAM AND ORGANISATIONAL LEADERSHIP
 
 Session 3 (10am–1pm): Managing Teams Effectively
-  - Tuckman's stages of team development (forming, storming, norming, performing)
+  - Tuckman's stages of team development
   - Delegation frameworks
   - Motivating diverse teams
-  - Case Study: A generic manufacturing company team conflict
+  - Case Study: A manufacturing company team conflict
 
 Session 4 (2pm–4pm): Organisational Dynamics
   - Understanding organisational culture
@@ -1667,14 +2103,254 @@ Wrap-up (4pm–4:30pm):
   - Each participant writes 3 things they will do differently
   - Feedback form
 
-FACULTY: Prof. Rajan Nair — 20 years in management education
-BATCH SIZE: Up to 30 participants
-VENUE: Faculty's training centre, Bandra, Mumbai`;
-  }
+FACULTY: Prof. Rajan Nair — male faculty, external venue (Bandra)
+BATCH SIZE: Up to 30 participants`
+  },
+  {
+    id: 'infosys-partial',
+    label: 'Infosys — First-Time Managers (Partial)',
+    verdict: 'Partial match',
+    score: '62–68%',
+    color: 'var(--amber)',
+    bg: 'var(--amber-l)',
+    desc: 'Moderate match · Core modules present · Missing assessment & action learning',
+    req: `CLIENT REQUIREMENT — First-Time Managers Program
+Submitted by: Rajesh Menon, VP HR, Infosys BPM
 
-  document.getElementById('req-count').textContent = document.getElementById('client-req').value.trim().split(/\s+/).filter(w=>w.length).length + ' words';
-  document.getElementById('outline-count').textContent = document.getElementById('faculty-outline').value.trim().split(/\s+/).filter(w=>w.length).length + ' words';
+We need a 2-day foundational program for 60 newly promoted managers across Bengaluru and Pune centres.
+
+CORE OBJECTIVES:
+1. Manager mindset shift — from individual contributor to people leader
+2. Giving effective feedback and conducting performance conversations
+3. Running productive 1-on-1s and team meetings
+4. Delegation and workload management
+5. Handling underperformance and difficult conversations
+6. Understanding basic HR processes — leaves, PIPs, grievances
+
+DELIVERY REQUIREMENTS:
+• Highly practical — role plays and simulations, not theory
+• Real scenarios from a BPM/IT environment
+• Max 20 per batch
+• Pre-program self-assessment (readiness for management)
+• Post-program: Manager of the participant rates improvement at 60 days
+• Digital workbook for ongoing reference
+• Budget: ₹3L per batch of 20`,
+    outline: `PROGRAM OUTLINE — New Manager Bootcamp
+Faculty: Prof. Ajay Singh | 2 days | 25 participants per batch
+
+DAY 1 — THE MANAGER MINDSET
+
+Module 1 (9am–12pm): From Expert to Leader
+  - Why individual contributors struggle as managers
+  - The manager's core responsibilities
+  - Discussion: Your biggest fear as a new manager
+
+Module 2 (1pm–5pm): Communication & Feedback
+  - Models of effective feedback (SBI model)
+  - Conducting performance conversations
+  - Role play: Giving critical feedback to a peer
+
+DAY 2 — MANAGING PERFORMANCE & TEAMS
+
+Module 3 (9am–12pm): Delegation & Workload Management
+  - What to delegate and what to keep
+  - Tracking without micromanaging
+  - Case Study: A manager who couldn't let go
+
+Module 4 (1pm–4:30pm): Difficult Conversations
+  - Handling underperformance
+  - Navigating team conflicts
+  - Role play: PIP conversation simulation
+
+Wrap-up: Key commitments each manager will make`
+  },
+  {
+    id: 'bajaj-strong',
+    label: 'Bajaj Auto — Executive Presence (Strong match)',
+    verdict: 'Selected',
+    score: '88–92%',
+    color: 'var(--teal)',
+    bg: 'var(--teal-l)',
+    desc: 'Very strong match · Exceeds requirements in most dimensions',
+    req: `CLIENT REQUIREMENT — Executive Presence Program
+Submitted by: Amit Joshi, Head of Talent, Bajaj Auto
+
+We need a 1-day intensive program on Executive Presence for 25 AVPs and General Managers at Bajaj Auto, Pune.
+
+CORE OBJECTIVES:
+1. Command the room — gravitas, presence, confidence in senior forums
+2. Executive communication — concise, structured, impactful messaging to leadership
+3. Presenting data and insights to senior leadership — making numbers tell a story
+4. Body language and non-verbal communication in high-stakes situations
+5. Handling tough questions and pushback in senior meetings
+
+DELIVERY REQUIREMENTS:
+• 1 full day, highly experiential — no slide-heavy lectures
+• Significant video recording and playback — participants must see themselves
+• Real Bajaj Auto scenarios and contexts
+• Max 12 participants for deep coaching
+• Pre-program: Video selfie submission (1-min intro) for baseline
+• Post-program: 360° feedback from peers and manager on presence at 45 days
+• Budget: ₹2.5L for the full day`,
+    outline: `PROGRAM OUTLINE — Executive Presence Masterclass
+Faculty: Vikram Bose | 1 day | 12 participants max
+
+FULL DAY — EXECUTIVE PRESENCE INTENSIVE
+
+Opening (9am–9:30am): Baseline Assessment
+  - Each participant presents their pre-recorded video selfie
+  - Group observes: What signals presence? What undermines it?
+  - Individual feedback from faculty
+
+Module 1 (9:30am–11am): Commanding Attention & Gravitas
+  - The science of first impressions — what senior leaders look for
+  - Vocal authority: pace, pause, pitch, projection
+  - Body language in board rooms and senior forums
+  - Real Bajaj Auto senior forum scenarios discussed
+  - Activity: 2-minute participant presentations — video recorded
+
+Debrief & Coaching (11am–11:30am)
+  - Group views recordings
+  - Faculty gives specific, structured feedback per participant
+
+Module 2 (11:30am–1pm): Structured Executive Communication
+  - The Pyramid Principle — BLUF (Bottom Line Up Front)
+  - Making data tell a story for Bajaj Auto's leadership context
+  - Handling interruptions without losing thread
+  - Saying more with less
+  - Practice: Data presentation from a Bajaj business scenario
+
+Module 3 (2pm–3:30pm): High-Stakes Q&A and Pushback
+  - Handling tough questions: bridge, flag, acknowledge techniques
+  - Staying composed under pressure
+  - Reading the room — when to stop talking
+  - Simulation: Hostile Q&A panel — participants present, faculty and peers challenge
+
+Final Round (3:30pm–5pm): Full Presentations
+  - Each participant delivers a 5-min presentation on a real business topic
+  - Video recorded
+  - Full group + faculty feedback
+  - Comparison with morning baseline — visible improvement
+
+Post-Program:
+  - Personal development plan for each participant
+  - 45-day 360° presence feedback survey sent to manager + 3 peers`
+  },
+  {
+    id: 'pharma-rejected',
+    label: 'Sun Pharma — Strategic Leadership (Rejected)',
+    verdict: 'Rejected',
+    score: '45–52%',
+    color: 'var(--coral)',
+    bg: 'var(--coral-l)',
+    desc: 'Poor match · Outline misses key objectives · Wrong industry context · No assessment',
+    req: `CLIENT REQUIREMENT — Strategic Leadership Program
+Submitted by: Dr. Kavita Iyer, CHRO, Sun Pharmaceuticals
+
+Sun Pharma requires a 3-day strategic leadership program for 30 senior managers (DGM and GM level) from commercial, medical affairs, and operations functions.
+
+CORE OBJECTIVES:
+1. Pharmaceutical industry strategy — understanding the competitive landscape, regulatory environment, and patent cliffs
+2. Cross-functional leadership — breaking silos between commercial, medical, and manufacturing teams
+3. Data-driven decision making using pharma-specific analytics — prescriber data, market share, supply chain metrics
+4. Regulatory and compliance mindset for leaders — USFDA, CDSCO, GxP implications of leadership decisions
+5. Business case building for new product launches and market expansions
+6. Building high-performance teams in a highly regulated environment
+
+DELIVERY REQUIREMENTS:
+• Pharma-specific case studies only — Sun Pharma or comparable Indian pharma companies
+• Mix of strategy simulations, case discussions, and expert panels (including regulatory affairs expert)
+• 20 participants per batch (senior audience — must be peer-level not junior)
+• Pre-program: Strategic thinking diagnostic
+• Post-program: 90-day business impact project with mentoring
+• Budget: ₹12L per batch`,
+    outline: `PROGRAM OUTLINE — Leadership Essentials Workshop
+Faculty: Generic Management Trainer | 3 days | Open enrolment format
+
+DAY 1: Leadership and Teamwork
+  - What is leadership? Great man theory vs. situational theory
+  - Team building activities (outdoor — trust walk, blindfold exercises)
+  - Evening: Group dinner and networking
+
+DAY 2: Communication and Presentation Skills
+  - Effective speaking and presentations
+  - PowerPoint design tips
+  - Practice presentations on any topic of choice
+  - Video recording and self-review
+
+DAY 3: Strategy and Innovation
+  - Blue Ocean Strategy (general overview)
+  - Design thinking introduction
+  - Group activity: Come up with an innovative business idea
+  - Presentations and prizes
+
+This is an open-enrolment workshop also available to managers from any industry.
+Batch size: 30–40 participants.
+Venue: External training facility, Powai.
+No pre or post assessments included.`
+  }
+];
+
+function buildExamplesMenu() {
+  const list = document.getElementById('examples-list');
+  if (!list || list.children.length > 0) return;
+  EXAMPLES.forEach(ex => {
+    const div = document.createElement('div');
+    div.style.cssText = 'padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.1s';
+    div.onmouseover = () => div.style.background = 'var(--bg)';
+    div.onmouseout  = () => div.style.background = '';
+    div.innerHTML = `
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+        <span style="width:8px;height:8px;border-radius:50%;background:${ex.color};flex-shrink:0"></span>
+        <span style="font-size:12.5px;font-weight:600;color:var(--text)">${ex.label}</span>
+        <span style="margin-left:auto;font-size:10.5px;padding:1px 7px;border-radius:10px;background:${ex.bg};color:${ex.color};font-weight:600;border:1px solid ${ex.color}33">${ex.verdict} · ${ex.score}</span>
+      </div>
+      <div style="font-size:11.5px;color:var(--text-3);padding-left:16px">${ex.desc}</div>
+    `;
+    div.onclick = () => loadExample(ex.id);
+    list.appendChild(div);
+  });
 }
+
+function loadExample(type) {
+  buildExamplesMenu();
+  const ex = EXAMPLES.find(e => e.id === type);
+  if (!ex) return;
+
+  document.getElementById('examples-menu').style.display = 'none';
+
+  const banner = document.getElementById('example-banner');
+  banner.style.display = 'flex';
+  banner.style.background = ex.bg;
+  banner.style.borderColor = ex.color + '44';
+  const isGood = ex.verdict === 'Selected';
+  banner.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;flex:1">
+      <span style="width:10px;height:10px;border-radius:50%;background:${ex.color};flex-shrink:0"></span>
+      <div>
+        <div style="font-size:12.5px;font-weight:600;color:${ex.color}">${ex.label} &nbsp;·&nbsp; Expected score: ${ex.score}</div>
+        <div style="font-size:11.5px;color:${ex.color};margin-top:1px;opacity:0.85">${ex.desc}</div>
+      </div>
+    </div>
+    <span style="font-size:11px;color:${ex.color};font-weight:600;padding:3px 12px;border:1px solid ${ex.color};border-radius:20px;white-space:nowrap;flex-shrink:0">${isGood ? '✓' : '✗'} ${ex.verdict}</span>
+  `;
+
+  document.getElementById('client-req').value = ex.req;
+  document.getElementById('faculty-outline').value = ex.outline;
+  document.getElementById('req-count').textContent = ex.req.trim().split(/\s+/).filter(w=>w.length).length + ' words';
+  document.getElementById('outline-count').textContent = ex.outline.trim().split(/\s+/).filter(w=>w.length).length + ' words';
+
+  // Reset results
+  document.getElementById('validator-results').style.display = 'none';
+}
+
+// Build menu on first hover
+document.addEventListener('mouseover', function init(e) {
+  if (e.target.closest('#examples-menu-btn')) {
+    buildExamplesMenu();
+    document.removeEventListener('mouseover', init);
+  }
+});
 
 // ── In-browser curriculum analysis engine ──────────────────
 // Runs entirely client-side — no API calls, no CORS issues
@@ -2461,12 +3137,278 @@ function prefillEvent(name) {
   document.getElementById('conf-query').scrollIntoView({ behavior:'smooth', block:'center' });
 }
 
-// Initialise on load
-document.addEventListener('DOMContentLoaded', () => {
+// Initialise prospect intelligence when view is shown
+function initProspects() {
   renderEvents(events);
   renderProspects();
   buildLiQuery();
-});
+}
+
+
+// ══════════════════════════════════════════════════════════
+// TNA / TNI TOOL ENGINE
+// ══════════════════════════════════════════════════════════
+let tnaInitialised = false;
+
+function tnaTab(phase, el) {
+  document.querySelectorAll('.tna-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tna-phase-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('tna-' + phase);
+  if (panel) panel.classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+function initTNA() {
+  buildGapTable('comp');
+  buildPriorityTable();
+  buildMatrixBubbles();
+  buildSolutions();
+  buildGantt();
+}
+
+function tnaShowSurvey() {
+  const el = document.getElementById('tna-survey-template');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+function tnaShowGuide() {
+  alert('Interview guide: Download the structured 45-minute manager interview guide covering business goals, capability needs, critical incidents, and future requirements.');
+}
+
+const TNA_DATA = {
+  competencies: [
+    { name: 'Strategic thinking', required: 4.5, icon: '📊' },
+    { name: 'Financial acumen', required: 4.2, icon: '💰' },
+    { name: 'Data-driven decisions', required: 4.0, icon: '📈' },
+    { name: 'Stakeholder management', required: 4.4, icon: '🤝' },
+    { name: 'Change leadership', required: 4.0, icon: '🔄' },
+    { name: 'Communication & influence', required: 4.3, icon: '🎯' },
+    { name: 'Cross-functional leadership', required: 4.1, icon: '🔗' },
+    { name: 'Coaching & developing others', required: 3.8, icon: '🌱' },
+  ],
+  roles: [
+    { name: 'Senior Manager (M4)', scores: [2.8, 2.4, 2.9, 3.1, 2.6, 3.2, 2.7, 3.0], count: 156 },
+    { name: 'General Manager (M5)', scores: [3.1, 2.8, 3.0, 3.4, 3.0, 3.5, 3.1, 3.2], count: 78 },
+    { name: 'AVP (M6)', scores: [3.5, 3.2, 3.4, 3.8, 3.4, 3.9, 3.5, 3.6], count: 34 },
+    { name: 'IT Delivery Lead', scores: [2.6, 2.2, 3.2, 2.9, 2.4, 3.0, 2.8, 2.8], count: 82 },
+    { name: 'Sales & BD Lead', scores: [3.0, 2.5, 2.1, 3.6, 2.7, 3.8, 3.2, 2.5], count: 45 },
+    { name: 'Operations Lead', scores: [2.7, 2.6, 2.8, 3.0, 2.8, 3.0, 2.9, 3.1], count: 49 },
+  ],
+};
+
+function getGap(current, required) { return Math.max(0, required - current).toFixed(1); }
+function gapClass(gap) {
+  const g = parseFloat(gap);
+  return g >= 3 ? 'tna-gap-critical' : g >= 2 ? 'tna-gap-high' : g >= 1 ? 'tna-gap-moderate' : 'tna-gap-low';
+}
+
+function buildGapTable(view) {
+  const wrap = document.getElementById('tna-gap-table');
+  if (!wrap) return;
+  let html = '<table><thead><tr>';
+  if (view === 'comp') {
+    html += '<th>Competency</th>';
+    TNA_DATA.roles.forEach(r => html += `<th>${r.name.split('(')[0].trim()}</th>`);
+    html += '<th>Avg. gap</th></tr></thead><tbody>';
+    TNA_DATA.competencies.forEach(comp => {
+      html += `<tr><td style="font-weight:500;font-size:12.5px">${comp.icon} ${comp.name}</td>`;
+      let totalGap = 0;
+      TNA_DATA.roles.forEach((r, ri) => {
+        const gap = getGap(r.scores[TNA_DATA.competencies.indexOf(comp)], comp.required);
+        totalGap += parseFloat(gap);
+        html += `<td><div class="tna-gap-cell ${gapClass(gap)}">${gap}</div></td>`;
+      });
+      const avg = (totalGap / TNA_DATA.roles.length).toFixed(1);
+      html += `<td><div class="tna-gap-cell ${gapClass(avg)}" style="font-size:13px;font-weight:700">${avg}</div></td></tr>`;
+    });
+  } else {
+    html += '<th>Role / Group</th><th>Headcount</th>';
+    TNA_DATA.competencies.forEach(c => html += `<th>${c.name.split(' ')[0]}</th>`);
+    html += '<th>Avg. gap</th></tr></thead><tbody>';
+    TNA_DATA.roles.forEach(role => {
+      html += `<tr><td style="font-weight:500;font-size:12.5px">${role.name}</td><td style="color:var(--text-3)">${role.count}</td>`;
+      let totalGap = 0;
+      TNA_DATA.competencies.forEach((comp, ci) => {
+        const gap = getGap(role.scores[ci], comp.required);
+        totalGap += parseFloat(gap);
+        html += `<td><div class="tna-gap-cell ${gapClass(gap)}">${gap}</div></td>`;
+      });
+      const avg = (totalGap / TNA_DATA.competencies.length).toFixed(1);
+      html += `<td><div class="tna-gap-cell ${gapClass(avg)}" style="font-size:13px;font-weight:700">${avg}</div></td></tr>`;
+    });
+  }
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+function tnaGapView(view) {
+  buildGapTable(view);
+  ['comp','role','func'].forEach(v => {
+    const btn = document.getElementById('gap-btn-' + v);
+    if (btn) { btn.style.background=''; btn.style.color=''; btn.style.borderColor=''; }
+  });
+  const activeBtn = document.getElementById('gap-btn-' + view);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--purple)';
+    activeBtn.style.color = '#fff';
+    activeBtn.style.borderColor = 'var(--purple)';
+  }
+}
+
+const PRIORITY_DATA = [
+  { rank:1, need:'Strategic thinking & business acumen', impact:9, gap:4.2, people:268, priority:'Critical', timing:'Q1 2025 — immediate' },
+  { rank:2, need:'Financial literacy & commercial awareness', impact:8, gap:3.8, people:268, priority:'Critical', timing:'Q1 2025 — immediate' },
+  { rank:3, need:'Stakeholder management & influence', impact:8, gap:2.9, people:212, priority:'High', timing:'Q2 2025' },
+  { rank:4, need:'Data-driven decision making', impact:7, gap:3.1, people:156, priority:'High', timing:'Q2 2025' },
+  { rank:5, need:'Change leadership & transformation', impact:8, gap:2.5, people:178, priority:'High', timing:'Q2 2025' },
+  { rank:6, need:'Executive communication & presence', impact:7, gap:2.1, people:112, priority:'Medium', timing:'Q3 2025' },
+  { rank:7, need:'Cross-functional leadership', impact:6, gap:2.2, people:134, priority:'Medium', timing:'Q3 2025' },
+  { rank:8, need:'Coaching & developing others', impact:5, gap:2.0, people:156, priority:'Low', timing:'Q4 2025 / FY27' },
+];
+
+function buildPriorityTable() {
+  const tbody = document.getElementById('tna-priority-table');
+  if (!tbody) return;
+  const pColors = { Critical:'b-coral', High:'b-amber', Medium:'b-blue', Low:'b-gray' };
+  tbody.innerHTML = PRIORITY_DATA.map(d => `
+    <tr>
+      <td style="font-weight:700;font-size:15px;color:var(--text-3)">${d.rank}</td>
+      <td style="font-weight:500">${d.need}</td>
+      <td><div style="display:flex;align-items:center;gap:6px"><div class="pb" style="width:60px;margin:0"><div class="pbf" style="width:${d.impact*10}%;background:var(--purple)"></div></div><span style="font-size:11px;color:var(--text-3)">${d.impact}/10</span></div></td>
+      <td><div style="display:flex;align-items:center;gap:6px"><div class="pb" style="width:60px;margin:0"><div class="pbf" style="width:${(d.gap/5)*100}%;background:var(--coral)"></div></div><span style="font-size:11px;color:var(--text-3)">${d.gap}</span></div></td>
+      <td style="font-weight:500">${d.people}</td>
+      <td><span class="badge ${pColors[d.priority]}">${d.priority}</span></td>
+      <td style="font-size:12px;color:var(--text-2)">${d.timing}</td>
+    </tr>`).join('');
+}
+
+function buildMatrixBubbles() {
+  const container = document.getElementById('matrix-bubbles');
+  if (!container) return;
+  const parent = container.parentElement;
+  const W = parent.offsetWidth || 600;
+  const H = parent.offsetHeight || 300;
+
+  const bubbleData = [
+    { label:'Strategic\nthinking', impact:88, gap:84, people:268, color:'var(--coral)' },
+    { label:'Financial\nacumen', impact:80, gap:76, people:268, color:'var(--coral)' },
+    { label:'Stakeholder\nmgmt', impact:80, gap:58, people:212, color:'var(--amber)' },
+    { label:'Change\nleadership', impact:80, gap:50, people:178, color:'var(--amber)' },
+    { label:'Data-driven\ndecisions', impact:70, gap:62, people:156, color:'var(--amber)' },
+    { label:'Communication', impact:70, gap:42, people:112, color:'var(--blue)' },
+    { label:'Cross-functional', impact:60, gap:44, people:134, color:'var(--blue)' },
+    { label:'Coaching', impact:50, gap:40, people:156, color:'var(--gray)' },
+  ];
+
+  container.innerHTML = '';
+  bubbleData.forEach(b => {
+    const size = Math.max(40, Math.min(72, 20 + b.people / 5));
+    const x = (b.impact / 100) * (W - 80) + 40;
+    const y = H - (b.gap / 100) * (H - 60) - 30;
+    const div = document.createElement('div');
+    div.className = 'matrix-bubble';
+    div.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${b.color};opacity:0.85;font-size:${size < 48 ? '8' : '9.5'}px;color:#fff;`;
+    div.title = `${b.label.replace('\n',' ')}\nImpact: ${b.impact}% | Gap: ${b.gap/20}/5 | ${b.people} people`;
+    div.innerHTML = b.label.replace('\n', '<br>');
+    container.appendChild(div);
+  });
+}
+
+const SOLUTIONS = [
+  { rank:1, need:'Strategic thinking & business acumen', type:'MDP', typeClass:'b-purple', duration:'3 days', reach:'268 people (4 batches)', cost:'₹17L', facilitator:'Dr. Sunita Mehta', timing:'Feb–Apr 2025' },
+  { rank:2, need:'Financial literacy & commercial awareness', type:'Workshop', typeClass:'b-blue', duration:'2 days', reach:'268 people (6 batches)', cost:'₹9.6L', facilitator:'CA Priya Reddy', timing:'Mar–Jun 2025' },
+  { rank:3, need:'Stakeholder management & influence', type:'MDP module', typeClass:'b-purple', duration:'1 day (integrated)', reach:'212 people', cost:'Included in MDP', facilitator:'Prof. Ajay Singh', timing:'Feb–Apr 2025' },
+  { rank:4, need:'Data-driven decision making', type:'Workshop', typeClass:'b-blue', duration:'1.5 days', reach:'156 people (3 batches)', cost:'₹5.6L', facilitator:'External data faculty', timing:'May–Jul 2025' },
+  { rank:5, need:'Change leadership & transformation', type:'Action learning', typeClass:'b-amber', duration:'4 months project', reach:'60 managers (teams)', cost:'₹1.8L', facilitator:'Dr. Sunita Mehta', timing:'Apr–Aug 2025' },
+  { rank:6, need:'Executive communication & presence', type:'Workshop', typeClass:'b-blue', duration:'1 day', reach:'112 people (3 batches)', cost:'₹3.6L', facilitator:'Vikram Bose', timing:'Jul–Sep 2025' },
+  { rank:7, need:'Cross-functional leadership', type:'On-the-job', typeClass:'b-coral', duration:'3-month rotation', reach:'30 managers', cost:'₹0.5L (admin)', facilitator:'HR + BU heads', timing:'Jun–Dec 2025' },
+  { rank:8, need:'Coaching & developing others', type:'eLearning', typeClass:'b-gray', duration:'Self-paced', reach:'268 people', cost:'₹1.8L (platform)', facilitator:'Digital content', timing:'Q3 2025 onward' },
+];
+
+function buildSolutions() {
+  const list = document.getElementById('tna-solutions-list');
+  if (!list) return;
+  list.innerHTML = `
+    <div style="display:grid;grid-template-columns:28px 1fr 130px 110px 90px 90px;gap:12px;padding:4px 1rem;font-size:10.5px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid var(--border)">
+      <span>#</span><span>Training need</span><span>Intervention</span><span>Reach</span><span>Cost est.</span><span>Timing</span>
+    </div>
+  `;
+  SOLUTIONS.forEach(s => {
+    const row = document.createElement('div');
+    row.className = 'tna-solution-row';
+    row.innerHTML = `
+      <div style="font-size:13px;font-weight:700;color:var(--text-3)">${s.rank}</div>
+      <div>
+        <div style="font-weight:600;font-size:13px">${s.need}</div>
+        <div style="font-size:11.5px;color:var(--text-3);margin-top:2px">Facilitator: ${s.facilitator}</div>
+      </div>
+      <div>
+        <span class="badge ${s.typeClass}" style="display:block;text-align:center;margin-bottom:4px">${s.type}</span>
+        <div style="font-size:11.5px;color:var(--text-3);text-align:center">${s.duration}</div>
+      </div>
+      <div style="font-size:12.5px;color:var(--text-2)">${s.reach}</div>
+      <div style="font-size:13px;font-weight:600;color:var(--purple-d)">${s.cost}</div>
+      <div style="font-size:12px;color:var(--text-2)">${s.timing}</div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+const GANTT_DATA = [
+  { label:'MDP — Strategic leadership', start:1, end:4, color:'var(--purple)', text:'Batch 1 & 2 (Feb–Apr)', people:80 },
+  { label:'MDP — Strategic leadership', start:5, end:8, color:'var(--purple)', text:'Batch 3 & 4 (May–Aug)', people:80 },
+  { label:'Workshop — Financial acumen', start:2, end:6, color:'var(--blue)', text:'6 batches (Mar–Jun)', people:268 },
+  { label:'Data & analytics workshop', start:4, end:7, color:'var(--blue)', text:'3 batches (May–Jul)', people:156 },
+  { label:'Action learning — Change', start:3, end:7, color:'var(--amber)', text:'Teams (Apr–Aug)', people:60 },
+  { label:'Exec. communication', start:6, end:9, color:'var(--teal)', text:'3 batches (Jul–Sep)', people:112 },
+  { label:'Cross-functional rotation', start:5, end:12, color:'var(--coral)', text:'30 managers (Jun–Dec)', people:30 },
+  { label:'eLearning — Coaching', start:7, end:12, color:'var(--gray)', text:'Self-paced (Q3 onward)', people:268 },
+];
+
+function buildGantt() {
+  const container = document.getElementById('tna-gantt');
+  if (!container) return;
+  container.innerHTML = '';
+  GANTT_DATA.forEach(g => {
+    const row = document.createElement('div');
+    row.className = 'gantt-row';
+    row.innerHTML = `<div class="gantt-label" title="${g.label}">${g.label}</div>`;
+    for (let m = 1; m <= 12; m++) {
+      const cell = document.createElement('div');
+      if (m >= g.start && m <= g.end) {
+        cell.className = 'gantt-bar';
+        cell.style.background = g.color;
+        cell.style.opacity = '0.85';
+        cell.style.color = '#fff';
+        cell.style.gridColumn = `${m + 1}`;
+        if (m === g.start) cell.textContent = g.text;
+        if (g.end - g.start > 0) {
+          cell.style.gridColumnEnd = `${g.end + 2}`;
+          row.appendChild(cell);
+          m = g.end;
+        } else {
+          row.appendChild(cell);
+        }
+      } else {
+        cell.style.gridColumn = `${m + 1}`;
+        row.appendChild(cell);
+      }
+    }
+    container.appendChild(row);
+  });
+}
+
+function tnaExport() {
+  alert('TNA Report export: This will generate a comprehensive PDF report including scope definition, data collection summary, gap analysis matrix, priority ranking, solution designs, annual learning plan, and Kirkpatrick evaluation framework. Feature available when connected to Google Drive.');
+}
+
+function addPopRow() {
+  const container = document.getElementById('tna-population');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = 'tna-pop-row';
+  div.innerHTML = '<div class="row between"><input class="pi-input" placeholder="Role title" style="max-width:180px"><div class="row" style="gap:6px"><input class="pi-input" placeholder="Count" style="width:70px"><input class="pi-input" placeholder="Function" style="width:110px"><button class="btn sm danger" onclick="this.closest(\'.tna-pop-row\').remove()">✕</button></div></div>';
+  container.appendChild(div);
+}
 
 </script>
 </body>
