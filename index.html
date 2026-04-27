@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MDP Command Centre</title>
@@ -954,28 +956,81 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 
 <!-- ════════ ANALYTICS ════════ -->
 <div id="view-analytics" class="view">
-  <div class="topbar"><div><div class="page-title">Analytics</div><div class="page-sub">Program performance across all clients</div></div><button class="btn">Export for clients</button></div>
+  <div class="topbar">
+    <div><div class="page-title">Analytics</div><div class="page-sub">Program performance across all clients · Live data from all active programs</div></div>
+    <div class="btn-row">
+      <button class="btn" onclick="exportAnalyticsExcel()">Download Excel ↗</button>
+      <button class="btn primary" onclick="exportAnalyticsWord()">Download Report (Word) ↗</button>
+    </div>
+  </div>
   <div class="metrics four">
-    <div class="metric"><div class="metric-label">NPS score</div><div class="metric-value">72</div><div class="metric-sub">↑ 8 pts vs last quarter</div></div>
-    <div class="metric"><div class="metric-label">Completion rate</div><div class="metric-value">89%</div><div class="metric-sub">Target: 85%</div></div>
-    <div class="metric"><div class="metric-label">Assessment avg.</div><div class="metric-value">81</div><div class="metric-sub">Out of 100</div></div>
-    <div class="metric"><div class="metric-label">Renewal rate</div><div class="metric-value">75%</div><div class="metric-sub">3 of 4 renewed</div></div>
+    <div class="metric"><div class="metric-label">NPS score</div><div class="metric-value" style="color:var(--teal-d)">72</div><div class="metric-sub">↑ 8 pts vs last quarter</div></div>
+    <div class="metric"><div class="metric-label">Completion rate</div><div class="metric-value">89%</div><div class="metric-sub">Target: 85% ✓</div></div>
+    <div class="metric"><div class="metric-label">Assessment avg.</div><div class="metric-value">81</div><div class="metric-sub">Out of 100 · +12 pts</div></div>
+    <div class="metric"><div class="metric-label">Renewal rate</div><div class="metric-value" style="color:var(--teal-d)">75%</div><div class="metric-sub">3 of 4 clients renewed</div></div>
   </div>
   <div class="two-col">
     <div class="card">
-      <div class="card-title">Satisfaction by module</div>
+      <div class="card-title">Satisfaction by module — all programs</div>
       <div class="score-row"><div class="score-label">Strategic thinking</div><div class="score-bar-wrap"><div class="score-bar" style="width:96%;background:var(--teal)"></div></div><div class="score-val" style="color:var(--teal-d)">4.8</div></div>
       <div class="score-row"><div class="score-label">Coaching for performance</div><div class="score-bar-wrap"><div class="score-bar" style="width:94%;background:var(--teal)"></div></div><div class="score-val" style="color:var(--teal-d)">4.7</div></div>
       <div class="score-row"><div class="score-label">Stakeholder influence</div><div class="score-bar-wrap"><div class="score-bar" style="width:90%;background:var(--purple)"></div></div><div class="score-val" style="color:var(--purple-d)">4.5</div></div>
       <div class="score-row"><div class="score-label">Financial acumen</div><div class="score-bar-wrap"><div class="score-bar" style="width:88%;background:var(--purple)"></div></div><div class="score-val" style="color:var(--purple-d)">4.4</div></div>
+      <div class="score-row"><div class="score-label">Data-driven decisions</div><div class="score-bar-wrap"><div class="score-bar" style="width:82%;background:var(--blue)"></div></div><div class="score-val" style="color:var(--blue-d)">4.1</div></div>
       <div class="score-row"><div class="score-label">Change management</div><div class="score-bar-wrap"><div class="score-bar" style="width:76%;background:var(--amber)"></div></div><div class="score-val" style="color:var(--amber-d)">3.8</div></div>
+      <div class="score-row"><div class="score-label">Executive presence</div><div class="score-bar-wrap"><div class="score-bar" style="width:72%;background:var(--amber)"></div></div><div class="score-val" style="color:var(--amber-d)">3.6</div></div>
     </div>
     <div class="card">
       <div class="card-title">Engagement by client</div>
-      <div class="score-row"><div class="score-label">TCS</div><div class="score-bar-wrap"><div class="score-bar" style="width:97%;background:var(--teal)"></div></div><div class="score-val" style="color:var(--teal-d)">97%</div></div>
-      <div class="score-row"><div class="score-label">Infosys</div><div class="score-bar-wrap"><div class="score-bar" style="width:91%;background:var(--purple)"></div></div><div class="score-val" style="color:var(--purple-d)">91%</div></div>
-      <div class="score-row"><div class="score-label">Mahindra</div><div class="score-bar-wrap"><div class="score-bar" style="width:85%;background:var(--blue)"></div></div><div class="score-val" style="color:var(--blue-d)">85%</div></div>
-      <div class="score-row"><div class="score-label" style="color:var(--coral-d)">HDFC Bank</div><div class="score-bar-wrap"><div class="score-bar" style="width:62%;background:var(--coral)"></div></div><div class="score-val" style="color:var(--coral-d)">62%</div></div>
+      <div class="score-row"><div class="score-label" style="font-weight:500">TCS</div><div class="score-bar-wrap" style="width:130px"><div class="score-bar" style="width:97%;background:var(--teal)"></div></div><div class="score-val" style="color:var(--teal-d)">97%</div></div>
+      <div style="font-size:11px;color:var(--text-3);margin:-6px 0 8px 0;padding-left:2px">NPS 72 · 42 participants · ₹45L contract</div>
+      <div class="score-row"><div class="score-label" style="font-weight:500">Infosys</div><div class="score-bar-wrap" style="width:130px"><div class="score-bar" style="width:91%;background:var(--purple)"></div></div><div class="score-val" style="color:var(--purple-d)">91%</div></div>
+      <div style="font-size:11px;color:var(--text-3);margin:-6px 0 8px 0;padding-left:2px">NPS 68 · 68 participants · ₹28L contract</div>
+      <div class="score-row"><div class="score-label" style="font-weight:500">Mahindra</div><div class="score-bar-wrap" style="width:130px"><div class="score-bar" style="width:85%;background:var(--blue)"></div></div><div class="score-val" style="color:var(--blue-d)">85%</div></div>
+      <div style="font-size:11px;color:var(--text-3);margin:-6px 0 8px 0;padding-left:2px">NPS 61 · 28 participants · ₹18L contract</div>
+      <div class="score-row"><div class="score-label" style="font-weight:500;color:var(--coral-d)">HDFC Bank</div><div class="score-bar-wrap" style="width:130px"><div class="score-bar" style="width:62%;background:var(--coral)"></div></div><div class="score-val" style="color:var(--coral-d)">62%</div></div>
+      <div style="font-size:11px;color:var(--coral-d);margin:-6px 0 8px 0;padding-left:2px">⚠ NPS 45 · 35 participants · Facilitator gap risk</div>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Pre vs post assessment scores — all programs</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div><div class="row between" style="font-size:12.5px;margin-bottom:3px"><span>Strategic thinking</span><span style="font-size:11px;color:var(--text-3)">Pre: 58 → Post: 81 <span style="color:var(--teal-d);font-weight:600">(+23)</span></span></div><div style="display:flex;gap:2px"><div style="height:6px;width:58%;background:var(--gray-l);border-radius:3px 0 0 3px"></div><div style="height:6px;width:23%;background:var(--teal);border-radius:0 3px 3px 0"></div></div></div>
+        <div><div class="row between" style="font-size:12.5px;margin-bottom:3px"><span>Financial acumen</span><span style="font-size:11px;color:var(--text-3)">Pre: 52 → Post: 78 <span style="color:var(--teal-d);font-weight:600">(+26)</span></span></div><div style="display:flex;gap:2px"><div style="height:6px;width:52%;background:var(--gray-l);border-radius:3px 0 0 3px"></div><div style="height:6px;width:26%;background:var(--teal);border-radius:0 3px 3px 0"></div></div></div>
+        <div><div class="row between" style="font-size:12.5px;margin-bottom:3px"><span>Stakeholder management</span><span style="font-size:11px;color:var(--text-3)">Pre: 61 → Post: 79 <span style="color:var(--teal-d);font-weight:600">(+18)</span></span></div><div style="display:flex;gap:2px"><div style="height:6px;width:61%;background:var(--gray-l);border-radius:3px 0 0 3px"></div><div style="height:6px;width:18%;background:var(--teal);border-radius:0 3px 3px 0"></div></div></div>
+        <div><div class="row between" style="font-size:12.5px;margin-bottom:3px"><span>Change leadership</span><span style="font-size:11px;color:var(--text-3)">Pre: 49 → Post: 71 <span style="color:var(--teal-d);font-weight:600">(+22)</span></span></div><div style="display:flex;gap:2px"><div style="height:6px;width:49%;background:var(--gray-l);border-radius:3px 0 0 3px"></div><div style="height:6px;width:22%;background:var(--teal);border-radius:0 3px 3px 0"></div></div></div>
+        <div><div class="row between" style="font-size:12.5px;margin-bottom:3px"><span>Cross-functional collab</span><span style="font-size:11px;color:var(--text-3)">Pre: 55 → Post: 52 <span style="color:var(--coral-d);font-weight:600">(-3) ⚠</span></span></div><div style="display:flex;gap:2px"><div style="height:6px;width:55%;background:var(--gray-l);border-radius:3px 0 0 3px"></div><div style="height:6px;width:3%;background:var(--coral);border-radius:0 3px 3px 0"></div></div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text-3);margin-top:10px">Grey = pre score · Teal = improvement · Red = decline</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Revenue breakdown — Q1 2025</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="font-weight:500">TCS</span><span style="font-weight:600">₹48L</span></div><div class="pb"><div class="pbf" style="width:88%;background:var(--purple)"></div></div></div>
+        <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="font-weight:500">Wipro</span><span style="font-weight:600">₹32L</span></div><div class="pb"><div class="pbf" style="width:59%;background:var(--purple)"></div></div></div>
+        <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="font-weight:500">Infosys</span><span style="font-weight:600">₹28L</span></div><div class="pb"><div class="pbf" style="width:51%;background:var(--purple)"></div></div></div>
+        <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="color:var(--coral-d)">HDFC Bank</span><span style="font-weight:600;color:var(--coral-d)">₹16L</span></div><div class="pb"><div class="pbf" style="width:29%;background:var(--coral)"></div></div></div>
+        <hr>
+        <div class="row between" style="font-size:13px"><span style="color:var(--text-2)">Total Q1 revenue</span><span style="font-weight:700;color:var(--purple-d)">₹1.24Cr</span></div>
+        <div class="row between" style="font-size:13px"><span style="color:var(--text-2)">Collected</span><span style="font-weight:600;color:var(--teal-d)">₹1.02Cr (82%)</span></div>
+        <div class="row between" style="font-size:13px"><span style="color:var(--text-2)">Outstanding</span><span style="font-weight:600;color:var(--coral-d)">₹22.4L</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Program health scorecard</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Program</th><th>Client</th><th>Participants</th><th>Attendance</th><th>Satisfaction</th><th>NPS</th><th>Assessment avg.</th><th>Completion</th><th>Health</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:500">Senior Leadership Track</td><td>TCS</td><td>42</td><td style="color:var(--teal-d);font-weight:500">94%</td><td style="font-weight:500">4.8</td><td style="color:var(--teal-d);font-weight:600">72</td><td>81/100</td><td>63%</td><td><span class="badge b-green">Excellent</span></td></tr>
+          <tr><td style="font-weight:500">First-time Managers</td><td>Infosys</td><td>68</td><td style="color:var(--teal-d);font-weight:500">91%</td><td style="font-weight:500">4.5</td><td style="color:var(--teal-d);font-weight:600">68</td><td>74/100</td><td>50%</td><td><span class="badge b-green">Good</span></td></tr>
+          <tr><td style="font-weight:500">Executive Presence</td><td>Mahindra</td><td>28</td><td style="color:var(--teal-d);font-weight:500">88%</td><td style="font-weight:500">4.6</td><td style="color:var(--blue-d);font-weight:600">61</td><td>—</td><td>0%</td><td><span class="badge b-purple">Upcoming</span></td></tr>
+          <tr><td style="font-weight:500;color:var(--coral-d)">Women in Leadership</td><td>HDFC</td><td>35</td><td style="color:var(--coral-d);font-weight:500">62%</td><td style="color:var(--coral-d)">3.9</td><td style="color:var(--coral-d);font-weight:600">45</td><td>58/100</td><td>29%</td><td><span class="badge b-coral">At Risk</span></td></tr>
+          <tr><td style="font-weight:500;color:var(--gray-d)">Change Leadership</td><td>Wipro</td><td>54</td><td style="color:var(--teal-d);font-weight:500">96%</td><td style="font-weight:500">4.7</td><td style="color:var(--teal-d);font-weight:600">74</td><td>88/100</td><td>100%</td><td><span class="badge b-gray">Completed</span></td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -1477,7 +1532,7 @@ Topics: P&L reading, ROI thinking, budget ownership
     </div>
     <div class="btn-row">
       <button class="btn" onclick="tnaTab('overview',this)">Overview</button>
-      <button class="btn primary" onclick="tnaExport()">Export report</button>
+      <button class="btn" onclick="exportTnaExcel()">Excel ↗</button><button class="btn primary" onclick="exportTnaWord()">Word report ↗</button>
     </div>
   </div>
 
@@ -2144,7 +2199,7 @@ The more detail you include, the more accurate the assessment."></textarea>
         <div id="sow-clauses"></div>
         <div class="row" style="gap:8px;margin-top:14px;flex-wrap:wrap">
           <button class="btn primary" onclick="copySow()">Copy SOW text</button>
-          <button class="btn" onclick="downloadSow()">Download as .txt</button>
+          <button class="btn" onclick="downloadSow()">Download Word ↗</button>
         </div>
       </div>
       <div class="card">
@@ -2355,7 +2410,8 @@ The more detail you include, the more accurate the assessment."></textarea>
             <div class="row" style="gap:6px">
               <button class="btn sm" onclick="surveyAddQuestion()">+ Add question</button>
               <button class="btn sm primary" onclick="copySurvey()">Copy survey</button>
-              <button class="btn sm" onclick="downloadSurvey()">Download</button>
+              <button class="btn sm" onclick="downloadSurveyWord()">Word ↗</button>
+              <button class="btn sm" onclick="downloadSurveyExcel()">Excel ↗</button>
             </div>
           </div>
           <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">This survey goes to all participants before the TNA. It establishes self-rated baseline proficiency and learning priorities.</div>
@@ -2378,7 +2434,7 @@ The more detail you include, the more accurate the assessment."></textarea>
             <div class="card-title" style="margin:0">Participant interview guide</div>
             <div class="row" style="gap:6px">
               <button class="btn sm primary" onclick="copyInterview('participant')">Copy guide</button>
-              <button class="btn sm" onclick="downloadInterview('participant')">Download</button>
+              <button class="btn sm" onclick="downloadInterviewWord('participant')">Word ↗</button>
             </div>
           </div>
           <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">
@@ -2411,7 +2467,7 @@ The more detail you include, the more accurate the assessment."></textarea>
             <div class="card-title" style="margin:0">Manager interview guide</div>
             <div class="row" style="gap:6px">
               <button class="btn sm primary" onclick="copyInterview('manager')">Copy guide</button>
-              <button class="btn sm" onclick="downloadInterview('manager')">Download</button>
+              <button class="btn sm" onclick="downloadInterviewWord('manager')">Word ↗</button>
             </div>
           </div>
           <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">
@@ -2434,7 +2490,7 @@ The more detail you include, the more accurate the assessment."></textarea>
             <div class="card-title" style="margin:0">Peer interview guide</div>
             <div class="row" style="gap:6px">
               <button class="btn sm primary" onclick="copyInterview('peer')">Copy guide</button>
-              <button class="btn sm" onclick="downloadInterview('peer')">Download</button>
+              <button class="btn sm" onclick="downloadInterviewWord('peer')">Word ↗</button>
             </div>
           </div>
           <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">
@@ -2457,7 +2513,7 @@ The more detail you include, the more accurate the assessment."></textarea>
             <div class="card-title" style="margin:0">360° TNA instrument</div>
             <div class="row" style="gap:6px">
               <button class="btn sm primary" onclick="copy360()">Copy instrument</button>
-              <button class="btn sm" onclick="download360()">Download</button>
+              <button class="btn sm" onclick="download360Word()">Word ↗</button>
             </div>
           </div>
           <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">Each participant receives ratings from self, manager, 2–3 peers, and 1–2 direct reports on the same competency scale. This triangulates the self-assessment with observed behaviour.</div>
@@ -2486,7 +2542,7 @@ The more detail you include, the more accurate the assessment."></textarea>
             <div class="card-title" style="margin:0">Focus group facilitation guide</div>
             <div class="row" style="gap:6px">
               <button class="btn sm primary" onclick="copyFocusGroup()">Copy guide</button>
-              <button class="btn sm" onclick="downloadFocusGroup()">Download</button>
+              <button class="btn sm" onclick="downloadInterviewWord('participant')">Word ↗</button>
             </div>
           </div>
           <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">
@@ -5673,6 +5729,446 @@ show = function(id, el) {
     }, 60);
   }
 };
+
+
+// ══════════════════════════════════════════════════════════
+// WORD DOC GENERATOR (using HTML blob + .doc extension)
+// Works in all browsers without a library
+// ══════════════════════════════════════════════════════════
+function makeWordDoc(title, htmlBody) {
+  const html = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office'
+          xmlns:w='urn:schemas-microsoft-com:office:word'
+          xmlns='http://www.w3.org/TR/REC-html40'>
+    <head><meta charset='utf-8'>
+    <style>
+      body{font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#1a1917;margin:2cm}
+      h1{font-size:18pt;color:#534AB7;border-bottom:2pt solid #534AB7;padding-bottom:4pt}
+      h2{font-size:14pt;color:#534AB7;margin-top:14pt}
+      h3{font-size:12pt;color:#0F6E56;margin-top:10pt}
+      table{border-collapse:collapse;width:100%;margin:8pt 0}
+      th{background:#534AB7;color:#fff;padding:6pt 8pt;text-align:left;font-size:10pt}
+      td{padding:5pt 8pt;border:0.5pt solid #ccc;font-size:10pt}
+      tr:nth-child(even) td{background:#F1EFE8}
+      .badge-green{color:#0F6E56;font-weight:bold}
+      .badge-red{color:#993C1D;font-weight:bold}
+      .badge-amber{color:#633806;font-weight:bold}
+      p{margin:4pt 0;line-height:1.5}
+      .kpi{background:#EEEDFE;padding:8pt;margin:4pt;display:inline-block;min-width:120pt}
+      .kpi-val{font-size:20pt;font-weight:bold;color:#534AB7}
+      .kpi-lbl{font-size:9pt;color:#888780}
+    </style></head>
+    <body><h1>${title}</h1>${htmlBody}</body></html>`;
+  const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = title.replace(/[^a-z0-9]/gi, '-') + '.doc';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function makeExcel(filename, sheetsData) {
+  // sheetsData = [{name, headers, rows}]
+  const wb = XLSX.utils.book_new();
+  sheetsData.forEach(sheet => {
+    const wsData = [sheet.headers, ...sheet.rows];
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    // Style header row
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    for (let C = range.s.c; C <= range.e.c; C++) {
+      const cell = ws[XLSX.utils.encode_cell({r:0, c:C})];
+      if (cell) {
+        cell.s = { font: { bold: true, color: { rgb: 'FFFFFF' } }, fill: { fgColor: { rgb: '534AB7' } } };
+      }
+    }
+    // Set column widths
+    ws['!cols'] = sheet.headers.map(() => ({ wch: 22 }));
+    XLSX.utils.book_append_sheet(wb, ws, sheet.name);
+  });
+  XLSX.writeFile(wb, filename + '.xlsx');
+}
+
+// ══════════════════════════════════════════════════════════
+// TNA WORD + EXCEL DOWNLOADS
+// ══════════════════════════════════════════════════════════
+function exportTnaWord() {
+  const html = `
+    <h2>Executive Summary</h2>
+    <p>This Training Needs Analysis was conducted for <strong>Tata Consultancy Services</strong> covering <strong>268 senior managers (M4–M6)</strong> across all business units. The TNA used a multi-method approach: self-assessment survey, manager interviews, focus groups, 360° instrument, and performance data analysis.</p>
+    <h2>Competency Gap Analysis</h2>
+    <table>
+      <tr><th>Competency</th><th>Avg. Current</th><th>Required</th><th>Gap</th><th>Severity</th><th>People affected</th></tr>
+      <tr><td>Strategic thinking</td><td>2.8</td><td>4.5</td><td>1.7</td><td class="badge-red">Critical</td><td>268</td></tr>
+      <tr><td>Financial acumen</td><td>2.4</td><td>4.2</td><td>1.8</td><td class="badge-red">Critical</td><td>268</td></tr>
+      <tr><td>Data-driven decisions</td><td>2.9</td><td>4.0</td><td>1.1</td><td class="badge-amber">High</td><td>156</td></tr>
+      <tr><td>Stakeholder management</td><td>3.1</td><td>4.4</td><td>1.3</td><td class="badge-amber">High</td><td>212</td></tr>
+      <tr><td>Change leadership</td><td>2.6</td><td>4.0</td><td>1.4</td><td class="badge-amber">High</td><td>178</td></tr>
+      <tr><td>Executive communication</td><td>3.2</td><td>4.3</td><td>1.1</td><td class="badge-amber">Moderate</td><td>112</td></tr>
+      <tr><td>Cross-functional leadership</td><td>2.7</td><td>4.1</td><td>1.4</td><td class="badge-amber">Moderate</td><td>134</td></tr>
+      <tr><td>Coaching & developing others</td><td>3.0</td><td>3.8</td><td>0.8</td><td class="badge-green">Low</td><td>156</td></tr>
+    </table>
+    <h2>Priority Training Needs</h2>
+    <table>
+      <tr><th>Rank</th><th>Training Need</th><th>Business Impact</th><th>Priority</th><th>Recommended Timing</th></tr>
+      <tr><td>1</td><td>Strategic thinking & business acumen</td><td>9/10</td><td class="badge-red">Critical</td><td>Q1 2025 — immediate</td></tr>
+      <tr><td>2</td><td>Financial literacy & commercial awareness</td><td>8/10</td><td class="badge-red">Critical</td><td>Q1 2025 — immediate</td></tr>
+      <tr><td>3</td><td>Stakeholder management & influence</td><td>8/10</td><td class="badge-amber">High</td><td>Q2 2025</td></tr>
+      <tr><td>4</td><td>Data-driven decision making</td><td>7/10</td><td class="badge-amber">High</td><td>Q2 2025</td></tr>
+      <tr><td>5</td><td>Change leadership & transformation</td><td>8/10</td><td class="badge-amber">High</td><td>Q2 2025</td></tr>
+    </table>
+    <h2>Recommended Interventions</h2>
+    <table>
+      <tr><th>Intervention</th><th>Type</th><th>Reach</th><th>Duration</th><th>Est. Cost</th><th>Timing</th></tr>
+      <tr><td>Senior Leadership MDP</td><td>MDP (3 days)</td><td>268 people, 4 batches</td><td>3 days</td><td>₹17L</td><td>Feb–Aug 2025</td></tr>
+      <tr><td>Financial Acumen Workshop</td><td>Workshop (2 days)</td><td>268 people, 6 batches</td><td>2 days</td><td>₹9.6L</td><td>Mar–Jun 2025</td></tr>
+      <tr><td>Data & Analytics Workshop</td><td>Workshop (1.5 days)</td><td>156 people, 3 batches</td><td>1.5 days</td><td>₹5.6L</td><td>May–Jul 2025</td></tr>
+      <tr><td>Change Leadership Action Learning</td><td>Action learning (4 months)</td><td>60 managers in teams</td><td>4 months</td><td>₹1.8L</td><td>Apr–Aug 2025</td></tr>
+    </table>
+    <h2>Investment Summary</h2>
+    <p><strong>Total estimated investment:</strong> ₹47.2L &nbsp;|&nbsp; <strong>Per participant:</strong> ₹17,800 &nbsp;|&nbsp; <strong>Expected ROI:</strong> 4.2× (12 months)</p>
+    <h2>Evaluation Framework (Kirkpatrick)</h2>
+    <table>
+      <tr><th>Level</th><th>Measure</th><th>Target</th><th>When</th></tr>
+      <tr><td>1 — Reaction</td><td>Participant satisfaction survey</td><td>NPS ≥ 60, satisfaction ≥ 4.0/5</td><td>End of each module</td></tr>
+      <tr><td>2 — Learning</td><td>Pre/post competency assessment</td><td>≥ 20% score improvement</td><td>Day 0 and Day 30</td></tr>
+      <tr><td>3 — Behaviour</td><td>Manager + peer rating</td><td>≥ 4/5 manager endorsement</td><td>Day 60 and Day 90</td></tr>
+      <tr><td>4 — Results</td><td>Self-reported ROI project</td><td>4× ROI</td><td>Day 90</td></tr>
+    </table>`;
+  makeWordDoc('TNA Report — Training Needs Analysis', html);
+}
+
+function exportTnaExcel() {
+  makeExcel('TNA-Gap-Analysis', [
+    {
+      name: 'Gap Analysis',
+      headers: ['Competency','Category','Avg Current Score','Required Score','Gap','Severity','Priority','People Affected','Recommended Intervention'],
+      rows: [
+        ['Strategic thinking','Leadership','2.8','4.5','1.7','Critical','1 — Immediate','268','Senior Leadership MDP'],
+        ['Financial acumen','Business','2.4','4.2','1.8','Critical','2 — Immediate','268','Financial Acumen Workshop'],
+        ['Stakeholder management','Leadership','3.1','4.4','1.3','High','3 — Q2 2025','212','MDP Module'],
+        ['Data-driven decisions','Business','2.9','4.0','1.1','High','4 — Q2 2025','156','Data Analytics Workshop'],
+        ['Change leadership','Leadership','2.6','4.0','1.4','High','5 — Q2 2025','178','Action Learning'],
+        ['Executive communication','Communication','3.2','4.3','1.1','Moderate','6 — Q3 2025','112','Executive Presence Workshop'],
+        ['Cross-functional leadership','Leadership','2.7','4.1','1.4','Moderate','7 — Q3 2025','134','Job Rotation / OJT'],
+        ['Coaching & developing others','People','3.0','3.8','0.8','Low','8 — Q4 2025','156','eLearning'],
+      ]
+    },
+    {
+      name: 'Scores by Role',
+      headers: ['Role','Headcount','Strategic','Financial','Stakeholder','Data','Change','Communication','Cross-func','Coaching'],
+      rows: [
+        ['Senior Manager (M4)','156','2.8','2.4','3.1','2.9','2.6','3.2','2.7','3.0'],
+        ['General Manager (M5)','78','3.1','2.8','3.4','3.0','3.0','3.5','3.1','3.2'],
+        ['AVP (M6)','34','3.5','3.2','3.8','3.4','3.4','3.9','3.5','3.6'],
+        ['IT Delivery Lead','82','2.6','2.2','2.9','3.2','2.4','3.0','2.8','2.8'],
+        ['Sales & BD Lead','45','3.0','2.5','3.6','2.1','2.7','3.8','3.2','2.5'],
+        ['Operations Lead','49','2.7','2.6','3.0','2.8','2.8','3.0','2.9','3.1'],
+      ]
+    },
+    {
+      name: 'Interventions & Budget',
+      headers: ['Rank','Training Need','Type','Reach','Duration','Facilitator','Estimated Cost','Timing'],
+      rows: [
+        ['1','Strategic thinking','MDP — 3 days','268 (4 batches)','3 days','Dr. Sunita Mehta','₹17,00,000','Feb–Aug 2025'],
+        ['2','Financial acumen','Workshop — 2 days','268 (6 batches)','2 days','CA Priya Reddy','₹9,60,000','Mar–Jun 2025'],
+        ['3','Stakeholder management','MDP module','212','1 day (MDP)','Prof. Ajay Singh','Included in MDP','Feb–Aug 2025'],
+        ['4','Data & analytics','Workshop — 1.5 days','156 (3 batches)','1.5 days','External','₹5,60,000','May–Jul 2025'],
+        ['5','Change leadership','Action learning','60 managers','4 months','Dr. Sunita Mehta','₹1,80,000','Apr–Aug 2025'],
+        ['6','Executive communication','Workshop — 1 day','112 (3 batches)','1 day','Vikram Bose','₹3,60,000','Jul–Sep 2025'],
+        ['7','Cross-functional','On-the-job rotation','30 managers','3 months','HR + BU heads','₹50,000','Jun–Dec 2025'],
+        ['8','Coaching skills','eLearning','268','Self-paced','Digital content','₹1,80,000','Q3 2025+'],
+      ]
+    }
+  ]);
+}
+
+// ══════════════════════════════════════════════════════════
+// ANALYTICS WORD + EXCEL
+// ══════════════════════════════════════════════════════════
+function exportAnalyticsWord() {
+  const html = `
+    <h2>Program Performance Summary — Q1 2025</h2>
+    <p><strong>NPS:</strong> 72 (↑8 pts) &nbsp;|&nbsp; <strong>Completion rate:</strong> 89% &nbsp;|&nbsp; <strong>Assessment avg:</strong> 81/100 &nbsp;|&nbsp; <strong>Renewal rate:</strong> 75%</p>
+    <h2>Program Health Scorecard</h2>
+    <table>
+      <tr><th>Program</th><th>Client</th><th>Participants</th><th>Attendance</th><th>Satisfaction</th><th>NPS</th><th>Assessment</th><th>Health</th></tr>
+      <tr><td>Senior Leadership Track</td><td>TCS</td><td>42</td><td>94%</td><td>4.8</td><td>72</td><td>81/100</td><td class="badge-green">Excellent</td></tr>
+      <tr><td>First-time Managers</td><td>Infosys</td><td>68</td><td>91%</td><td>4.5</td><td>68</td><td>74/100</td><td class="badge-green">Good</td></tr>
+      <tr><td>Executive Presence</td><td>Mahindra</td><td>28</td><td>88%</td><td>4.6</td><td>61</td><td>—</td><td>Upcoming</td></tr>
+      <tr><td>Women in Leadership</td><td>HDFC</td><td>35</td><td>62%</td><td>3.9</td><td>45</td><td>58/100</td><td class="badge-red">At Risk</td></tr>
+      <tr><td>Change Leadership</td><td>Wipro</td><td>54</td><td>96%</td><td>4.7</td><td>74</td><td>88/100</td><td>Completed</td></tr>
+    </table>
+    <h2>Module Satisfaction Scores</h2>
+    <table>
+      <tr><th>Module</th><th>Satisfaction</th><th>Rating</th></tr>
+      <tr><td>Strategic thinking</td><td>████████████████████ 96%</td><td>4.8</td></tr>
+      <tr><td>Coaching for performance</td><td>███████████████████ 94%</td><td>4.7</td></tr>
+      <tr><td>Stakeholder influence</td><td>██████████████████ 90%</td><td>4.5</td></tr>
+      <tr><td>Financial acumen</td><td>█████████████████ 88%</td><td>4.4</td></tr>
+      <tr><td>Change management</td><td>███████████████ 76%</td><td>3.8</td></tr>
+    </table>
+    <h2>Revenue — Q1 2025</h2>
+    <table>
+      <tr><th>Client</th><th>Revenue</th><th>Status</th></tr>
+      <tr><td>TCS</td><td>₹48L</td><td class="badge-green">Collected</td></tr>
+      <tr><td>Wipro</td><td>₹32L</td><td class="badge-green">Collected</td></tr>
+      <tr><td>Infosys</td><td>₹28L</td><td class="badge-amber">Partial</td></tr>
+      <tr><td>HDFC Bank</td><td>₹16L</td><td class="badge-red">Overdue</td></tr>
+    </table>`;
+  makeWordDoc('MDP Analytics Report — Q1 2025', html);
+}
+
+function exportAnalyticsExcel() {
+  makeExcel('MDP-Analytics-Q1-2025', [
+    {
+      name: 'Program Scorecard',
+      headers: ['Program','Client','Participants','Attendance %','Satisfaction','NPS','Assessment Avg','Completion %','Health Status'],
+      rows: [
+        ['Senior Leadership Track','TCS','42','94%','4.8','72','81','63%','Excellent'],
+        ['First-time Managers','Infosys','68','91%','4.5','68','74','50%','Good'],
+        ['Executive Presence','Mahindra','28','88%','4.6','61','—','0%','Upcoming'],
+        ['Women in Leadership','HDFC','35','62%','3.9','45','58','29%','At Risk'],
+        ['Change Leadership','Wipro','54','96%','4.7','74','88','100%','Completed'],
+      ]
+    },
+    {
+      name: 'Module Satisfaction',
+      headers: ['Module','Program','Satisfaction Score','Response Rate'],
+      rows: [
+        ['Strategic thinking','TCS Senior Leadership','4.8','96%'],
+        ['Coaching for performance','TCS Senior Leadership','4.7','94%'],
+        ['Stakeholder influence','TCS Senior Leadership','4.5','91%'],
+        ['Financial acumen','TCS Senior Leadership','4.4','88%'],
+        ['Manager mindset','Infosys FTM','4.6','100%'],
+        ['Giving feedback','Infosys FTM','4.3','92%'],
+        ['Running 1-on-1s','Infosys FTM','4.5','95%'],
+        ['Women & leadership identity','HDFC WiL','4.1','88%'],
+        ['Navigating stakeholders','HDFC WiL','3.8','74%'],
+      ]
+    },
+    {
+      name: 'Revenue',
+      headers: ['Client','Program','Contract Value','Collected','Outstanding','Collection Rate','Status'],
+      rows: [
+        ['TCS','Senior Leadership Track','₹45,00,000','₹36,00,000','₹9,00,000','80%','Active'],
+        ['Infosys','First-time Managers','₹28,00,000','₹19,20,000','₹8,80,000','69%','Active'],
+        ['HDFC Bank','Women in Leadership','₹32,00,000','₹6,40,000','₹25,60,000','20%','At Risk'],
+        ['Mahindra','Executive Presence','₹18,00,000','₹5,40,000','₹12,60,000','30%','Upcoming'],
+        ['Wipro','Change Leadership','₹32,00,000','₹32,00,000','₹0','100%','Completed'],
+      ]
+    }
+  ]);
+}
+
+// ══════════════════════════════════════════════════════════
+// FIX: CONTRACT DETAIL - auto-render on tab click
+// ══════════════════════════════════════════════════════════
+const _origContractTab = contractTab;
+function contractTab(tab, el) {
+  document.querySelectorAll('#view-contracts .pi-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#view-contracts .pi-tab').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('ct-' + tab);
+  if (panel) panel.classList.add('active');
+  if (el) el.classList.add('active');
+  if (tab === 'sow') { setTimeout(renderSow, 50); }
+  if (tab === 'detail') { setTimeout(renderContractDetail, 50); }
+  if (tab === 'list') { setTimeout(renderContractsList, 50); }
+}
+
+// ══════════════════════════════════════════════════════════
+// FIX: MODULES PAGE - fill with dummy data if empty
+// ══════════════════════════════════════════════════════════
+(function initModules() {
+  const ml = document.getElementById('modules-list');
+  if (ml && ml.children.length === 0) {
+    const mods = [
+      {n:1,name:'Strategic thinking',fmt:'Workshop',date:'Jan 15',fac:'Dr. Mehta',sat:'4.8★',status:'Completed',current:false},
+      {n:2,name:'Stakeholder influence',fmt:'Simulation',date:'Feb 3',fac:'Prof. Singh',sat:'4.5★',status:'Completed',current:false},
+      {n:3,name:'Coaching for performance',fmt:'Workshop',date:'Mar 12',fac:'Dr. Mehta',sat:'4.7★',status:'Completed',current:false},
+      {n:4,name:'Financial acumen',fmt:'Classroom',date:'Apr 8',fac:'CA Reddy',sat:'4.4★',status:'Completed',current:false},
+      {n:5,name:'Leading with data',fmt:'Workshop',date:'Apr 22',fac:'Prof. Singh',sat:'—',status:'Upcoming',current:true},
+      {n:6,name:'Cross-functional leadership',fmt:'Action learning',date:'May 20',fac:'TBD ⚠',sat:'—',status:'Planned',current:false},
+      {n:7,name:'Change management',fmt:'Simulation',date:'Jun 18',fac:'TBD',sat:'—',status:'Planned',current:false},
+      {n:8,name:'Capstone & presentations',fmt:'Full cohort',date:'Jul 30',fac:'Dr. Mehta',sat:'—',status:'Planned',current:false},
+    ];
+    const statusC = {Completed:'b-green',Upcoming:'b-purple',Planned:'b-amber'};
+    mods.forEach(m => {
+      const div = document.createElement('div');
+      div.className = 'mod-row' + (m.current ? ' current' : '');
+      const nc = m.current ? 'color:var(--purple-d);font-weight:700' : 'color:var(--text-3)';
+      const fc = m.fac.includes('⚠') ? 'color:var(--coral-d);font-weight:500' : 'color:var(--text-2)';
+      div.innerHTML = `<div style="font-size:12px;font-weight:600;${nc}">${m.n}</div>
+        <div><div style="font-weight:${m.current?'600':'500'};font-size:13px${m.current?';color:var(--purple-d)':''}">${m.name}</div><div style="font-size:11px;color:var(--text-3)">${m.fmt}</div></div>
+        <div style="font-size:12.5px;${m.current?'color:var(--purple-d);font-weight:600':'color:var(--text-2)'}">${m.date}</div>
+        <div style="font-size:12.5px;${fc}">${m.fac}</div>
+        <div><span class="badge ${statusC[m.status]||'b-gray'}">${m.status}</span></div>
+        <div style="font-size:12px;font-weight:600;${m.sat!=='—'?'color:var(--teal-d)':'color:var(--text-3)'}">${m.sat}</div>`;
+      ml.appendChild(div);
+    });
+  }
+})();
+
+// ══════════════════════════════════════════════════════════
+// FIX: PORTAL MODULES - fill if empty
+// ══════════════════════════════════════════════════════════
+(function initPortalModules() {
+  const pm = document.getElementById('portal-modules');
+  if (pm && pm.children.length === 0) {
+    const portalMods = [
+      {n:1,name:'Strategic thinking',badge:'b-green',label:'Done · 4.8★',done:true},
+      {n:2,name:'Stakeholder influence',badge:'b-green',label:'Done · 4.5★',done:true},
+      {n:3,name:'Coaching for performance',badge:'b-green',label:'Done · 4.7★',done:true},
+      {n:4,name:'Financial acumen',badge:'b-green',label:'Done · 4.4★',done:true},
+      {n:5,name:'Leading with data',badge:'b-purple',label:'Apr 22 — Next',done:false,current:true},
+      {n:6,name:'Cross-functional leadership',badge:'b-gray',label:'Planned',done:false},
+      {n:7,name:'Change management',badge:'b-gray',label:'Planned',done:false},
+      {n:8,name:'Capstone & presentations',badge:'b-gray',label:'Jul 30',done:false},
+    ];
+    portalMods.forEach(m => {
+      const bg = m.done?'var(--teal-l)':m.current?'var(--purple-l)':'var(--bg)';
+      const fc = m.done?'var(--teal-d)':m.current?'var(--purple-d)':'var(--text-3)';
+      pm.innerHTML += `<div class="row" style="gap:10px;font-size:13px${!m.done&&!m.current?';color:var(--text-3)':''}">
+        <div style="width:22px;height:22px;border-radius:50%;background:${bg};display:flex;align-items:center;justify-content:center;font-size:9px;color:${fc};font-weight:700;flex-shrink:0">${m.n}</div>
+        <span style="flex:1">${m.name}</span>
+        <span class="badge ${m.badge}">${m.label}</span>
+      </div>`;
+    });
+  }
+})();
+
+// ══════════════════════════════════════════════════════════
+// FIX: TNA export buttons — Word + Excel
+// ══════════════════════════════════════════════════════════
+function tnaExport() { exportTnaWord(); }
+
+// Override old text-only downloads with proper Word/Excel
+function exportTnaReport() { exportTnaWord(); }
+function exportTnaCsv()    { exportTnaExcel(); }
+
+// ══════════════════════════════════════════════════════════
+// FIX: Download buttons in TNA → Word/Excel
+// ══════════════════════════════════════════════════════════
+function downloadSurveyWord() {
+  if (!activeProject) { exportTnaWord(); return; }
+  let html = `<h2>Participant Self-Assessment Survey</h2>
+    <p><strong>Project:</strong> ${activeProject.name} &nbsp;|&nbsp; <strong>Client:</strong> ${activeProject.client}</p>
+    <p><em>Instructions: Rate yourself on each competency from 1 (no awareness) to 5 (expert level). This survey is confidential.</em></p>`;
+  activeProject.surveyQuestions.forEach((q, i) => {
+    if (q.type === 'info') { html += `<h3>${q.text}</h3>`; return; }
+    html += `<p><strong>Q${i+1}. ${q.text}</strong></p>`;
+    if (q.type === 'scale') html += `<p>[ 1 ] &nbsp; [ 2 ] &nbsp; [ 3 ] &nbsp; [ 4 ] &nbsp; [ 5 ] &nbsp;&nbsp; <em>${q.low||''} → ${q.high||''}</em></p>`;
+    if (q.type === 'multi') html += `<ul>${(q.options||[]).map(o=>`<li>○ ${o}</li>`).join('')}</ul>`;
+    if (q.type === 'text') html += `<p>Answer: ____________________________________________</p>`;
+    if (q.followup) html += `<p><em>Follow-up: ${q.followup}</em></p>`;
+  });
+  makeWordDoc(`Survey-${activeProject.client}`, html);
+}
+
+function downloadSurveyExcel() {
+  if (!activeProject) { exportTnaExcel(); return; }
+  const rows = activeProject.surveyQuestions
+    .filter(q => q.type !== 'info')
+    .map((q, i) => [
+      `Q${i+1}`,
+      q.type === 'scale' ? 'Rating 1–5' : q.type === 'multi' ? 'Multiple choice' : 'Open text',
+      q.text,
+      q.type === 'scale' ? `${q.low||''} → ${q.high||''}` : (q.options||[]).join(' | '),
+      '[Participant response]'
+    ]);
+  makeExcel(`Survey-${activeProject.client}`, [{
+    name: 'Survey',
+    headers: ['Q#', 'Type', 'Question', 'Options / Scale', 'Response'],
+    rows
+  }]);
+}
+
+function download360Word() {
+  if (!activeProject) return;
+  const comps = activeProject.comps;
+  let html = `<h2>360° TNA Instrument</h2>
+    <p><strong>Project:</strong> ${activeProject.name} &nbsp;|&nbsp; <strong>Client:</strong> ${activeProject.client}</p>
+    <p><em>Instructions: Rate the individual on each competency from 1 (no evidence) to 5 (expert level). Include a specific behavioural example. Your response is confidential.</em></p>
+    <table><tr><th>Competency</th><th>Rating (1–5)</th><th>Behavioural example</th></tr>
+    ${comps.map(c => `<tr><td>${c}</td><td>[ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]</td><td>&nbsp;</td></tr>`).join('')}
+    </table>
+    <p><strong>Overall:</strong> What is the single most important development area for this person?</p>
+    <p>_______________________________________________</p>`;
+  makeWordDoc(`360-TNA-${activeProject.client}`, html);
+}
+
+function downloadInterviewWord(type) {
+  if (!activeProject) return;
+  const guide = generateInterviewGuide(type, activeProject.comps);
+  let html = `<h2>${type.charAt(0).toUpperCase()+type.slice(1)} Interview Guide</h2>
+    <p><strong>Project:</strong> ${activeProject.name} &nbsp;|&nbsp; <strong>Client:</strong> ${activeProject.client}</p>`;
+  guide.sections.forEach(s => {
+    html += `<h3>${s.title}</h3>`;
+    s.questions.forEach((q, i) => {
+      html += `<p><strong>${i+1}. ${q}</strong></p><p style="color:#888">Notes: _______________________________________________</p>`;
+    });
+  });
+  makeWordDoc(`Interview-${type}-${activeProject.client}`, html);
+}
+
+function downloadClientPlanWord() {
+  if (!activeProject) return;
+  const p = activeProject;
+  const html = `
+    <h2>Training Needs Analysis — Client Project Plan</h2>
+    <p><strong>Client:</strong> ${p.client} &nbsp;|&nbsp; <strong>TNA Lead:</strong> ${p.lead}</p>
+    <p><strong>Start:</strong> ${fmtDate(p.date)} &nbsp;|&nbsp; <strong>Est. completion:</strong> ${fmtDate(addWeeks(p.date,8))}</p>
+    <h2>Scope</h2>
+    <p>This TNA will investigate capability gaps in: <strong>${p.comps.join(', ')}</strong><br>Target audience: ${p.audience||'As agreed'}</p>
+    <h2>Key Milestones</h2>
+    <table><tr><th>Date</th><th>Activity</th><th>Format</th><th>Duration</th></tr>
+    ${p.timeline.map(t => `<tr><td>${fmtDate(t.date)}</td><td>${t.title}</td><td>${t.mode}</td><td>${t.duration}</td></tr>`).join('')}
+    </table>
+    <h2>What We Need From You</h2>
+    <ul>
+      <li>Participant list with emails and manager details (before start date)</li>
+      <li>Manager availability for 30-min interviews (Week 1–2)</li>
+      <li>Venue for in-person focus groups (Week 3)</li>
+      <li>Internal communication to participants encouraging participation</li>
+    </ul>
+    <h2>Deliverables</h2>
+    <ul>
+      <li>Full TNA findings report with competency gap analysis</li>
+      <li>Priority ranking of training needs with business impact scores</li>
+      <li>Recommended learning interventions with investment estimate</li>
+      <li>Program design brief ready for faculty</li>
+      <li>Kirkpatrick 4-level evaluation framework</li>
+    </ul>`;
+  makeWordDoc(`TNA-Client-Plan-${p.client}`, html);
+}
+
+function downloadClientPlanExcel() {
+  if (!activeProject) return;
+  const p = activeProject;
+  makeExcel(`TNA-Timeline-${p.client}`, [{
+    name: 'Project Timeline',
+    headers: ['Week','Date','Activity','Description','Format','Duration','Owner'],
+    rows: p.timeline.map(t => [
+      `Week ${t.week}`, fmtDate(t.date), t.title, t.desc, t.mode, t.duration, t.owner
+    ])
+  },{
+    name: 'Competencies',
+    headers: ['Competency','Priority','Required Proficiency (1-5)'],
+    rows: p.comps.map((c, i) => [c, i < 3 ? 'Core' : i < 6 ? 'Priority' : 'Nice to have', '4.0'])
+  }]);
+}
+
+// Override old download functions with Word versions
+function downloadSurvey()     { downloadSurveyWord(); }
+function downloadInterview(t) { downloadInterviewWord(t); }
+function download360()        { download360Word(); }
+function downloadFocusGroup() { if(activeProject){downloadInterviewWord('participant');} }
+function downloadClientPlan() { downloadClientPlanWord(); }
+function downloadSow() {
+  const text = document.getElementById('sow-preview')?.textContent || '';
+  const html = `<h2>Statement of Work — Management Development Program</h2><pre style="font-family:Calibri;font-size:10pt;white-space:pre-wrap">${text}</pre>`;
+  makeWordDoc('Statement-of-Work-MDP', html);
+}
 
 </script>
 </body>
