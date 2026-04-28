@@ -472,6 +472,27 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 .nps-passive{background:var(--amber)}
 .nps-promoter{background:var(--teal)}
 
+
+/* ── REQUIREMENT STORE ── */
+.req-store-banner{background:linear-gradient(135deg,var(--purple-l),var(--teal-l));border:1px solid var(--border);border-radius:var(--r-xl);padding:1rem 1.25rem;display:flex;align-items:center;gap:14px}
+.req-store-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.2)}}
+.req-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:var(--purple-l);color:var(--purple-d);border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:1px solid rgba(127,119,221,0.3);transition:all 0.12s}
+.req-pill:hover{background:var(--purple);color:#fff}
+.req-pill.active-req{background:var(--teal);color:#fff;border-color:var(--teal)}
+/* ── FACULTY MODAL ── */
+.faculty-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn 0.15s ease}
+.faculty-modal{background:var(--card);border-radius:var(--r-xl);width:100%;max-width:680px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:slideUp 0.2s ease}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-hdr{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;position:sticky;top:0;background:var(--card);z-index:1}
+.modal-body{padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:14px}
+.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;gap:8px;position:sticky;bottom:0;background:var(--card)}
+/* ── ASSESSMENT CREATOR ── */
+.assess-q-block{border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem;background:var(--card);transition:border-color 0.12s}
+.assess-q-block:hover{border-color:var(--coral-l)}
+.assess-q-num{width:26px;height:26px;border-radius:50%;background:var(--coral-l);color:var(--coral-d);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.assess-type-chip{padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;display:inline-block;margin-bottom:6px}
+
 </style>
 </head>
 <body>
@@ -515,10 +536,7 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
     <span class="nav-badge" style="background:var(--teal-l);color:var(--teal-d)">New</span>
   </div>
   <div class="nav-item" onclick="show('faculty-match',this)">
-    <span class="sb-phase-icon" style="background:rgba(29,158,117,0.15);color:var(--teal-d)">3b</span>Match & shortlist
-  </div>
-  <div class="nav-item" onclick="show('faculty-send',this)">
-    <span class="sb-phase-icon" style="background:rgba(29,158,117,0.15);color:var(--teal-d)">3c</span>Send requirement
+    <span class="sb-phase-icon" style="background:rgba(29,158,117,0.15);color:var(--teal-d)">3b</span>Match, shortlist & send
   </div>
 
   <div class="sb-section">📋 Phase 4 — Outline</div>
@@ -578,11 +596,15 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
     <span class="sb-phase-icon" style="background:rgba(216,90,48,0.15);color:var(--coral-d)">8a</span>Evaluation hub
     <span class="nav-badge" style="background:var(--coral-l);color:var(--coral-d)">New</span>
   </div>
+  <div class="nav-item" onclick="show('assessment-creator',this)">
+    <span class="sb-phase-icon" style="background:rgba(216,90,48,0.15);color:var(--coral-d)">8b</span>Assessment creator
+    <span class="nav-badge" style="background:var(--coral-l);color:var(--coral-d)">New</span>
+  </div>
   <div class="nav-item" onclick="show('assessments',this)">
-    <span class="sb-phase-icon" style="background:rgba(216,90,48,0.15);color:var(--coral-d)">8b</span>Assessments
+    <span class="sb-phase-icon" style="background:rgba(216,90,48,0.15);color:var(--coral-d)">8c</span>Assessment results
   </div>
   <div class="nav-item" onclick="show('analytics',this)">
-    <span class="sb-phase-icon" style="background:rgba(216,90,48,0.15);color:var(--coral-d)">8c</span>Analytics
+    <span class="sb-phase-icon" style="background:rgba(216,90,48,0.15);color:var(--coral-d)">8d</span>Analytics
   </div>
 
   <div class="sb-section">⚙️ Tools</div>
@@ -819,6 +841,44 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 <!-- ════════ CLIENTS ════════ -->
 <div id="view-clients" class="view">
   <div class="topbar"><div><div class="page-title">Clients</div><div class="page-sub">Layer 1 — Sales & onboarding · Make.com S-01, S-02, S-03</div></div><button class="btn primary">+ New client</button></div>
+  <!-- ══ CENTRAL REQUIREMENT STORE ══ -->
+  <div class="card" style="border-color:var(--purple)">
+    <div class="row between" style="margin-bottom:10px">
+      <div>
+        <div class="card-title" style="margin:0;color:var(--purple-d)">📌 Central Requirement Store</div>
+        <div style="font-size:12px;color:var(--text-3);margin-top:3px">Paste a requirement once — it flows to TNA, Faculty matching, Outline validator, Curriculum validator, and Assessment creator automatically.</div>
+      </div>
+      <div class="row" style="gap:6px">
+        <button class="btn sm primary" onclick="saveActiveReq()">Save requirement</button>
+        <button class="btn sm" onclick="clearActiveReq()">Clear store</button>
+      </div>
+    </div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div>
+        <div class="row" style="gap:6px;margin-bottom:8px">
+          <select class="comp-input" id="store-client" style="flex:1">
+            <option value="">Select client...</option>
+            <option>Tata Consultancy Services</option><option>Infosys</option><option>HDFC Bank</option><option>Mahindra Group</option><option>Wipro</option>
+          </select>
+          <input class="comp-input" id="store-program" placeholder="Program name" style="flex:1">
+        </div>
+        <textarea class="validator-area" id="store-req-text" style="min-height:150px" placeholder="Paste the full training requirement here once. This becomes the single source of truth for all phases — TNA, Faculty matching, Outline validation, Curriculum validation, and Assessment creation."></textarea>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em">Saved requirements</div>
+        <div id="saved-reqs-list" style="display:flex;flex-direction:column;gap:5px;flex:1;max-height:180px;overflow-y:auto"></div>
+        <div class="info-banner blue" style="margin-top:0">
+          <div style="font-size:11px;font-weight:600;color:var(--blue-d);margin-bottom:4px">Single source of truth</div>
+          <div style="font-size:12px;color:var(--blue-d);line-height:1.5">Save → every section (TNA, matching, validators, assessments) shows a teal banner confirming the active requirement is loaded. No re-pasting needed.</div>
+        </div>
+      </div>
+    </div>
+    <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Saved requirements — click to activate</div>
+    <div id="active-reqs-pills" class="row wrap" style="gap:6px">
+      <span style="font-size:12px;color:var(--text-3)">No requirements saved yet</span>
+    </div>
+  </div>
+
   <div class="metrics four">
     <div class="metric"><div class="metric-label">Total clients</div><div class="metric-value">4</div></div>
     <div class="metric"><div class="metric-label">Active</div><div class="metric-value">3</div></div>
@@ -2879,112 +2939,193 @@ Dr. Sunita Mehta has 12 years experience in leadership development across Fortun
 </div>
 
 <!-- ════════ FACULTY MATCH ════════ -->
+<!-- ════════ FACULTY MATCH + SHORTLIST + SEND ════════ -->
 <div id="view-faculty-match" class="view">
   <div class="topbar">
-    <div><div class="page-title">Match Faculty to Requirement</div><div class="page-sub">Phase 3b — AI-powered matching: competency tags + keyword analysis + weighted scoring</div></div>
+    <div><div class="page-title">Faculty — Match, Shortlist & Send</div><div class="page-sub">Phase 3b/3c · AI matches profiles to requirement · Click any faculty card to see full profile · Shortlist and send from one place</div></div>
     <div class="btn-row">
-      <button class="btn primary" onclick="show('faculty-send',document.querySelectorAll('.nav-item')[7])">Send to shortlisted →</button>
+      <button class="btn" onclick="show('faculty-db',document.querySelectorAll('.nav-item')[5])">← Faculty database</button>
+      <button class="btn primary" onclick="show('outline-review',document.querySelectorAll('.nav-item')[7])">Outline received? Phase 4 →</button>
     </div>
   </div>
 
-  <div class="two-col">
-    <div class="card">
-      <div class="card-title">Paste client requirement to match against</div>
-      <select class="comp-input" style="margin-bottom:10px" id="match-client-select">
-        <option value="">Or select an existing requirement...</option>
-        <option>TCS — Senior Leadership Track</option>
-        <option>HDFC — Women in Leadership</option>
-        <option>Mahindra — Executive Presence</option>
-        <option>Infosys — First-time Managers</option>
-      </select>
-      <textarea class="validator-area" id="match-req-text" style="min-height:180px" placeholder="Paste the client requirement here. The tool will match it against all faculty profiles in the database.
-
-The matching engine checks:
-• Competency tag overlap (60% weight)
-• Resume keyword match (25% weight)  
-• Industry experience match (15% weight)
-
-The result is a scored shortlist ranked from best to weakest match."></textarea>
-      <button class="btn primary" style="width:100%;margin-top:10px" onclick="runFacultyMatch()">Run matching ↗</button>
+  <!-- Active requirement banner -->
+  <div id="match-req-banner" class="req-store-banner" style="display:none">
+    <div class="req-store-dot" style="background:var(--teal)"></div>
+    <div style="flex:1">
+      <div style="font-size:11px;font-weight:700;color:var(--purple-d);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Active requirement loaded from central store</div>
+      <div id="match-req-preview" style="font-size:12.5px;color:var(--text);line-height:1.5"></div>
     </div>
-    <div class="card" id="match-results-card">
-      <div class="card-title">Matching results</div>
-      <div id="match-results-body" style="font-size:13px;color:var(--text-3);text-align:center;padding:2rem 0">
-        <div style="font-size:32px;margin-bottom:10px;opacity:0.3">🎯</div>
-        Paste a requirement and click Run matching to see scored faculty results
+    <button class="btn sm" onclick="document.getElementById('match-override-section').style.display=document.getElementById('match-override-section').style.display==='none'?'block':'none'" style="flex-shrink:0">Override</button>
+  </div>
+
+  <!-- Override / paste requirement (shown when no active req or user wants different) -->
+  <div id="match-override-section">
+    <div class="card">
+      <div class="row between" style="margin-bottom:8px">
+        <div class="card-title" style="margin:0">Client requirement</div>
+        <div class="row" style="gap:6px">
+          <span style="font-size:12px;color:var(--text-3)">Or select saved:</span>
+          <select class="comp-input" style="max-width:220px;font-size:12px" id="match-client-select" onchange="loadReqFromStore()">
+            <option value="">Select saved requirement...</option>
+          </select>
+        </div>
+      </div>
+      <textarea class="validator-area" id="match-req-text" style="min-height:120px" placeholder="Paste the client requirement here — or select from the dropdown above if you saved it in Phase 1 / TNA section. Once you run matching this is saved automatically."></textarea>
+      <div class="row" style="gap:8px;margin-top:8px">
+        <button class="btn primary" id="match-run-btn" onclick="runFacultyMatch()">Run AI matching ↗</button>
+        <div class="row" style="gap:4px;font-size:12px;color:var(--text-3);align-items:center;margin-left:auto">
+          <span>Matching logic:</span>
+          <span class="badge b-purple">60% competency</span>
+          <span class="badge b-blue">25% resume keywords</span>
+          <span class="badge b-teal">15% industry</span>
+          <span style="margin-left:4px">+ Claude AI deep analysis</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <div id="match-shortlist-section" style="display:none">
-    <div class="card">
-      <div class="card-title">Shortlisted faculty — ready to send</div>
-      <div id="match-shortlist-grid" style="display:flex;flex-direction:column;gap:10px"></div>
-      <button class="btn primary" style="margin-top:12px" onclick="show('faculty-send',document.querySelectorAll('.nav-item')[7])">Send requirement to shortlisted faculty →</button>
+  <!-- Results + Send — two columns -->
+  <div class="two-col" id="match-main-cols" style="display:none">
+
+    <!-- LEFT: Results -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="card" style="padding:0.85rem 1.1rem">
+        <div class="row between">
+          <div class="card-title" style="margin:0">Match results <span id="match-result-count" style="font-size:12px;color:var(--text-3);font-weight:400"></span></div>
+          <div class="row" style="gap:6px">
+            <span style="font-size:11.5px;color:var(--text-3)">Sort:</span>
+            <button class="btn sm" onclick="sortMatch('score')" id="sort-score" style="background:var(--purple);color:#fff;border-color:var(--purple)">Score</button>
+            <button class="btn sm" onclick="sortMatch('name')" id="sort-name">Name</button>
+            <button class="btn sm" onclick="sortMatch('rate')" id="sort-rate">Rate</button>
+          </div>
+        </div>
+      </div>
+      <div id="match-results-body" style="display:flex;flex-direction:column;gap:8px">
+        <div class="card" style="text-align:center;padding:2.5rem;color:var(--text-3)">
+          <div style="font-size:32px;margin-bottom:10px;opacity:0.3">🎯</div>
+          Paste a requirement above and click Run AI matching
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Shortlist + Send -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <!-- Shortlist -->
+      <div class="card">
+        <div class="card-title">Shortlisted faculty <span id="shortlist-count" class="badge b-teal" style="font-size:11px;margin-left:6px">0</span></div>
+        <div id="shortlist-preview" style="font-size:13px;color:var(--text-3);padding:8px 0">Check the box on any faculty card to add them to the shortlist.</div>
+      </div>
+
+      <!-- Send requirement -->
+      <div class="card" id="send-panel">
+        <div class="card-title">Send requirement to shortlisted</div>
+        <div style="margin-bottom:10px">
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Program name</div>
+          <input class="comp-input" id="send-program" placeholder="e.g. TCS — Senior Leadership Track">
+        </div>
+        <div style="margin-bottom:12px">
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Outline deadline</div>
+          <input class="comp-input" id="send-deadline" type="date">
+        </div>
+        <button class="btn primary" style="width:100%" onclick="generateOutreach()">Generate email + WhatsApp ↗</button>
+
+        <div id="send-email-card" style="display:none;margin-top:12px">
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Email draft</div>
+          <div id="send-email-body" style="font-size:12.5px;line-height:1.7;color:var(--text);background:var(--bg);padding:12px;border-radius:var(--r-md);white-space:pre-wrap;max-height:200px;overflow-y:auto"></div>
+          <div class="row" style="gap:6px;margin-top:8px">
+            <button class="btn sm primary" onclick="copyOutreach('email')">Copy email</button>
+            <button class="btn sm" onclick="downloadOutreachWord('email')">Word ↗</button>
+          </div>
+        </div>
+
+        <div id="send-whatsapp-card" style="display:none;margin-top:10px">
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">WhatsApp message</div>
+          <div id="send-whatsapp-body" style="font-size:12.5px;line-height:1.7;color:var(--text);background:var(--bg);padding:12px;border-radius:var(--r-md);white-space:pre-wrap"></div>
+          <div class="row" style="gap:6px;margin-top:8px">
+            <button class="btn sm primary" onclick="copyOutreach('whatsapp')">Copy</button>
+            <button class="btn sm" onclick="openWhatsApp()">Open WhatsApp ↗</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Outreach log -->
+      <div class="card">
+        <div class="card-title">Outreach log</div>
+        <div style="display:flex;flex-direction:column;gap:6px" id="outreach-log-mini">
+          <div class="row between" style="font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--border)"><span style="font-weight:500">Dr. Sunita Mehta</span><span class="badge b-green">Outline received</span></div>
+          <div class="row between" style="font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--border)"><span style="font-weight:500">Prof. Ajay Singh</span><span class="badge b-purple">Outline pending</span></div>
+          <div class="row between" style="font-size:12.5px;padding:5px 0"><span style="font-weight:500">Vikram Bose</span><span class="badge b-amber">Awaiting reply</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI status banner (shown during AI analysis) -->
+  <div id="ai-match-banner" style="display:none" class="info-banner blue">
+    <div class="thinking-dots" style="margin:0"><span></span><span></span><span></span></div>
+    <span style="font-size:12.5px;color:var(--blue-d)">Claude AI is analysing faculty profiles against the requirement...</span>
+  </div>
+</div>
+
+<!-- ════════ FACULTY PROFILE MODAL (global) ════════ -->
+<div id="faculty-modal-overlay" class="faculty-modal-overlay" style="display:none" onclick="if(event.target===this)closeFacultyModal()">
+  <div class="faculty-modal">
+    <div class="modal-hdr">
+      <div class="av" id="modal-av" style="width:48px;height:48px;font-size:15px;flex-shrink:0"></div>
+      <div style="flex:1">
+        <div style="font-size:16px;font-weight:700;color:var(--text)" id="modal-name"></div>
+        <div style="font-size:12.5px;color:var(--text-2);margin-top:2px" id="modal-title"></div>
+        <div id="modal-badges" style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap"></div>
+      </div>
+      <button onclick="closeFacultyModal()" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--text-3);padding:4px;line-height:1">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="two-col" style="gap:10px">
+        <div>
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Contact</div>
+          <div style="font-size:13px;display:flex;flex-direction:column;gap:4px">
+            <div>✉ <a id="modal-email" href="#" style="color:var(--blue-d)"></a></div>
+            <div id="modal-phone" style="color:var(--text-2)"></div>
+          </div>
+        </div>
+        <div>
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Details</div>
+          <div style="font-size:13px;display:flex;flex-direction:column;gap:4px">
+            <div id="modal-exp" style="color:var(--text-2)"></div>
+            <div id="modal-rate" style="font-weight:600;color:var(--text)"></div>
+            <div id="modal-sessions" style="color:var(--text-3)"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Expertise areas</div>
+        <div id="modal-expertise" style="display:flex;flex-wrap:wrap;gap:5px"></div>
+      </div>
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Industries served</div>
+        <div id="modal-industries" style="display:flex;flex-wrap:wrap;gap:5px"></div>
+      </div>
+      <div id="modal-ai-section" style="display:none">
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--purple-d);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">🤖 AI match analysis for this requirement</div>
+        <div id="modal-ai-body" style="background:var(--purple-l);border-radius:var(--r-md);padding:12px;font-size:13px;color:var(--purple-d);line-height:1.7"></div>
+      </div>
+      <div id="modal-resume-section" style="display:none">
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Resume / bio extract</div>
+        <div id="modal-resume" style="font-size:12.5px;color:var(--text-2);line-height:1.7;background:var(--bg);padding:10px;border-radius:var(--r-md);max-height:160px;overflow-y:auto"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn primary" id="modal-email-btn" onclick="copyModalEmail()">Copy email</button>
+      <button class="btn" id="modal-wa-btn" onclick="openModalWhatsApp()">WhatsApp ↗</button>
+      <a id="modal-drive-btn" href="#" target="_blank" class="btn" style="text-decoration:none;display:none">📁 View CV on Drive ↗</a>
+      <button class="btn" onclick="addToShortlistFromModal()" id="modal-shortlist-btn">+ Shortlist</button>
+      <button class="btn sm danger" onclick="closeFacultyModal()" style="margin-left:auto">Close</button>
     </div>
   </div>
 </div>
 
-<!-- ════════ FACULTY SEND ════════ -->
-<div id="view-faculty-send" class="view">
-  <div class="topbar">
-    <div><div class="page-title">Send Requirement to Faculty</div><div class="page-sub">Phase 3c — Generate email + WhatsApp messages · Send via Make.com or manually</div></div>
-  </div>
-  <div class="two-col">
-    <div class="card">
-      <div class="card-title">Configure outreach</div>
-      <div style="margin-bottom:10px"><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Select faculty to contact</div>
-        <div id="send-faculty-checkboxes" style="display:flex;flex-direction:column;gap:6px"></div>
-      </div>
-      <div style="margin-bottom:10px"><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Client & program</div>
-        <input class="comp-input" id="send-program" placeholder="e.g. TCS — Senior Leadership Track" style="margin-bottom:6px">
-      </div>
-      <div style="margin-bottom:10px"><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Outline deadline</div>
-        <input class="comp-input" id="send-deadline" type="date">
-      </div>
-      <div style="margin-bottom:14px"><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Requirement summary</div>
-        <textarea class="validator-area" id="send-req-summary" style="min-height:100px" placeholder="Paste a brief summary of the requirement (3–5 bullet points)..."></textarea>
-      </div>
-      <button class="btn primary" style="width:100%" onclick="generateOutreach()">Generate email + WhatsApp drafts ↗</button>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div class="card" id="send-email-card" style="display:none">
-        <div class="card-title">Email draft</div>
-        <div id="send-email-body" style="font-size:13px;line-height:1.7;color:var(--text);background:var(--bg);padding:12px;border-radius:var(--r-md);white-space:pre-wrap"></div>
-        <div class="row" style="gap:8px;margin-top:10px">
-          <button class="btn sm primary" onclick="copyOutreach('email')">Copy email</button>
-          <button class="btn sm" onclick="downloadOutreachWord('email')">Word ↗</button>
-        </div>
-      </div>
-      <div class="card" id="send-whatsapp-card" style="display:none">
-        <div class="card-title">WhatsApp message draft</div>
-        <div id="send-whatsapp-body" style="font-size:13px;line-height:1.7;color:var(--text);background:var(--bg);padding:12px;border-radius:var(--r-md);white-space:pre-wrap"></div>
-        <div class="row" style="gap:8px;margin-top:10px">
-          <button class="btn sm primary" onclick="copyOutreach('whatsapp')">Copy message</button>
-          <button class="btn sm" onclick="openWhatsApp()">Open WhatsApp ↗</button>
-        </div>
-      </div>
-      <div class="info-banner blue" id="send-makecom-note" style="display:none">
-        <div style="font-size:12px;font-weight:600;color:var(--blue-d);margin-bottom:5px">Automate with Make.com</div>
-        <div style="font-size:12.5px;color:var(--blue-d)">Use Make.com scenario S-08 to auto-send this email when a faculty member is assigned in the Facilitators sheet. The WhatsApp message can be sent via the WhatsApp Business API using S-10.</div>
-      </div>
-    </div>
-  </div>
-  <!-- Sent log -->
-  <div class="card">
-    <div class="card-title">Outreach log</div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Faculty</th><th>Program</th><th>Sent via</th><th>Date sent</th><th>Outline due</th><th>Response</th><th>Status</th></tr></thead>
-        <tbody id="outreach-log-tbody">
-          <tr><td style="font-weight:500">Dr. Sunita Mehta</td><td>TCS Senior Leadership</td><td><span class="badge b-blue">Email + WhatsApp</span></td><td>Apr 10</td><td>Apr 17</td><td><span class="badge b-green">Confirmed</span></td><td><span class="badge b-green">Outline received</span></td></tr>
-          <tr><td style="font-weight:500">Prof. Ajay Singh</td><td>Infosys FTM</td><td><span class="badge b-blue">Email</span></td><td>Apr 12</td><td>Apr 19</td><td><span class="badge b-green">Confirmed</span></td><td><span class="badge b-purple">Outline pending</span></td></tr>
-          <tr><td style="font-weight:500">Vikram Bose</td><td>Mahindra Exec Presence</td><td><span class="badge b-amber">WhatsApp</span></td><td>Apr 14</td><td>Apr 21</td><td><span class="badge b-amber">No reply yet</span></td><td><span class="badge b-amber">Awaiting</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+
 
 <!-- ════════ OUTLINE REVIEW ════════ -->
 <div id="view-outline-review" class="view">
@@ -3309,6 +3450,110 @@ The result is a scored shortlist ranked from best to weakest match."></textarea>
         <div class="gap-item" style="background:var(--purple-l)"><span style="font-size:16px">📊</span><div><strong style="color:var(--purple-d)">Priya Agarwal (Infosys) — Financial acumen</strong><br><span style="color:var(--purple-d)">Built business case for a ₹2.2Cr infrastructure investment that was approved. Previously could not get internal approval for similar initiatives.</span></div></div>
         <div class="gap-item" style="background:var(--blue-l)"><span style="font-size:16px">🔄</span><div><strong style="color:var(--blue-d)">Sunita Mehta (TCS) — Change leadership</strong><br><span style="color:var(--blue-d)">Led digital migration project affecting 180 people with 94% adoption rate vs 60% historical average. Applied Kotter's 8-step model.</span></div></div>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ ASSESSMENT CREATOR ════════ -->
+<div id="view-assessment-creator" class="view">
+  <div class="topbar">
+    <div><div class="page-title">Assessment Creator</div><div class="page-sub">Phase 8b — Generate pre & post learning assessments tailored to each requirement · Auto-fetches from central store</div></div>
+    <div class="btn-row">
+      <button class="btn" onclick="generateAssessment()">Generate assessments ↗</button>
+      <button class="btn primary" onclick="downloadAssessmentWord()">Download Word ↗</button>
+    </div>
+  </div>
+
+  <!-- Active requirement banner -->
+  <div id="assess-creator-banner" class="req-store-banner" style="display:none">
+    <div class="req-store-dot" style="background:var(--coral)"></div>
+    <div style="flex:1">
+      <div style="font-size:11px;font-weight:700;color:var(--purple-d);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Requirement loaded from central store</div>
+      <div id="assess-creator-req-preview" style="font-size:12.5px;color:var(--text)"></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <!-- Config -->
+      <div class="card">
+        <div class="card-title">Assessment configuration</div>
+        <div style="margin-bottom:10px">
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Requirement (auto-loaded or paste)</div>
+          <textarea class="validator-area" id="assess-req-text" style="min-height:100px" placeholder="Auto-loads from central requirement store. Or paste here..."></textarea>
+        </div>
+        <div class="two-col" style="gap:10px;margin-bottom:10px">
+          <div>
+            <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Questions per competency</div>
+            <select class="comp-input" id="assess-q-per-comp">
+              <option value="2">2 questions</option>
+              <option value="3" selected>3 questions</option>
+              <option value="4">4 questions</option>
+              <option value="5">5 questions</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Assessment type</div>
+            <select class="comp-input" id="assess-type">
+              <option value="both">Pre + Post (full set)</option>
+              <option value="pre">Pre-program only</option>
+              <option value="post">Post-program only</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Question formats to include</div>
+          <div class="row wrap" style="gap:6px" id="assess-format-chips">
+            <span class="chip sel" onclick="toggleChip(this,'assess-format-chips')">MCQ (knowledge check)</span>
+            <span class="chip sel" onclick="toggleChip(this,'assess-format-chips')">Scenario / case</span>
+            <span class="chip sel" onclick="toggleChip(this,'assess-format-chips')">Self-rating scale</span>
+            <span class="chip" onclick="toggleChip(this,'assess-format-chips')">Open-ended reflection</span>
+            <span class="chip" onclick="toggleChip(this,'assess-format-chips')">True / False</span>
+          </div>
+        </div>
+        <button class="btn primary" style="width:100%" onclick="generateAssessment()">Generate assessments ↗</button>
+      </div>
+
+      <!-- Competencies detected -->
+      <div class="card" id="assess-comp-card" style="display:none">
+        <div class="card-title">Competencies detected in requirement</div>
+        <div id="assess-comp-tags" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+        <div style="font-size:12px;color:var(--text-3);margin-top:8px">Assessments will be generated for each detected competency. Click any tag to remove it.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Generated assessments -->
+    <div style="display:flex;flex-direction:column;gap:12px">
+
+      <div id="assess-empty-state" class="card" style="text-align:center;padding:2.5rem">
+        <div style="font-size:36px;margin-bottom:10px;opacity:0.3">📝</div>
+        <div style="font-size:14px;font-weight:500;color:var(--text-2)">Configure and generate</div>
+        <div style="font-size:12.5px;color:var(--text-3);margin-top:6px">The assessment will be auto-tailored to the specific competencies in the requirement. Pre-program questions test baseline knowledge; post-program questions test application and behaviour change.</div>
+      </div>
+
+      <div id="assess-thinking" style="display:none" class="card">
+        <div style="font-size:12.5px;color:var(--text-2);font-weight:500;margin-bottom:4px">Generating tailored assessment questions...</div>
+        <div class="thinking-dots"><span></span><span></span><span></span></div>
+        <div style="font-size:12px;color:var(--text-3)" id="assess-gen-status">Detecting competencies...</div>
+      </div>
+
+      <div id="assess-output" style="display:none;flex-direction:column;gap:10px">
+        <div class="card" style="background:var(--coral-l);border-color:rgba(216,90,48,0.2);padding:0.85rem 1.1rem">
+          <div class="row between">
+            <div>
+              <div style="font-size:12px;font-weight:700;color:var(--coral-d);text-transform:uppercase;letter-spacing:0.05em">Assessment generated</div>
+              <div style="font-size:11.5px;color:var(--coral-d);margin-top:2px" id="assess-summary-line"></div>
+            </div>
+            <div class="row" style="gap:6px">
+              <button class="btn sm" onclick="downloadAssessmentWord()">Word ↗</button>
+              <button class="btn sm" onclick="downloadAssessmentExcel()">Excel ↗</button>
+            </div>
+          </div>
+        </div>
+        <div id="assess-questions-output" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -7377,6 +7622,736 @@ show = function(id, el) {
 // DASHBOARD nav fix — make Pipeline the default active view
 // ══════════════════════════════════════════════════════════
 // Replace old dashboard references to point to pipeline
+
+// ══════════════════════════════════════════════════════════
+// CENTRAL REQUIREMENT STORE
+// ══════════════════════════════════════════════════════════
+window.REQ_STORE = {
+  active: null,   // { id, client, program, text, date }
+  saved: []       // array of saved requirements
+};
+
+function saveActiveReq() {
+  const client  = document.getElementById('store-client')?.value || '';
+  const program = document.getElementById('store-program')?.value?.trim() || '';
+  const text    = document.getElementById('store-req-text')?.value?.trim() || '';
+  if (!text) { alert('Please paste a requirement first.'); return; }
+
+  const req = {
+    id: Date.now(),
+    client: client || 'Unknown client',
+    program: program || 'Unnamed program',
+    text,
+    date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+    short: text.slice(0, 120) + (text.length > 120 ? '...' : '')
+  };
+
+  // Remove existing with same client+program
+  REQ_STORE.saved = REQ_STORE.saved.filter(r => !(r.client === req.client && r.program === req.program));
+  REQ_STORE.saved.unshift(req);
+  setActiveReq(req);
+  renderReqStore();
+
+  // Flash save confirmation
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.textContent = '✓ Saved!';
+  btn.style.background = 'var(--teal)';
+  setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1800);
+}
+
+function setActiveReq(req) {
+  REQ_STORE.active = req;
+  propagateReqToAllSections(req);
+}
+
+function clearActiveReq() {
+  REQ_STORE.active = null;
+  ['store-req-text','store-client','store-program'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  renderReqStore();
+  propagateReqToAllSections(null);
+}
+
+function propagateReqToAllSections(req) {
+  // Sections that have requirement inputs
+  const mappings = [
+    // [fieldId, bannerContainerId, previewId]
+    ['client-req',       'validator-req-banner',    'validator-req-preview'],
+    ['match-req-text',   'match-req-banner',        'match-req-preview'],
+    ['tna-req-text',     'tna-assess-req-banner',   'tna-assess-req-preview'],
+    ['assess-req-text',  'assess-creator-banner',   'assess-creator-req-preview'],
+  ];
+
+  mappings.forEach(([fieldId, bannerId, previewId]) => {
+    const field   = document.getElementById(fieldId);
+    const banner  = document.getElementById(bannerId);
+    const preview = document.getElementById(previewId);
+    if (req) {
+      if (field && !field.value.trim()) field.value = req.text;
+      if (banner) banner.style.display = 'flex';
+      if (preview) preview.textContent = `${req.client} — ${req.program} · ${req.short}`;
+    } else {
+      if (banner) banner.style.display = 'none';
+    }
+  });
+
+  // Populate the match dropdown
+  const matchDrop = document.getElementById('match-client-select');
+  if (matchDrop) {
+    matchDrop.innerHTML = '<option value="">Select saved requirement...</option>';
+    REQ_STORE.saved.forEach((r, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${r.client} — ${r.program}`;
+      if (REQ_STORE.active && r.id === REQ_STORE.active.id) opt.selected = true;
+      matchDrop.appendChild(opt);
+    });
+  }
+}
+
+function loadReqFromStore() {
+  const sel = document.getElementById('match-client-select');
+  if (!sel || sel.value === '') return;
+  const req = REQ_STORE.saved[parseInt(sel.value)];
+  if (!req) return;
+  setActiveReq(req);
+  const field = document.getElementById('match-req-text');
+  if (field) field.value = req.text;
+}
+
+function renderReqStore() {
+  const list  = document.getElementById('saved-reqs-list');
+  const pills = document.getElementById('active-reqs-pills');
+
+  if (list) {
+    list.innerHTML = REQ_STORE.saved.length === 0
+      ? '<div style="font-size:12.5px;color:var(--text-3)">No requirements saved yet</div>'
+      : REQ_STORE.saved.map((r, i) => `
+          <div style="border:1px solid var(--border);border-radius:var(--r-md);padding:7px 10px;cursor:pointer;transition:all 0.1s${REQ_STORE.active?.id === r.id ? ';border-color:var(--teal);background:var(--teal-l)' : ''}" onclick="activateStoredReq(${i})">
+            <div class="row between">
+              <span style="font-size:12.5px;font-weight:600;color:${REQ_STORE.active?.id === r.id ? 'var(--teal-d)' : 'var(--text)'}">${r.client}</span>
+              ${REQ_STORE.active?.id === r.id ? '<span class="badge b-green" style="font-size:9.5px">Active</span>' : ''}
+            </div>
+            <div style="font-size:11.5px;color:var(--text-2)">${r.program} · ${r.date}</div>
+          </div>`).join('');
+  }
+
+  if (pills) {
+    pills.innerHTML = REQ_STORE.saved.length === 0
+      ? '<span style="font-size:12px;color:var(--text-3)">No requirements saved yet</span>'
+      : REQ_STORE.saved.map((r, i) => `
+          <span class="req-pill${REQ_STORE.active?.id === r.id ? ' active-req' : ''}" onclick="activateStoredReq(${i})">
+            ${REQ_STORE.active?.id === r.id ? '✓ ' : ''}${r.client} — ${r.program}
+          </span>`).join('');
+  }
+
+  propagateReqToAllSections(REQ_STORE.active);
+}
+
+function activateStoredReq(idx) {
+  const req = REQ_STORE.saved[idx];
+  if (!req) return;
+  setActiveReq(req);
+  // Also fill the store textarea
+  const ta = document.getElementById('store-req-text');
+  if (ta) ta.value = req.text;
+  const sc = document.getElementById('store-client');
+  if (sc) sc.value = req.client;
+  const sp = document.getElementById('store-program');
+  if (sp) sp.value = req.program;
+  renderReqStore();
+}
+
+// ══════════════════════════════════════════════════════════
+// FACULTY MODAL
+// ══════════════════════════════════════════════════════════
+let modalCurrentFaculty = null;
+
+function openFacultyModal(fId, aiInsight) {
+  const f = facultyDB.find(x => x.id === fId);
+  if (!f) return;
+  modalCurrentFaculty = f;
+
+  const colors = ['var(--purple-l)','var(--teal-l)','var(--blue-l)','var(--amber-l)'];
+  const textColors = ['var(--purple-d)','var(--teal-d)','var(--blue-d)','var(--amber-d)'];
+  const ci = f.id % colors.length;
+  const initials = f.name.split(' ').map(n=>n[0]).join('').slice(0,2);
+
+  document.getElementById('modal-av').style.cssText = `width:48px;height:48px;font-size:15px;flex-shrink:0;background:${colors[ci]};color:${textColors[ci]};border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700`;
+  document.getElementById('modal-av').textContent = initials;
+  document.getElementById('modal-name').textContent = f.name;
+  document.getElementById('modal-title').textContent = f.title;
+
+  document.getElementById('modal-badges').innerHTML = [
+    `<span class="badge ${f.status==='Active'?'b-green':'b-amber'}">${f.status}</span>`,
+    `<span class="badge b-gray">${f.exp} yrs exp</span>`,
+    f.rating > 0 ? `<span class="badge b-teal">${f.rating}★</span>` : '',
+  ].join('');
+
+  document.getElementById('modal-email').textContent = f.email;
+  document.getElementById('modal-email').href = `mailto:${f.email}`;
+  document.getElementById('modal-phone').textContent = '📱 ' + f.phone;
+  document.getElementById('modal-exp').textContent = `${f.exp} years experience`;
+  document.getElementById('modal-rate').textContent = `₹${(f.rate/1000).toFixed(0)}K per day`;
+  document.getElementById('modal-sessions').textContent = f.sessions > 0 ? `${f.sessions} sessions delivered` : 'New to platform';
+
+  document.getElementById('modal-expertise').innerHTML = f.expertise.map(e =>
+    `<span class="skill-tag${aiInsight?.strengths?.some(s=>s.toLowerCase().includes(e.toLowerCase())) ? ' matched' : ''}">${e}</span>`
+  ).join('');
+  document.getElementById('modal-industries').innerHTML = f.industries.map(i =>
+    `<span class="badge b-gray" style="font-size:11.5px">${i}</span>`
+  ).join('');
+
+  // AI section
+  const aiSec = document.getElementById('modal-ai-section');
+  const aiBody = document.getElementById('modal-ai-body');
+  if (aiInsight) {
+    aiSec.style.display = 'block';
+    aiBody.innerHTML = `
+      <div style="margin-bottom:6px"><strong>Fit:</strong> ${aiInsight.fit || '—'}</div>
+      ${aiInsight.strengths?.length ? `<div style="margin-bottom:4px"><strong>Strengths:</strong> ${aiInsight.strengths.join(' · ')}</div>` : ''}
+      ${aiInsight.gaps?.length ? `<div style="margin-bottom:4px"><strong>Gaps:</strong> ${aiInsight.gaps.join(' · ')}</div>` : ''}
+      ${aiInsight.suggested_modules?.length ? `<div style="margin-bottom:4px"><strong>Best for modules:</strong> ${aiInsight.suggested_modules.join(', ')}</div>` : ''}
+      ${aiInsight.why_shortlist ? `<div style="font-style:italic;margin-top:6px">${aiInsight.why_shortlist}</div>` : ''}`;
+  } else {
+    aiSec.style.display = 'none';
+  }
+
+  // Resume
+  const resSec = document.getElementById('modal-resume-section');
+  const resEl  = document.getElementById('modal-resume');
+  if (f.resume) {
+    resSec.style.display = 'block';
+    resEl.textContent = f.resume;
+  } else {
+    resSec.style.display = 'none';
+  }
+
+  // Drive button
+  const driveBtn = document.getElementById('modal-drive-btn');
+  if (f.driveLink) {
+    driveBtn.style.display = 'flex';
+    driveBtn.href = f.driveLink;
+  } else {
+    driveBtn.style.display = 'none';
+  }
+
+  document.getElementById('modal-email-btn').onclick = () => { navigator.clipboard.writeText(f.email).then(()=>alert('Email copied!')); };
+  document.getElementById('modal-wa-btn').onclick = () => { window.open(`https://wa.me/${f.phone.replace(/[^0-9]/g,'')}`, '_blank'); };
+
+  document.getElementById('faculty-modal-overlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFacultyModal() {
+  document.getElementById('faculty-modal-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+  modalCurrentFaculty = null;
+}
+
+function addToShortlistFromModal() {
+  if (!modalCurrentFaculty) return;
+  if (!shortlistedFaculty.includes(modalCurrentFaculty.id)) {
+    shortlistedFaculty.push(modalCurrentFaculty.id);
+  }
+  // Tick the checkbox in results
+  document.querySelectorAll(`input[onchange*="updateShortlist(${modalCurrentFaculty.id}"]`).forEach(cb => cb.checked = true);
+  updateShortlistPreview();
+  const btn = document.getElementById('modal-shortlist-btn');
+  btn.textContent = '✓ Shortlisted';
+  btn.style.background = 'var(--teal)';
+  btn.style.color = '#fff';
+}
+
+function copyModalEmail() {
+  if (modalCurrentFaculty) navigator.clipboard.writeText(modalCurrentFaculty.email).then(() => alert('Email copied!'));
+}
+function openModalWhatsApp() {
+  if (modalCurrentFaculty) window.open(`https://wa.me/${modalCurrentFaculty.phone.replace(/[^0-9]/g,'')}`, '_blank');
+}
+
+// ══════════════════════════════════════════════════════════
+// UPDATED FACULTY MATCH — merged with send, with modal
+// ══════════════════════════════════════════════════════════
+let currentMatchResults = [];
+
+function sortMatch(by) {
+  document.querySelectorAll('#sort-score,#sort-name,#sort-rate').forEach(b => {
+    b.style.background=''; b.style.color=''; b.style.borderColor='';
+  });
+  document.getElementById('sort-' + by).style.cssText = 'background:var(--purple);color:#fff;border-color:var(--purple)';
+  const sorted = [...currentMatchResults];
+  if (by === 'score') sorted.sort((a,b) => ((b.aiScore||b.score)-(a.aiScore||a.score)));
+  else if (by === 'name') sorted.sort((a,b) => a.name.localeCompare(b.name));
+  else if (by === 'rate') sorted.sort((a,b) => a.rate-b.rate);
+  renderMatchResultsNew(sorted);
+}
+
+function renderMatchResultsNew(scored) {
+  currentMatchResults = scored;
+  const body = document.getElementById('match-results-body');
+  if (!body) return;
+
+  document.getElementById('match-main-cols').style.display = 'grid';
+  document.getElementById('match-result-count').textContent = `— ${scored.length} faculty ranked`;
+
+  body.innerHTML = scored.map((f, i) => {
+    const score = f.aiScore || f.score;
+    const color = score >= 75 ? 'var(--teal)' : score >= 55 ? 'var(--amber)' : 'var(--coral)';
+    const textColor = score >= 75 ? 'var(--teal-d)' : score >= 55 ? 'var(--amber-d)' : 'var(--coral-d)';
+    const verdict = f.aiFit || (score >= 75 ? 'Strong match' : score >= 55 ? 'Partial match' : 'Weak match');
+    const isShortlisted = shortlistedFaculty.includes(f.id) || score >= 60;
+
+    return `
+      <div class="faculty-card" style="cursor:pointer;position:relative;${isShortlisted?'border-color:var(--teal-l)':''}" onclick="openFacultyModal(${f.id},${f.aiInsight ? JSON.stringify(JSON.stringify(f.aiInsight)) : 'null'})">
+        <div style="position:absolute;top:10px;right:10px" onclick="event.stopPropagation()">
+          <input type="checkbox" title="Shortlist" style="accent-color:var(--teal);width:16px;height:16px;cursor:pointer" 
+            ${isShortlisted?'checked':''} 
+            onchange="updateShortlist(${f.id},this.checked)">
+        </div>
+        <div class="row" style="gap:10px;margin-bottom:8px">
+          <div style="width:44px;text-align:center;flex-shrink:0">
+            <div style="font-size:20px;font-weight:700;color:${textColor};letter-spacing:-0.02em">${score}</div>
+            <div style="font-size:9px;color:var(--text-3)">/100</div>
+          </div>
+          <div style="flex:1">
+            <div class="row" style="gap:6px;margin-bottom:2px">
+              <span style="font-size:13.5px;font-weight:700">${f.name}</span>
+              <span class="badge" style="background:${color}22;color:${textColor};border:1px solid ${color}44;font-size:10.5px">${verdict}</span>
+              ${f.aiScore ? '<span class="badge b-purple" style="font-size:9.5px">AI scored</span>' : ''}
+            </div>
+            <div style="font-size:12px;color:var(--text-2)">${f.title} · ${f.exp}y · ₹${(f.rate/1000).toFixed(0)}K/day${f.rating>0?' · '+f.rating+'★':''}</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px">
+          ${f.expertise.map(e=>`<span class="skill-tag${(f.compMatched||[]).includes(e)?' matched':''}">${e}${(f.compMatched||[]).includes(e)?' ✓':''}</span>`).join('')}
+        </div>
+        ${f.whyShortlist ? `<div style="font-size:11.5px;color:var(--text-3);font-style:italic;border-top:1px solid var(--border);padding-top:6px;margin-top:4px">💡 ${f.whyShortlist}</div>` : ''}
+        <div style="font-size:11px;color:var(--blue-d);margin-top:5px">Click card to view full profile →</div>
+      </div>`;
+  }).join('');
+
+  updateShortlistPreview();
+}
+
+function updateShortlistPreview() {
+  const preview = document.getElementById('shortlist-preview');
+  const countEl = document.getElementById('shortlist-count');
+  const shortlisted = currentMatchResults.filter(f => shortlistedFaculty.includes(f.id) || (f.aiScore||f.score) >= 60);
+  
+  if (countEl) countEl.textContent = shortlisted.length;
+  if (!preview) return;
+
+  if (shortlisted.length === 0) {
+    preview.innerHTML = '<div style="color:var(--text-3);font-size:12.5px">Tick the checkbox on any faculty card to add to shortlist.</div>';
+    return;
+  }
+
+  preview.innerHTML = shortlisted.map(f => `
+    <div class="row between" style="padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer" onclick="openFacultyModal(${f.id}, null)">
+      <div>
+        <span style="font-weight:600">${f.name}</span>
+        <span style="font-size:11.5px;color:var(--text-2);margin-left:6px">${f.expertise[0]}</span>
+      </div>
+      <div class="row" style="gap:5px">
+        <span class="badge ${(f.aiScore||f.score)>=75?'b-green':'b-amber'}">${f.aiScore||f.score}/100</span>
+        ${f.driveLink?`<a href="${f.driveLink}" target="_blank" class="btn sm" style="text-decoration:none;font-size:10px" onclick="event.stopPropagation()">📁</a>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function updateShortlist(id, checked) {
+  if (checked && !shortlistedFaculty.includes(id)) shortlistedFaculty.push(id);
+  else shortlistedFaculty = shortlistedFaculty.filter(x => x !== id);
+  updateShortlistPreview();
+}
+
+// Override the old runFacultyMatch to use new renderer
+const _oldRunMatch = runFacultyMatch;
+async function runFacultyMatch() {
+  const req = document.getElementById('match-req-text').value.trim();
+  if (!req) { 
+    // Try loading from store
+    if (REQ_STORE.active) {
+      document.getElementById('match-req-text').value = REQ_STORE.active.text;
+    } else {
+      alert('Please paste a client requirement first — or save one in Phase 1 (Clients & Requirements).'); 
+      return; 
+    }
+  }
+
+  // Auto-save to store if not already there
+  if (REQ_STORE.active && !REQ_STORE.active.text.trim() && req) {
+    REQ_STORE.active.text = req;
+  }
+
+  const btn = document.getElementById('match-run-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Matching...'; }
+  document.getElementById('match-main-cols').style.display = 'grid';
+  document.getElementById('match-results-body').innerHTML = '<div class="card" style="text-align:center;padding:1.5rem"><div class="thinking-dots" style="justify-content:center"><span></span><span></span><span></span></div><div style="font-size:12px;color:var(--text-3);margin-top:8px">Running rule-based matching...</div></div>';
+
+  // Rule-based scoring (instant)
+  const reqComps = Object.entries(MATCH_COMP_KEYWORDS)
+    .filter(([,p]) => p.some(r => r.test(req))).map(([n]) => n);
+  const reqIndustries = [];
+  if (/IT|technology|software/i.test(req)) reqIndustries.push('IT Services');
+  if (/bank|financ|NBFC/i.test(req)) reqIndustries.push('Banking & Finance');
+  if (/pharma|health/i.test(req)) reqIndustries.push('Pharma');
+  if (/manufactur|auto/i.test(req)) reqIndustries.push('Manufacturing');
+  if (/FMCG|consumer|retail/i.test(req)) reqIndustries.push('FMCG');
+
+  const ruleScored = facultyDB.map(f => {
+    const compMatched = f.expertise.filter(e => reqComps.includes(e));
+    const compScore = reqComps.length > 0 ? (compMatched.length / reqComps.length) * 60 : 30;
+    const words = req.toLowerCase().split(/\s+/).filter(w => w.length > 4);
+    const hits = words.filter(w => f.resume.toLowerCase().includes(w)).length;
+    const resumeScore = Math.min(25, (hits / Math.max(words.length, 1)) * 100);
+    const indMatched = f.industries.filter(i => reqIndustries.includes(i));
+    const indScore = reqIndustries.length > 0 ? (indMatched.length / Math.min(reqIndustries.length, 2)) * 15 : 8;
+    return { ...f, score: Math.min(98, Math.round(compScore + resumeScore + indScore)), compMatched, indMatched, reqComps, aiInsight: null };
+  }).sort((a,b) => b.score - a.score);
+
+  renderMatchResultsNew(ruleScored);
+  if (btn) { btn.disabled = false; btn.textContent = 'Run AI matching ↗'; }
+
+  // AI deep analysis
+  const banner = document.getElementById('ai-match-banner');
+  if (banner) banner.style.display = 'flex';
+
+  try {
+    const profiles = facultyDB.map(f =>
+      `FACULTY: ${f.name}\nTitle: ${f.title}\nExpertise: ${f.expertise.join(', ')}\nIndustries: ${f.industries.join(', ')}\nExperience: ${f.exp} years\nResume: ${f.resume}`
+    ).join('\n\n---\n\n');
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1400,
+        system: `You match faculty to L&D program requirements. Return ONLY valid JSON, no markdown.
+{"matches":[{"name":"Full name","ai_score":0-100,"fit":"Excellent fit|Good fit|Partial fit|Weak fit","strengths":["..."],"gaps":["..."],"why_shortlist":"one sentence","suggested_modules":["..."]}]}`,
+        messages: [{ role: 'user', content: `REQUIREMENT:\n${req}\n\nFACULTY:\n${profiles}` }]
+      })
+    });
+    const data = await resp.json();
+    let raw = (data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('No JSON');
+    const aiResult = JSON.parse(match[0]);
+    const aiMap = {};
+    (aiResult.matches||[]).forEach(m => { aiMap[m.name] = m; });
+    const aiScored = ruleScored.map(f => {
+      const ai = aiMap[f.name];
+      return ai ? { ...f, aiScore: ai.ai_score, aiFit: ai.fit, aiStrengths: ai.strengths, aiGaps: ai.gaps, whyShortlist: ai.why_shortlist, suggestedModules: ai.suggested_modules, aiInsight: ai } : f;
+    }).sort((a,b) => ((b.aiScore||b.score)-(a.aiScore||a.score)));
+    renderMatchResultsNew(aiScored);
+  } catch(e) {
+    console.log('AI match failed:', e.message);
+  } finally {
+    if (banner) banner.style.display = 'none';
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// ASSESSMENT CREATOR
+// ══════════════════════════════════════════════════════════
+const ASSESS_COMP_QUESTIONS = {
+  'Strategic thinking': {
+    pre_mcq: [
+      { q: 'When your team asks about your department\'s strategic priorities for the year, you:', options: ['Share the company\'s annual report', 'Explain how your team\'s goals connect to BU and company strategy', 'Focus on the quarterly targets instead', 'Defer to your manager to explain'], correct: 1 },
+      { q: 'Strategic thinking primarily involves:', options: ['Planning next quarter\'s deliverables', 'Making long-term decisions that account for market and competitive factors', 'Managing day-to-day priorities efficiently', 'Delegating operational work to the team'], correct: 1 },
+    ],
+    post_scenario: [
+      { q: 'Your BU is losing market share to a competitor who is offering AI-assisted services. Your team is focused on a large legacy client. As the senior manager, what do you do?', type: 'open', hint: 'Consider: portfolio balance, long-term positioning, resource allocation, and stakeholder communication.' },
+      { q: 'A new client asks you to present your organisation\'s 3-year capability roadmap. Walk through how you would structure this presentation and what you would include.', type: 'open', hint: 'Consider: business context, current capabilities, planned investments, metrics.' },
+    ]
+  },
+  'Financial acumen': {
+    pre_mcq: [
+      { q: 'EBITDA stands for:', options: ['Earnings Before Interest, Tax, Depreciation and Amortisation', 'Estimated Base Income Total Distribution Allowance', 'Equity Before Investment Tax and Debt Accumulation', 'None of the above'], correct: 0 },
+      { q: 'A positive ROI means:', options: ['Revenue exceeds operational costs', 'Returns exceed the cost of the investment', 'The project is under budget', 'All stakeholders are profitable'], correct: 1 },
+    ],
+    post_scenario: [
+      { q: 'You want to hire 2 additional team members. Create a business case showing the ROI of this investment. What data do you need and how do you present it to leadership?', type: 'open', hint: 'Include: cost of hiring, productivity impact, revenue opportunity unlocked, payback period.' },
+    ]
+  },
+  'Stakeholder management': {
+    pre_mcq: [
+      { q: 'A key stakeholder is unhappy with your project timeline. The best first step is to:', options: ['Accelerate delivery by reducing quality checks', 'Schedule a meeting to understand their concerns and constraints', 'Escalate to your manager immediately', 'Send an email explaining the challenges'], correct: 1 },
+      { q: 'Stakeholder mapping helps you to:', options: ['Build a communication schedule', 'Identify who has influence and interest, and tailor your approach accordingly', 'Prioritise which meetings to attend', 'Document project risks'], correct: 1 },
+    ],
+    post_scenario: [
+      { q: 'You are managing a cross-functional project. Three senior stakeholders have conflicting requirements. How do you align them and move forward?', type: 'open', hint: 'Address: facilitation approach, identifying common ground, escalation protocol.' },
+    ]
+  },
+  'Change leadership': {
+    pre_mcq: [
+      { q: 'Which is typically the most common reason change initiatives fail in organisations?', options: ['Lack of budget', 'Poor technology choices', 'Insufficient attention to people and culture', 'Project management failures'], correct: 2 },
+      { q: 'Kotter\'s first step in his 8-step change model is:', options: ['Build a guiding coalition', 'Create a sense of urgency', 'Communicate the change vision', 'Generate short-term wins'], correct: 1 },
+    ],
+    post_scenario: [
+      { q: 'Your organisation is moving to a new project management platform in 90 days. 40% of your team is resistant. Design a change plan for the first 30 days.', type: 'open', hint: 'Cover: stakeholder mapping, communication plan, quick wins, handling resistance.' },
+    ]
+  },
+  'Coaching & feedback': {
+    pre_mcq: [
+      { q: 'The GROW coaching model stands for:', options: ['Goals, Reality, Options, Way forward', 'Group, Reflect, Observe, Write', 'Guide, Respond, Observe, Work', 'Growth, Recognition, Outcomes, Work'], correct: 0 },
+      { q: 'Developmental feedback is most effective when it is:', options: ['General so it does not offend', 'Specific, behavioural, and forward-looking', 'Given publicly to set an example', 'Saved for annual appraisals'], correct: 1 },
+    ],
+    post_scenario: [
+      { q: 'A team member who is technically excellent is struggling to communicate clearly with senior stakeholders. How do you coach them? Walk through a 1-on-1 using the GROW model.', type: 'open', hint: 'Use: Goal setting, Reality check, Options exploration, Commitment to action.' },
+    ]
+  },
+  'Executive communication': {
+    pre_mcq: [
+      { q: 'The Pyramid Principle in executive communication recommends:', options: ['Starting with all the data, then giving conclusions', 'Leading with the conclusion or key message first, then supporting it', 'Using the most complex words to demonstrate expertise', 'Always using bullet points in presentations'], correct: 1 },
+      { q: 'Executive presence primarily refers to:', options: ['Your job title and seniority', 'The ability to command attention, communicate with clarity, and inspire confidence', 'Wearing formal clothes to meetings', 'Having many years of experience'], correct: 1 },
+    ],
+    post_scenario: [
+      { q: 'You have 5 minutes with the CEO to get approval for a ₹2Cr initiative. Structure your pitch using BLUF (Bottom Line Up Front). What do you say and how?', type: 'open', hint: 'Cover: headline ask, business case, risk if not approved, what you need from them.' },
+    ]
+  },
+  'Data-driven decisions': {
+    pre_mcq: [
+      { q: 'Correlation between two variables means:', options: ['One causes the other', 'They move together statistically, but causation is not proven', 'They are always equal', 'The data is unreliable'], correct: 1 },
+      { q: 'A dashboard shows delivery quality has dropped 15% month-on-month. The first thing to do is:', options: ['Implement a new quality process immediately', 'Investigate root causes — look at the data disaggregated by team and project type', 'Report to leadership and ask for guidance', 'Hire more quality assurance staff'], correct: 1 },
+    ],
+    post_scenario: [
+      { q: 'You have monthly revenue, headcount, and client satisfaction data for the last 12 months. You need to present a hypothesis about why revenue has plateaued. Walk through your analytical approach.', type: 'open', hint: 'Cover: segmentation, trend analysis, correlation exploration, hypothesis formation.' },
+    ]
+  },
+};
+
+let generatedAssessment = [];
+let assessmentActiveComps = [];
+
+function generateAssessment() {
+  // Load requirement from store or textarea
+  let req = document.getElementById('assess-req-text')?.value?.trim();
+  if (!req && REQ_STORE.active) {
+    req = REQ_STORE.active.text;
+    const ta = document.getElementById('assess-req-text');
+    if (ta) ta.value = req;
+  }
+  if (!req) { alert('Please load or paste a requirement first. Save one in Phase 1 to auto-load.'); return; }
+
+  // Detect competencies
+  const detected = Object.entries(MATCH_COMP_KEYWORDS)
+    .filter(([,p]) => p.some(r => r.test(req))).map(([n]) => n);
+  if (detected.length === 0) detected.push('Strategic thinking', 'Stakeholder management');
+  assessmentActiveComps = detected;
+
+  // Show comp tags
+  const compCard = document.getElementById('assess-comp-card');
+  const compTags = document.getElementById('assess-comp-tags');
+  if (compCard) compCard.style.display = 'block';
+  if (compTags) compTags.innerHTML = detected.map(c =>
+    `<span class="badge b-coral" style="font-size:12px;cursor:pointer" onclick="removeAssessComp('${c}',this)">${c} ✕</span>`
+  ).join('');
+
+  // Show thinking
+  document.getElementById('assess-empty-state').style.display = 'none';
+  document.getElementById('assess-thinking').style.display = 'block';
+  document.getElementById('assess-output').style.display = 'none';
+
+  const statuses = ['Detecting competencies...','Building pre-program questions...','Creating scenario questions...','Structuring post-program assessment...','Finalising question bank...'];
+  let si = 0;
+  const statusEl = document.getElementById('assess-gen-status');
+  const interval = setInterval(() => { statusEl.textContent = statuses[Math.min(++si, statuses.length-1)]; }, 600);
+
+  setTimeout(() => {
+    clearInterval(interval);
+    document.getElementById('assess-thinking').style.display = 'none';
+    buildAssessmentOutput(detected, req);
+  }, 3000);
+}
+
+function removeAssessComp(name, el) {
+  assessmentActiveComps = assessmentActiveComps.filter(c => c !== name);
+  el.remove();
+  buildAssessmentOutput(assessmentActiveComps, document.getElementById('assess-req-text')?.value || '');
+}
+
+function buildAssessmentOutput(comps, req) {
+  const qPerComp = parseInt(document.getElementById('assess-q-per-comp')?.value || 3);
+  const atype = document.getElementById('assess-type')?.value || 'both';
+  const formats = [...document.querySelectorAll('#assess-format-chips .chip.sel')].map(c => c.textContent.trim());
+
+  const outputDiv = document.getElementById('assess-questions-output');
+  const summaryLine = document.getElementById('assess-summary-line');
+  generatedAssessment = [];
+
+  let html = '';
+  let totalQs = 0;
+
+  comps.forEach((comp, ci) => {
+    const bank = ASSESS_COMP_QUESTIONS[comp];
+    html += `<div style="font-size:11px;font-weight:700;color:var(--coral-d);text-transform:uppercase;letter-spacing:0.06em;padding:8px 0 4px;border-top:1px solid var(--border);margin-top:4px">${comp}</div>`;
+
+    if ((atype === 'pre' || atype === 'both') && bank?.pre_mcq) {
+      bank.pre_mcq.slice(0, Math.ceil(qPerComp/2)).forEach((q, qi) => {
+        totalQs++;
+        generatedAssessment.push({ comp, phase: 'pre', type: 'mcq', ...q });
+        html += `
+          <div class="assess-q-block">
+            <div class="row" style="gap:8px;margin-bottom:8px">
+              <div class="assess-q-num">${totalQs}</div>
+              <div style="flex:1">
+                <span class="assess-type-chip" style="background:var(--blue-l);color:var(--blue-d)">PRE — MCQ</span>
+                <div style="font-size:13px;font-weight:500;color:var(--text)">${q.q}</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;padding-left:34px">
+              ${q.options.map((opt, oi) => `
+                <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;padding:4px 8px;border-radius:var(--r-md);background:${oi===q.correct?'var(--teal-l)':'var(--bg)'}">
+                  <span style="width:18px;height:18px;border-radius:50%;background:${oi===q.correct?'var(--teal)':'var(--border)'};color:${oi===q.correct?'#fff':'var(--text-3)'};display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;flex-shrink:0">${String.fromCharCode(65+oi)}</span>
+                  <span style="color:${oi===q.correct?'var(--teal-d)':'var(--text-2)'}">${opt}${oi===q.correct?' ✓':''}</span>
+                </div>`).join('')}
+            </div>
+          </div>`;
+      });
+    }
+
+    if ((atype === 'post' || atype === 'both') && bank?.post_scenario) {
+      bank.post_scenario.slice(0, Math.floor(qPerComp/2)+1).forEach((q, qi) => {
+        totalQs++;
+        generatedAssessment.push({ comp, phase: 'post', type: 'scenario', ...q });
+        html += `
+          <div class="assess-q-block">
+            <div class="row" style="gap:8px;margin-bottom:8px">
+              <div class="assess-q-num" style="background:var(--amber-l);color:var(--amber-d)">${totalQs}</div>
+              <div style="flex:1">
+                <span class="assess-type-chip" style="background:var(--amber-l);color:var(--amber-d)">POST — SCENARIO</span>
+                <div style="font-size:13px;font-weight:500;color:var(--text)">${q.q}</div>
+              </div>
+            </div>
+            ${q.hint ? `<div style="font-size:12px;color:var(--text-3);padding-left:34px;font-style:italic">💡 Assessor guide: ${q.hint}</div>` : ''}
+            <div style="margin-top:8px;padding-left:34px;height:60px;border:1px dashed var(--border);border-radius:var(--r-md);display:flex;align-items:center;padding:8px 12px">
+              <span style="font-size:11.5px;color:var(--text-3)">Participant response...</span>
+            </div>
+          </div>`;
+      });
+    }
+
+    // Self-rating scale
+    if (formats.includes('Self-rating scale')) {
+      totalQs++;
+      html += `
+        <div class="assess-q-block">
+          <div class="row" style="gap:8px;margin-bottom:8px">
+            <div class="assess-q-num" style="background:var(--purple-l);color:var(--purple-d)">${totalQs}</div>
+            <div style="flex:1">
+              <span class="assess-type-chip" style="background:var(--purple-l);color:var(--purple-d)">SELF-RATING</span>
+              <div style="font-size:13px;font-weight:500;color:var(--text)">Rate your current proficiency in <strong>${comp}</strong> on a scale of 1 to 5.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;padding-left:34px;margin-top:4px">
+            ${[1,2,3,4,5].map(n=>`<div style="width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--text-2)">${n}</div>`).join('')}
+          </div>
+          <div style="display:flex;justify-content:space-between;padding-left:34px;font-size:10.5px;color:var(--text-3);margin-top:4px;max-width:230px"><span>No awareness</span><span>Expert level</span></div>
+        </div>`;
+    }
+  });
+
+  outputDiv.innerHTML = html;
+  summaryLine.textContent = `${totalQs} questions · ${comps.length} competencies · ${atype === 'both' ? 'Pre + post' : atype === 'pre' ? 'Pre-program' : 'Post-program'} assessment`;
+  document.getElementById('assess-output').style.display = 'flex';
+}
+
+function downloadAssessmentWord() {
+  if (!generatedAssessment.length) { generateAssessment(); return; }
+  const client = REQ_STORE.active?.client || 'Client';
+  const program = REQ_STORE.active?.program || 'Program';
+  let html = `<h2>Learning Assessment — ${program}</h2><p><strong>Client:</strong> ${client}</p><p><em>Instructions for pre-program: Complete this assessment before the program begins. It helps us understand your starting point and design the most relevant learning experience.</em></p>`;
+  let qNum = 1;
+  const compGroups = {};
+  generatedAssessment.forEach(q => {
+    if (!compGroups[q.comp]) compGroups[q.comp] = [];
+    compGroups[q.comp].push(q);
+  });
+  Object.entries(compGroups).forEach(([comp, qs]) => {
+    html += `<h3>${comp}</h3>`;
+    qs.forEach(q => {
+      html += `<p><strong>Q${qNum++}. [${q.phase.toUpperCase()} — ${q.type.toUpperCase()}]</strong> ${q.q}</p>`;
+      if (q.options) html += `<ul>${q.options.map((o,i)=>`<li>${String.fromCharCode(65+i)}. ${o}</li>`).join('')}</ul>`;
+      if (q.type === 'scenario') html += `<p><em>Guide: ${q.hint || ''}</em></p><p>Answer: ___________________________________</p>`;
+      if (q.type === 'self-rating') html += `<p>[ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]</p>`;
+    });
+  });
+  makeWordDoc(`Assessment-${program.replace(/[^a-z0-9]/gi,'-')}`, html);
+}
+
+function downloadAssessmentExcel() {
+  if (!generatedAssessment.length) return;
+  makeExcel(`Assessment-${REQ_STORE.active?.program||'Program'}`, [{
+    name: 'Questions',
+    headers: ['#','Phase','Competency','Type','Question','Options / Guide'],
+    rows: generatedAssessment.map((q, i) => [
+      i+1, q.phase, q.comp, q.type, q.q,
+      q.options ? q.options.join(' | ') : (q.hint || '')
+    ])
+  }]);
+}
+
+// ══════════════════════════════════════════════════════════
+// HOOK: init assessment creator when view is shown
+// ══════════════════════════════════════════════════════════
+const _finalShow = show;
+show = function(id, el) {
+  _finalShow(id, el);
+  if (id === 'clients') setTimeout(renderReqStore, 60);
+  if (id === 'assessment-creator') {
+    setTimeout(() => {
+      if (REQ_STORE.active) {
+        const ta = document.getElementById('assess-req-text');
+        if (ta && !ta.value.trim()) ta.value = REQ_STORE.active.text;
+        const banner = document.getElementById('assess-creator-banner');
+        if (banner) {
+          banner.style.display = 'flex';
+          const prev = document.getElementById('assess-creator-req-preview');
+          if (prev) prev.textContent = `${REQ_STORE.active.client} — ${REQ_STORE.active.program} · ${REQ_STORE.active.short}`;
+        }
+      }
+      propagateReqToAllSections(REQ_STORE.active);
+    }, 80);
+  }
+  if (id === 'faculty-match') {
+    setTimeout(() => {
+      if (REQ_STORE.active) {
+        const ta = document.getElementById('match-req-text');
+        if (ta && !ta.value.trim()) ta.value = REQ_STORE.active.text;
+        const banner = document.getElementById('match-req-banner');
+        if (banner) {
+          banner.style.display = 'flex';
+          const prev = document.getElementById('match-req-preview');
+          if (prev) prev.textContent = `${REQ_STORE.active.client} — ${REQ_STORE.active.program} · ${REQ_STORE.active.short}`;
+          document.getElementById('match-override-section').style.display = 'none';
+        }
+      }
+      // Populate dropdown
+      const drop = document.getElementById('match-client-select');
+      if (drop) {
+        drop.innerHTML = '<option value="">Select saved requirement...</option>';
+        REQ_STORE.saved.forEach((r,i) => {
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.textContent = `${r.client} — ${r.program}`;
+          if (REQ_STORE.active?.id === r.id) opt.selected = true;
+          drop.appendChild(opt);
+        });
+      }
+    }, 80);
+  }
+};
+
+// Keyboard: Escape closes modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeFacultyModal();
+});
 
 </script>
 </body>
