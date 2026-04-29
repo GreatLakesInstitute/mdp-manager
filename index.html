@@ -975,7 +975,64 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 
 <!-- ════════ CLIENTS ════════ -->
 <div id="view-clients" class="view">
-  <div class="topbar"><div><div class="page-title">Clients</div><div class="page-sub">Layer 1 — Sales & onboarding · Make.com S-01, S-02, S-03</div></div><button class="btn primary">+ New client</button></div>
+  <div class="topbar"><div><div class="page-title">Clients</div><div class="page-sub">Layer 1 — Sales & onboarding · Make.com S-01, S-02, S-03</div></div><button class="btn primary" onclick="showAddClient()">+ New client</button></div>
+  <!-- Add client form -->
+  <div id="add-client-form" class="card" style="display:none;border-color:var(--teal);border-width:2px">
+    <div class="card-title" style="color:var(--teal-d)">Add new client</div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Company name</div>
+        <input class="comp-input" id="cl-company" placeholder="e.g. Tata Consultancy Services">
+      </div>
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Industry</div>
+        <select class="comp-input" id="cl-industry">
+          <option>IT Services</option><option>Banking & Finance</option><option>Pharma</option>
+          <option>Manufacturing</option><option>FMCG</option><option>Consulting</option>
+          <option>Automotive</option><option>Healthcare</option><option>Retail</option>
+        </select>
+      </div>
+    </div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Primary contact name</div>
+        <input class="comp-input" id="cl-contact" placeholder="e.g. Anita Sharma">
+      </div>
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Contact designation</div>
+        <input class="comp-input" id="cl-designation" placeholder="e.g. Head of L&D">
+      </div>
+    </div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Email</div>
+        <input class="comp-input" id="cl-email" placeholder="anita@company.com" type="email">
+      </div>
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Phone / WhatsApp</div>
+        <input class="comp-input" id="cl-phone" placeholder="+91-98765-00000">
+      </div>
+    </div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Contract value (₹)</div>
+        <input class="comp-input" id="cl-value" placeholder="4500000" type="number">
+      </div>
+      <div>
+        <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Sign date</div>
+        <input class="comp-input" id="cl-date" type="date">
+      </div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Notes</div>
+      <input class="comp-input" id="cl-notes" placeholder="e.g. Referred by Anita Sharma · Decision maker is VP HR">
+    </div>
+    <div class="row" style="gap:8px">
+      <button class="btn primary" onclick="addClient()">Save client</button>
+      <button class="btn" onclick="closeAddClient()">Cancel</button>
+    </div>
+  </div>
+
   <!-- ══ CENTRAL REQUIREMENT STORE ══ -->
   <div class="card" style="border-color:var(--purple)">
     <div class="row between" style="margin-bottom:10px">
@@ -1022,7 +1079,7 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>ID</th><th>Company</th><th>Industry</th><th>Contact</th><th>Email</th><th>Contract (₹)</th><th>Sign date</th><th>Status</th><th>Welcome</th><th>Kickoff</th><th>Notes</th></tr></thead>
-    <tbody>
+    <tbody id="clients-tbody">
       <tr><td class="mono">CL001</td><td style="font-weight:500">Tata Consultancy Services</td><td>IT Services</td><td>Anita Sharma</td><td style="color:var(--blue);font-size:12px">anita@tcs.com</td><td style="font-weight:500">₹45,00,000</td><td>Jan 10</td><td><span class="badge b-green">Active</span></td><td><span class="badge b-green">Sent</span></td><td><span class="badge b-green">Done</span></td><td style="color:var(--text-3);font-size:12px">Senior cohort, 3rd year</td></tr>
       <tr><td class="mono">CL002</td><td style="font-weight:500">Infosys</td><td>IT Services</td><td>Rajesh Nair</td><td style="color:var(--blue);font-size:12px">rajesh@infosys.com</td><td style="font-weight:500">₹28,00,000</td><td>Feb 1</td><td><span class="badge b-green">Active</span></td><td><span class="badge b-green">Sent</span></td><td><span class="badge b-green">Done</span></td><td style="color:var(--text-3);font-size:12px">First-time manager cohort</td></tr>
       <tr><td class="mono">CL003</td><td style="font-weight:500">HDFC Bank</td><td>Banking</td><td>Prerna Kapoor</td><td style="color:var(--blue);font-size:12px">prerna@hdfc.com</td><td style="font-weight:500">₹32,00,000</td><td>Mar 15</td><td><span class="badge b-coral">At Risk</span></td><td><span class="badge b-green">Sent</span></td><td><span class="badge b-amber">Pending</span></td><td style="color:var(--coral-d);font-size:12px">Facilitator gap flagged</td></tr>
@@ -8825,6 +8882,92 @@ show = function(id, el) {
   _origShowForSend(id, el);
 };
 
+
+
+// ══════════════════════════════════════════════════════════
+// ADD NEW CLIENT
+// ══════════════════════════════════════════════════════════
+let clientNextId = 5;
+
+function showAddClient() {
+  const form = document.getElementById('add-client-form');
+  if (!form) { console.error('add-client-form not found'); return; }
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  if (form.style.display !== 'none') {
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Set today as default date
+    const dateField = document.getElementById('cl-date');
+    if (dateField && !dateField.value) {
+      dateField.value = new Date().toISOString().split('T')[0];
+    }
+  }
+}
+
+function closeAddClient() {
+  const form = document.getElementById('add-client-form');
+  if (form) form.style.display = 'none';
+}
+
+function addClient() {
+  const company     = document.getElementById('cl-company')?.value.trim();
+  const industry    = document.getElementById('cl-industry')?.value;
+  const contact     = document.getElementById('cl-contact')?.value.trim();
+  const designation = document.getElementById('cl-designation')?.value.trim();
+  const email       = document.getElementById('cl-email')?.value.trim();
+  const phone       = document.getElementById('cl-phone')?.value.trim();
+  const value       = parseFloat(document.getElementById('cl-value')?.value || 0);
+  const date        = document.getElementById('cl-date')?.value;
+  const notes       = document.getElementById('cl-notes')?.value.trim();
+
+  if (!company) { alert('Please enter the company name.'); document.getElementById('cl-company')?.focus(); return; }
+  if (!contact) { alert('Please enter a contact name.');   document.getElementById('cl-contact')?.focus(); return; }
+
+  const id      = 'CL00' + (++clientNextId);
+  const valStr  = value ? '₹' + (value / 100000).toFixed(1) + 'L' : '—';
+  const dateStr = date ? new Date(date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+
+  const tbody = document.getElementById('clients-tbody');
+  if (!tbody) { alert('Clients table not found — please refresh.'); return; }
+
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td class="mono">${id}</td>
+    <td style="font-weight:500">${company}</td>
+    <td>${industry}</td>
+    <td>${contact}${designation ? '<div style="font-size:11px;color:var(--text-3)">' + designation + '</div>' : ''}</td>
+    <td style="color:var(--blue);font-size:12px">${email || '—'}</td>
+    <td style="font-weight:500">${valStr}</td>
+    <td>${dateStr}</td>
+    <td><span class="badge b-purple">New</span></td>
+    <td><span class="badge b-gray">Pending</span></td>
+    <td><span class="badge b-gray">Pending</span></td>
+    <td style="font-size:11.5px;color:var(--text-3)">${notes || '—'}</td>
+  `;
+  tbody.insertBefore(row, tbody.firstChild);
+
+  // Add to store-client dropdown
+  const storeClient = document.getElementById('store-client');
+  if (storeClient) {
+    const opt = document.createElement('option');
+    opt.textContent = company;
+    storeClient.appendChild(opt);
+  }
+
+  // Clear and close form
+  ['cl-company','cl-contact','cl-designation','cl-email','cl-phone','cl-value','cl-notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const dateEl = document.getElementById('cl-date');
+  if (dateEl) dateEl.value = '';
+
+  closeAddClient();
+
+  // Flash the new row
+  row.style.background = 'var(--teal-l)';
+  row.style.transition = 'background 1.5s ease';
+  setTimeout(() => { row.style.background = ''; }, 2000);
+}
 
 </script>
 </body>
