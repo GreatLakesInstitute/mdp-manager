@@ -720,56 +720,109 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 
 <!-- ════════ PROGRAMS ════════ -->
 <div id="view-programs" class="view">
-  <div class="topbar"><div><div class="page-title">All programs</div><div class="page-sub">Layer 2 — Delivery · S-04, S-05, S-11, S-18</div></div><button class="btn primary">+ New program</button></div>
-  <div class="metrics four">
-    <div class="metric"><div class="metric-label">Active</div><div class="metric-value">3</div></div>
-    <div class="metric"><div class="metric-label">Upcoming</div><div class="metric-value">1</div></div>
-    <div class="metric"><div class="metric-label">Participants</div><div class="metric-value">173</div></div>
-    <div class="metric"><div class="metric-label">Avg. progress</div><div class="metric-value">47%</div></div>
+
+  <div class="topbar">
+    <div><div class="page-title">Programs</div><div class="page-sub">Phase 6a — All active, upcoming and completed programs</div></div>
+    <div class="btn-row">
+      <button class="btn" onclick="showAddProgram()">+ New program</button>
+      <button class="btn primary" onclick="show('modules',document.querySelectorAll('.nav-item')[16])">View modules →</button>
+    </div>
   </div>
-  <div class="table-wrap"><table>
-    <thead><tr><th>ID</th><th>Client</th><th>Program</th><th>Cohort</th><th>Mods</th><th>Participants</th><th>Status</th><th>Start</th><th>End</th><th>Lead Facilitator</th><th>Progress</th><th>Next module</th></tr></thead>
-    <tbody>
-      <tr><td class="mono">PG001</td><td>TCS</td><td style="font-weight:500">Senior Leadership Track</td><td>Cohort 3</td><td>8</td><td>42</td><td><span class="badge b-green">Active</span></td><td>Jan 15</td><td>Aug 30</td><td>Dr. Mehta</td><td><div class="row" style="gap:6px"><div class="pb" style="width:70px"><div class="pbf" style="width:63%;background:var(--teal)"></div></div><span style="font-size:11px;color:var(--text-3)">63%</span></div></td><td style="font-size:12px;color:var(--purple-d);font-weight:500">Apr 22</td></tr>
-      <tr><td class="mono">PG002</td><td>Infosys</td><td style="font-weight:500">First-time Managers</td><td>Cohort 5</td><td>6</td><td>68</td><td><span class="badge b-green">Active</span></td><td>Feb 1</td><td>Jul 31</td><td>Prof. Singh</td><td><div class="row" style="gap:6px"><div class="pb" style="width:70px"><div class="pbf" style="width:50%;background:var(--purple)"></div></div><span style="font-size:11px;color:var(--text-3)">50%</span></div></td><td style="font-size:12px;color:var(--purple-d);font-weight:500">Apr 24</td></tr>
-      <tr><td class="mono">PG003</td><td>HDFC</td><td style="font-weight:500;color:var(--coral-d)">Women in Leadership ⚠</td><td>Cohort 1</td><td>7</td><td>35</td><td><span class="badge b-coral">At Risk</span></td><td>Mar 15</td><td>Sep 30</td><td style="color:var(--coral-d)">Ritu Nair ⚠</td><td><div class="row" style="gap:6px"><div class="pb" style="width:70px"><div class="pbf" style="width:29%;background:var(--coral)"></div></div><span style="font-size:11px;color:var(--coral-d)">29%</span></div></td><td style="font-size:12px;color:var(--coral-d);font-weight:500">Apr 29</td></tr>
-      <tr><td class="mono">PG004</td><td>Mahindra</td><td style="font-weight:500">Executive Presence</td><td>Cohort 2</td><td>6</td><td>28</td><td><span class="badge b-purple">Upcoming</span></td><td>May 1</td><td>Nov 30</td><td>Dr. Mehta</td><td><div class="row" style="gap:6px"><div class="pb" style="width:70px"><div class="pbf" style="width:0%;background:var(--blue)"></div></div><span style="font-size:11px;color:var(--text-3)">0%</span></div></td><td style="font-size:12px;color:var(--text-3)">May 1</td></tr>
-    </tbody>
-  </table></div>
+
+  <div id="add-program-form" class="card" style="display:none;border-color:var(--teal)">
+    <div class="card-title" style="color:var(--teal-d)">Add new program</div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Program name</div><input class="comp-input" id="prog-name" placeholder="e.g. Senior Leadership Track"></div>
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Client</div>
+        <select class="comp-input" id="prog-client"><option>TCS</option><option>Infosys</option><option>HDFC Bank</option><option>Mahindra</option><option>Wipro</option></select></div>
+    </div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Start date</div><input class="comp-input" id="prog-start" type="date"></div>
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Contract value (₹)</div><input class="comp-input" id="prog-value" type="number" placeholder="4500000"></div>
+    </div>
+    <div class="row" style="gap:8px">
+      <button class="btn primary" onclick="addProgram()">Save program</button>
+      <button class="btn" onclick="document.getElementById('add-program-form').style.display='none'">Cancel</button>
+    </div>
+  </div>
+
+  <div class="metrics four">
+    <div class="metric"><div class="metric-label">Active programs</div><div class="metric-value">3</div><div class="metric-sub">Running now</div></div>
+    <div class="metric"><div class="metric-label">Upcoming</div><div class="metric-value" style="color:var(--purple-d)">2</div><div class="metric-sub">Starting this quarter</div></div>
+    <div class="metric"><div class="metric-label">Completed</div><div class="metric-value">5</div><div class="metric-sub">Since Jan 2024</div></div>
+    <div class="metric"><div class="metric-label">Total revenue</div><div class="metric-value">₹1.24Cr</div><div class="metric-sub">FY25 active contracts</div></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Program</th><th>Client</th><th>Start</th><th>End</th><th>Participants</th><th>Value (₹)</th><th>Lead faculty</th><th>Status</th><th>NPS</th><th>Actions</th></tr></thead>
+      <tbody id="programs-tbody">
+        <tr><td class="mono">PG001</td><td style="font-weight:500">Senior Leadership Track</td><td>TCS</td><td>Jan 15, 2025</td><td>Aug 30, 2025</td><td>42</td><td style="font-weight:500">₹45L</td><td>Dr. Sunita Mehta</td><td><span class="badge b-green">Active</span></td><td style="color:var(--teal-d);font-weight:600">72</td><td><button class="btn sm" onclick="show('modules',document.querySelectorAll('.nav-item')[16])">Modules</button></td></tr>
+        <tr><td class="mono">PG002</td><td style="font-weight:500">First-time Managers</td><td>Infosys</td><td>Feb 1, 2025</td><td>Jul 31, 2025</td><td>68</td><td style="font-weight:500">₹28L</td><td>Prof. Ajay Singh</td><td><span class="badge b-green">Active</span></td><td style="color:var(--teal-d);font-weight:600">68</td><td><button class="btn sm" onclick="show('modules',document.querySelectorAll('.nav-item')[16])">Modules</button></td></tr>
+        <tr><td class="mono">PG003</td><td style="font-weight:500">Women in Leadership</td><td>HDFC Bank</td><td>Mar 15, 2025</td><td>Sep 30, 2025</td><td>35</td><td style="font-weight:500">₹32L</td><td><span style="color:var(--coral-d)">TBD ⚠</span></td><td><span class="badge b-coral">At risk</span></td><td style="color:var(--amber-d)">45</td><td><button class="btn sm" onclick="show('faculty-match',document.querySelectorAll('.nav-item')[6])">Find faculty</button></td></tr>
+        <tr><td class="mono">PG004</td><td style="font-weight:500">Executive Presence</td><td>Mahindra</td><td>May 1, 2025</td><td>Nov 30, 2025</td><td>28</td><td style="font-weight:500">₹18L</td><td>Vikram Bose</td><td><span class="badge b-purple">Upcoming</span></td><td style="color:var(--text-3)">—</td><td><button class="btn sm">Details</button></td></tr>
+        <tr><td class="mono">PG005</td><td style="font-weight:500">Change Leadership</td><td>Wipro</td><td>Sep 1, 2024</td><td>Mar 31, 2025</td><td>54</td><td style="font-weight:500">₹32L</td><td>Dr. Sunita Mehta</td><td><span class="badge b-gray">Completed</span></td><td style="color:var(--teal-d);font-weight:600">74</td><td><button class="btn sm" onclick="show('evaluation',document.querySelectorAll('.nav-item')[22])">Evaluate</button></td></tr>
+        <tr><td class="mono">PG006</td><td style="font-weight:500">Strategic Finance</td><td>Asian Paints</td><td>Jun 1, 2025</td><td>Dec 15, 2025</td><td>22</td><td style="font-weight:500">₹14L</td><td>CA Priya Reddy</td><td><span class="badge b-purple">Upcoming</span></td><td style="color:var(--text-3)">—</td><td><button class="btn sm">Details</button></td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- ════════ CALENDAR ════════ -->
 <div id="view-calendar" class="view">
-  <div class="topbar"><div><div class="page-title">Calendar — April 2025</div></div><div class="btn-row"><button class="btn">‹ Mar</button><button class="btn">May ›</button><button class="btn primary">+ Schedule</button></div></div>
-  <div class="row wrap" style="gap:10px">
-    <span style="display:flex;align-items:center;gap:5px;font-size:11.5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--purple-l);border:1px solid var(--purple);display:inline-block"></span>TCS</span>
-    <span style="display:flex;align-items:center;gap:5px;font-size:11.5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--teal-l);border:1px solid var(--teal);display:inline-block"></span>Infosys</span>
-    <span style="display:flex;align-items:center;gap:5px;font-size:11.5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--coral-l);border:1px solid var(--coral);display:inline-block"></span>HDFC</span>
-    <span style="display:flex;align-items:center;gap:5px;font-size:11.5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--blue-l);border:1px solid var(--blue);display:inline-block"></span>Mahindra</span>
-    <span style="display:flex;align-items:center;gap:5px;font-size:11.5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--amber-l);border:1px solid var(--amber);display:inline-block"></span>Admin</span>
+
+  <div class="topbar">
+    <div><div class="page-title">Calendar — April 2025</div><div class="page-sub">Phase 6b — All scheduled modules, sessions, and milestones</div></div>
+    <div class="btn-row">
+      <button class="btn" onclick="calNav(-1)">‹ Mar</button>
+      <button class="btn" onclick="calNav(1)">May ›</button>
+      <button class="btn primary" onclick="showScheduleForm()">+ Schedule session</button>
+    </div>
   </div>
-  <div class="cal-grid">
-    <div class="cal-day-name">Mon</div><div class="cal-day-name">Tue</div><div class="cal-day-name">Wed</div><div class="cal-day-name">Thu</div><div class="cal-day-name">Fri</div><div class="cal-day-name">Sat</div><div class="cal-day-name">Sun</div>
-    <div class="cal-cell empty"></div><div class="cal-cell"><div class="cal-num">1</div></div><div class="cal-cell"><div class="cal-num">2</div></div>
-    <div class="cal-cell"><div class="cal-num">3</div><div class="cal-event ev-teal">Infosys Mod 3</div></div><div class="cal-cell"><div class="cal-num">4</div></div><div class="cal-cell"><div class="cal-num">5</div></div><div class="cal-cell"><div class="cal-num">6</div></div>
-    <div class="cal-cell"><div class="cal-num">7</div></div>
-    <div class="cal-cell"><div class="cal-num">8</div><div class="cal-event ev-purple">TCS Mod 4</div><div class="cal-event ev-amber">Invoice due</div></div>
-    <div class="cal-cell"><div class="cal-num">9</div><div class="cal-event ev-purple">TCS Mod 4 day 2</div></div>
-    <div class="cal-cell"><div class="cal-num">10</div></div><div class="cal-cell"><div class="cal-num">11</div></div><div class="cal-cell"><div class="cal-num">12</div></div><div class="cal-cell"><div class="cal-num">13</div></div>
-    <div class="cal-cell"><div class="cal-num">14</div></div>
-    <div class="cal-cell today"><div class="cal-num today-num">15 — Today</div><div class="cal-event ev-coral">HDFC review call</div></div>
-    <div class="cal-cell"><div class="cal-num">16</div></div><div class="cal-cell"><div class="cal-num">17</div></div><div class="cal-cell"><div class="cal-num">18</div></div><div class="cal-cell"><div class="cal-num">19</div></div><div class="cal-cell"><div class="cal-num">20</div></div>
-    <div class="cal-cell"><div class="cal-num">21</div></div>
-    <div class="cal-cell"><div class="cal-num">22</div><div class="cal-event ev-purple">TCS Mod 5 — Leading with data</div></div>
-    <div class="cal-cell"><div class="cal-num">23</div></div>
-    <div class="cal-cell"><div class="cal-num">24</div><div class="cal-event ev-teal">Infosys Mod 3b</div></div>
-    <div class="cal-cell"><div class="cal-num">25</div><div class="cal-event ev-amber">Mahindra kickoff prep</div></div>
-    <div class="cal-cell"><div class="cal-num">26</div><div class="cal-event ev-amber">Infosys invoice due</div></div>
-    <div class="cal-cell"><div class="cal-num">27</div></div>
-    <div class="cal-cell"><div class="cal-num">28</div></div>
-    <div class="cal-cell"><div class="cal-num">29</div><div class="cal-event ev-coral">HDFC Mod 3</div></div>
-    <div class="cal-cell"><div class="cal-num">30</div></div>
-    <div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div>
+
+  <div id="schedule-form" class="card" style="display:none;border-color:var(--purple)">
+    <div class="card-title" style="color:var(--purple-d)">Schedule a session</div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Session title</div><input class="comp-input" id="sess-title" placeholder="e.g. Module 5 — Leading with Data"></div>
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Program</div>
+        <select class="comp-input" id="sess-program"><option>TCS — Senior Leadership Track</option><option>Infosys — First-time Managers</option><option>HDFC — Women in Leadership</option><option>Mahindra — Executive Presence</option></select></div>
+    </div>
+    <div class="two-col" style="gap:10px;margin-bottom:12px">
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Date</div><input class="comp-input" id="sess-date" type="date"></div>
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Facilitator</div>
+        <select class="comp-input" id="sess-fac"><option>Dr. Sunita Mehta</option><option>Prof. Ajay Singh</option><option>CA Priya Reddy</option><option>Vikram Bose</option><option>Ritu Nair</option></select></div>
+    </div>
+    <div class="row" style="gap:8px">
+      <button class="btn primary" onclick="addCalSession()">Save session</button>
+      <button class="btn" onclick="document.getElementById('schedule-form').style.display='none'">Cancel</button>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px">
+    <div style="text-align:center;font-size:10.5px;font-weight:600;color:var(--text-3);padding:4px">Mon</div>
+    <div style="text-align:center;font-size:10.5px;font-weight:600;color:var(--text-3);padding:4px">Tue</div>
+    <div style="text-align:center;font-size:10.5px;font-weight:600;color:var(--text-3);padding:4px">Wed</div>
+    <div style="text-align:center;font-size:10.5px;font-weight:600;color:var(--text-3);padding:4px">Thu</div>
+    <div style="text-align:center;font-size:10.5px;font-weight:600;color:var(--text-3);padding:4px">Fri</div>
+    <div style="text-align:center;font-size:10.5px;font-weight:600;color:var(--text-3);padding:4px">Sat</div>
+    <div style="text-align:center;font-size:10.5px;font-weight:600;color:var(--text-3);padding:4px">Sun</div>
+  </div>
+  <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px"></div>
+
+  <div class="card" style="margin-top:4px">
+    <div class="card-title">Upcoming sessions — April 2025</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Session</th><th>Program</th><th>Venue</th><th>Facilitator</th><th>Participants</th><th>Status</th></tr></thead>
+        <tbody id="sessions-tbody">
+          <tr><td><strong>Apr 22</strong></td><td style="font-weight:500">Module 5 — Leading with data</td><td>TCS Senior Leadership</td><td>TCS campus, Mumbai</td><td>Prof. Ajay Singh</td><td>20</td><td><span class="badge b-purple">Confirmed</span></td></tr>
+          <tr><td><strong>Apr 24</strong></td><td style="font-weight:500">Module 3b — Difficult conversations</td><td>Infosys FTM</td><td>Infosys, Bengaluru</td><td>Prof. Ajay Singh</td><td>20</td><td><span class="badge b-purple">Confirmed</span></td></tr>
+          <tr><td><strong>Apr 28</strong></td><td style="font-weight:500">Module 2 — Stakeholder mapping</td><td>TCS Senior Leadership</td><td>TCS campus, Mumbai</td><td>Dr. Sunita Mehta</td><td>20</td><td><span class="badge b-amber">Pending venue</span></td></tr>
+          <tr><td><strong>May 1</strong></td><td style="font-weight:500">Kickoff — Executive Presence</td><td>Mahindra Exec Presence</td><td>Mahindra HQ, Pune</td><td>Vikram Bose</td><td>28</td><td><span class="badge b-blue">Planned</span></td></tr>
+          <tr><td><strong>May 10</strong></td><td style="font-weight:500">Module 1 — Women & Leadership Identity</td><td>HDFC WiL</td><td>HDFC, Nariman Point</td><td><span style="color:var(--coral-d)">TBD ⚠</span></td><td>12</td><td><span class="badge b-coral">Faculty needed</span></td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -782,58 +835,140 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 
 <!-- ════════ COHORTS ════════ -->
 <div id="view-cohorts" class="view">
-  <div class="topbar"><div><div class="page-title">Cohorts</div><div class="page-sub">Individual participant tracking</div></div><button class="btn primary">+ Add participant</button></div>
-  <div class="table-wrap"><table>
-    <thead><tr><th>Participant</th><th>Company</th><th>Program</th><th>Role level</th><th>Attendance</th><th>Assessment</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td><div class="av-row"><div class="av" style="background:var(--purple-l);color:var(--purple-d)">RS</div>Rahul Sharma</div></td><td>TCS</td><td>Senior Leadership</td><td>Senior Manager</td><td style="color:var(--teal-d);font-weight:500">100%</td><td>87/100</td><td><span class="badge b-green">On track</span></td></tr>
-      <tr><td><div class="av-row"><div class="av" style="background:var(--teal-l);color:var(--teal-d)">PA</div>Priya Agarwal</div></td><td>Infosys</td><td>First-time Managers</td><td>Team Lead</td><td style="color:var(--teal-d);font-weight:500">92%</td><td>74/100</td><td><span class="badge b-green">On track</span></td></tr>
-      <tr><td><div class="av-row"><div class="av" style="background:var(--coral-l);color:var(--coral-d)">NK</div>Neha Kulkarni</div></td><td>HDFC Bank</td><td>Women in Leadership</td><td>Deputy Manager</td><td style="color:var(--coral-d);font-weight:500">61%</td><td>—</td><td><span class="badge b-coral">At risk</span></td></tr>
-      <tr><td><div class="av-row"><div class="av" style="background:var(--blue-l);color:var(--blue-d)">AV</div>Arjun Verma</div></td><td>Mahindra</td><td>Executive Presence</td><td>AVP</td><td>—</td><td>—</td><td><span class="badge b-purple">Enrolling</span></td></tr>
-      <tr><td><div class="av-row"><div class="av" style="background:var(--teal-l);color:var(--teal-d)">SM</div>Sunita Mehta</div></td><td>TCS</td><td>Senior Leadership</td><td>Director</td><td style="color:var(--teal-d);font-weight:500">97%</td><td>91/100</td><td><span class="badge b-green">On track</span></td></tr>
-    </tbody>
-  </table></div>
-  <div class="btn-row"><button class="btn">Flag at-risk</button><button class="btn">Send reminders</button><button class="btn">Export cohort</button></div>
+
+  <div class="topbar">
+    <div><div class="page-title">Cohorts & Participants</div><div class="page-sub">Phase 6d — Individual participant tracking across all programs</div></div>
+    <div class="btn-row">
+      <button class="btn" onclick="showAddParticipant()">+ Add participant</button>
+      <button class="btn" onclick="exportParticipantsExcel()">Export Excel ↗</button>
+    </div>
+  </div>
+
+  <div id="add-participant-form" class="card" style="display:none;border-color:var(--teal)">
+    <div class="card-title" style="color:var(--teal-d)">Add participant</div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Full name</div><input class="comp-input" id="par-name" placeholder="Rahul Sharma"></div>
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Designation</div><input class="comp-input" id="par-title" placeholder="Senior Manager"></div>
+    </div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Email</div><input class="comp-input" id="par-email" placeholder="rahul@company.com"></div>
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Program</div>
+        <select class="comp-input" id="par-program"><option>TCS — Senior Leadership Track</option><option>Infosys — First-time Managers</option><option>HDFC — Women in Leadership</option><option>Mahindra — Executive Presence</option></select></div>
+    </div>
+    <div class="row" style="gap:8px">
+      <button class="btn primary" onclick="addParticipant()">Add participant</button>
+      <button class="btn" onclick="document.getElementById('add-participant-form').style.display='none'">Cancel</button>
+    </div>
+  </div>
+
+  <div class="metrics four">
+    <div class="metric"><div class="metric-label">Total participants</div><div class="metric-value">173</div><div class="metric-sub">Across all active programs</div></div>
+    <div class="metric"><div class="metric-label">Avg. attendance</div><div class="metric-value" style="color:var(--teal-d)">89%</div><div class="metric-sub">Last 30 days</div></div>
+    <div class="metric"><div class="metric-label">Assessments pending</div><div class="metric-value" style="color:var(--amber-d)">28</div><div class="metric-sub">Post-program Day 30</div></div>
+    <div class="metric"><div class="metric-label">Certificates issued</div><div class="metric-value">54</div><div class="metric-sub">Completed programs</div></div>
+  </div>
+
+  <div class="row" style="gap:8px;margin-bottom:4px;flex-wrap:wrap">
+    <input class="comp-input" id="participant-search" placeholder="Search by name, company, or email..." style="max-width:280px" oninput="filterParticipants()">
+    <select class="comp-input" id="participant-program-filter" style="max-width:240px" onchange="filterParticipants()">
+      <option value="">All programs</option>
+      <option>TCS — Senior Leadership Track</option>
+      <option>Infosys — First-time Managers</option>
+      <option>HDFC — Women in Leadership</option>
+    </select>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Name</th><th>Designation</th><th>Program</th><th>Batch</th><th>Attendance</th><th>Pre score</th><th>Post score</th><th>Status</th><th>Email</th></tr></thead>
+      <tbody id="participants-tbody">
+        <tr><td style="font-weight:500">Rahul Sharma</td><td>Senior Manager</td><td>TCS Senior Leadership</td><td>Batch 1</td><td style="color:var(--teal-d)">100%</td><td>62</td><td style="color:var(--teal-d);font-weight:500">87</td><td><span class="badge b-green">Active</span></td><td style="font-size:11.5px;color:var(--text-3)">rahul.s@tcs.com</td></tr>
+        <tr><td style="font-weight:500">Priya Agarwal</td><td>General Manager</td><td>TCS Senior Leadership</td><td>Batch 1</td><td style="color:var(--teal-d)">95%</td><td>58</td><td style="color:var(--teal-d);font-weight:500">82</td><td><span class="badge b-green">Active</span></td><td style="font-size:11.5px;color:var(--text-3)">priya.a@tcs.com</td></tr>
+        <tr><td style="font-weight:500">Ankit Verma</td><td>Senior Manager</td><td>TCS Senior Leadership</td><td>Batch 1</td><td style="color:var(--amber-d)">75%</td><td>55</td><td style="color:var(--text-2)">71</td><td><span class="badge b-amber">At risk</span></td><td style="font-size:11.5px;color:var(--text-3)">ankit.v@tcs.com</td></tr>
+        <tr><td style="font-weight:500">Sunita Krishnan</td><td>AVP</td><td>TCS Senior Leadership</td><td>Batch 2</td><td style="color:var(--teal-d)">100%</td><td>68</td><td style="color:var(--teal-d);font-weight:500">89</td><td><span class="badge b-green">Active</span></td><td style="font-size:11.5px;color:var(--text-3)">sunita.k@tcs.com</td></tr>
+        <tr><td style="font-weight:500">Meena Patel</td><td>Deputy Manager</td><td>HDFC WiL</td><td>Batch 1</td><td style="color:var(--teal-d)">92%</td><td>51</td><td>—</td><td><span class="badge b-purple">In progress</span></td><td style="font-size:11.5px;color:var(--text-3)">meena.p@hdfc.com</td></tr>
+        <tr><td style="font-weight:500">Rohan Kapoor</td><td>Manager</td><td>Infosys FTM</td><td>Batch 2</td><td style="color:var(--coral-d)">60%</td><td>44</td><td>—</td><td><span class="badge b-coral">Attendance concern</span></td><td style="font-size:11.5px;color:var(--text-3)">rohan.k@infosys.com</td></tr>
+        <tr><td style="font-weight:500">Deepa Menon</td><td>Senior Manager</td><td>Infosys FTM</td><td>Batch 1</td><td style="color:var(--teal-d)">98%</td><td>60</td><td style="color:var(--teal-d);font-weight:500">84</td><td><span class="badge b-green">Active</span></td><td style="font-size:11.5px;color:var(--text-3)">deepa.m@infosys.com</td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- ════════ FACILITATORS ════════ -->
 <div id="view-facilitators" class="view">
-  <div class="topbar"><div><div class="page-title">Facilitators</div><div class="page-sub">Layer 3 — People · Make.com S-08, S-09, S-10</div></div><button class="btn primary">+ Add facilitator</button></div>
-  <div class="metrics three">
-    <div class="metric"><div class="metric-label">Active facilitators</div><div class="metric-value">5</div><div class="metric-sub">2 unavail. in May</div></div>
-    <div class="metric"><div class="metric-label">Sessions this month</div><div class="metric-value">9</div><div class="metric-sub">3 programmes</div></div>
-    <div class="metric"><div class="metric-label">Avg. rating</div><div class="metric-value">4.6</div><div class="metric-sub">From participant feedback</div></div>
+
+  <div class="topbar">
+    <div><div class="page-title">Facilitators</div><div class="page-sub">Phase 6e — Session-level facilitator assignments, availability, and performance</div></div>
+    <div class="btn-row">
+      <button class="btn" onclick="show('faculty-db',document.querySelectorAll('.nav-item')[5])">Faculty database →</button>
+      <button class="btn primary" onclick="showAddFacilitatorAssignment()">+ Assign facilitator</button>
+    </div>
   </div>
-  <div class="fac-grid">
-    <div class="fac-card">
-      <div class="row between"><div class="av-row"><div class="av" style="background:var(--purple-l);color:var(--purple-d)">DM</div><div><div style="font-size:13px;font-weight:600">Dr. Sunita Mehta</div><div style="font-size:11px;color:var(--text-3)">Leadership & Strategy · 12 yrs</div></div></div><span class="badge b-green">Available</span></div>
-      <div style="font-size:12px;color:var(--text-2)">Assigned: TCS Mod 5, HDFC Women in Leadership</div>
-      <div><div style="font-size:9.5px;color:var(--text-3);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">April availability</div><div class="avail-bar"><div class="avail-cell av-off"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-part"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div></div></div>
-      <div class="row between" style="font-size:12px;color:var(--text-2)"><span>Rating: <b style="color:var(--text)">4.8 ★</b></span><span>24 sessions</span><span style="font-weight:600;color:var(--text)">₹85K/day</span></div>
+
+  <div class="metrics three">
+    <div class="metric"><div class="metric-label">Active facilitators</div><div class="metric-value">4</div><div class="metric-sub">This quarter</div></div>
+    <div class="metric"><div class="metric-label">Sessions this month</div><div class="metric-value">6</div><div class="metric-sub">April 2025</div></div>
+    <div class="metric"><div class="metric-label">Avg. facilitator rating</div><div class="metric-value" style="color:var(--teal-d)">4.6</div><div class="metric-sub">From participant surveys</div></div>
+  </div>
+
+  <div id="assign-form" class="card" style="display:none;border-color:var(--teal)">
+    <div class="card-title" style="color:var(--teal-d)">Assign facilitator to session</div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Facilitator</div>
+        <select class="comp-input" id="asn-fac"><option>Dr. Sunita Mehta</option><option>Prof. Ajay Singh</option><option>CA Priya Reddy</option><option>Vikram Bose</option><option>Ritu Nair</option></select></div>
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Session</div>
+        <select class="comp-input" id="asn-sess"><option>Apr 22 — TCS Module 5</option><option>Apr 24 — Infosys Module 3b</option><option>Apr 28 — TCS Module 2</option><option>May 1 — Mahindra Kickoff</option></select></div>
     </div>
-    <div class="fac-card">
-      <div class="row between"><div class="av-row"><div class="av" style="background:var(--teal-l);color:var(--teal-d)">AS</div><div><div style="font-size:13px;font-weight:600">Prof. Ajay Singh</div><div style="font-size:11px;color:var(--text-3)">Coaching & Performance · 8 yrs</div></div></div><span class="badge b-green">Available</span></div>
-      <div style="font-size:12px;color:var(--text-2)">Assigned: Infosys Mod 3b, TCS Mod 5</div>
-      <div><div style="font-size:9.5px;color:var(--text-3);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">April availability</div><div class="avail-bar"><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-off"></div><div class="avail-cell av-off"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div></div></div>
-      <div class="row between" style="font-size:12px;color:var(--text-2)"><span>Rating: <b style="color:var(--text)">4.5 ★</b></span><span>17 sessions</span><span style="font-weight:600;color:var(--text)">₹65K/day</span></div>
+    <div class="row" style="gap:8px">
+      <button class="btn primary" onclick="addFacilitatorAssignment()">Confirm assignment</button>
+      <button class="btn" onclick="document.getElementById('assign-form').style.display='none'">Cancel</button>
     </div>
-    <div class="fac-card">
-      <div class="row between"><div class="av-row"><div class="av" style="background:var(--amber-l);color:var(--amber-d)">PR</div><div><div style="font-size:13px;font-weight:600">CA Priya Reddy</div><div style="font-size:11px;color:var(--text-3)">Finance & Business Acumen · 10 yrs</div></div></div><span class="badge b-amber">Partial</span></div>
-      <div style="font-size:12px;color:var(--text-2)">Assigned: TCS Mod 6 (tentative)</div>
-      <div><div style="font-size:9.5px;color:var(--text-3);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">April availability</div><div class="avail-bar"><div class="avail-cell av-on"></div><div class="avail-cell av-part"></div><div class="avail-cell av-off"></div><div class="avail-cell av-off"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-part"></div><div class="avail-cell av-on"></div></div></div>
-      <div class="row between" style="font-size:12px;color:var(--text-2)"><span>Rating: <b style="color:var(--text)">4.4 ★</b></span><span>11 sessions</span><span style="font-weight:600;color:var(--text)">₹70K/day</span></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px" id="facilitator-cards">
+    <div class="faculty-card" style="border-left:3px solid var(--teal)">
+      <div class="row between" style="margin-bottom:8px">
+        <div class="av-row"><div class="av" style="background:var(--teal-l);color:var(--teal-d);width:36px;height:36px;font-size:12px">SM</div>
+          <div><div style="font-size:13.5px;font-weight:600">Dr. Sunita Mehta</div><div style="font-size:11.5px;color:var(--text-2)">Leadership & Strategy</div></div></div>
+        <span class="badge b-green">4 sessions booked</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--text-2);margin-bottom:8px">Next: Apr 28 — TCS Module 2 (Stakeholder mapping)</div>
+      <div style="background:var(--bg);border-radius:var(--r-md);overflow:hidden;height:8px;margin-bottom:6px"><div style="width:78%;height:100%;background:var(--teal);border-radius:var(--r-md)"></div></div>
+      <div style="font-size:11px;color:var(--text-3)">Capacity: 78% booked this quarter</div>
+      <div class="row between" style="font-size:12px;margin-top:8px"><span style="color:var(--text-2)">Rating:</span><span style="font-weight:600;color:var(--teal-d)">4.8★ (24 sessions)</span></div>
     </div>
-    <div class="fac-card" style="border-color:var(--coral);background:var(--coral-l)">
-      <div class="row between"><div class="av-row"><div class="av" style="background:#fff;color:var(--coral-d)">RN</div><div><div style="font-size:13px;font-weight:600">Ritu Nair</div><div style="font-size:11px;color:var(--coral-d)">Change Management · GAP RISK ⚠</div></div></div><span class="badge b-coral">Unavail May</span></div>
-      <div style="font-size:12px;color:var(--coral-d);font-weight:500">HDFC Mod 3 unassigned — S-10 WhatsApp alert sent to manager</div>
-      <div><div style="font-size:9.5px;color:var(--coral-d);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">April availability</div><div class="avail-bar"><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-off"></div><div class="avail-cell av-off"></div><div class="avail-cell av-off"></div><div class="avail-cell av-off"></div><div class="avail-cell av-off"></div><div class="avail-cell av-off"></div></div></div>
-      <div class="row between" style="font-size:12px;color:var(--coral-d)"><span>Rating: <b>4.2 ★</b></span><span>8 sessions</span><span style="font-weight:600">₹55K/day</span></div>
+    <div class="faculty-card" style="border-left:3px solid var(--purple)">
+      <div class="row between" style="margin-bottom:8px">
+        <div class="av-row"><div class="av" style="background:var(--purple-l);color:var(--purple-d);width:36px;height:36px;font-size:12px">AS</div>
+          <div><div style="font-size:13.5px;font-weight:600">Prof. Ajay Singh</div><div style="font-size:11.5px;color:var(--text-2)">Coaching & Performance</div></div></div>
+        <span class="badge b-green">3 sessions booked</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--text-2);margin-bottom:8px">Next: Apr 22 — TCS Module 5 (Leading with data)</div>
+      <div style="background:var(--bg);border-radius:var(--r-md);overflow:hidden;height:8px;margin-bottom:6px"><div style="width:55%;height:100%;background:var(--purple);border-radius:var(--r-md)"></div></div>
+      <div style="font-size:11px;color:var(--text-3)">Capacity: 55% booked this quarter</div>
+      <div class="row between" style="font-size:12px;margin-top:8px"><span style="color:var(--text-2)">Rating:</span><span style="font-weight:600;color:var(--purple-d)">4.5★ (17 sessions)</span></div>
     </div>
-    <div class="fac-card">
-      <div class="row between"><div class="av-row"><div class="av" style="background:var(--blue-l);color:var(--blue-d)">VB</div><div><div style="font-size:13px;font-weight:600">Vikram Bose</div><div style="font-size:11px;color:var(--text-3)">Executive Presence · 15 yrs</div></div></div><span class="badge b-green">Available</span></div>
-      <div style="font-size:12px;color:var(--text-2)">Assigned: Mahindra PG004</div>
-      <div><div style="font-size:9.5px;color:var(--text-3);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">April availability</div><div class="avail-bar"><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div><div class="avail-cell av-on"></div></div></div>
-      <div class="row between" style="font-size:12px;color:var(--text-2)"><span>Rating: <b style="color:var(--text)">4.9 ★</b></span><span>31 sessions</span><span style="font-weight:600;color:var(--text)">₹95K/day</span></div>
+    <div class="faculty-card" style="border-left:3px solid var(--amber)">
+      <div class="row between" style="margin-bottom:8px">
+        <div class="av-row"><div class="av" style="background:var(--amber-l);color:var(--amber-d);width:36px;height:36px;font-size:12px">VB</div>
+          <div><div style="font-size:13.5px;font-weight:600">Vikram Bose</div><div style="font-size:11.5px;color:var(--text-2)">Executive Presence</div></div></div>
+        <span class="badge b-purple">1 session booked</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--text-2);margin-bottom:8px">Next: May 1 — Mahindra Exec Presence Kickoff</div>
+      <div style="background:var(--bg);border-radius:var(--r-md);overflow:hidden;height:8px;margin-bottom:6px"><div style="width:30%;height:100%;background:var(--amber);border-radius:var(--r-md)"></div></div>
+      <div style="font-size:11px;color:var(--text-3)">Capacity: 30% booked this quarter · High availability</div>
+      <div class="row between" style="font-size:12px;margin-top:8px"><span style="color:var(--text-2)">Rating:</span><span style="font-weight:600;color:var(--amber-d)">4.9★ (31 sessions)</span></div>
+    </div>
+    <div class="faculty-card" style="border-left:3px solid var(--coral)">
+      <div class="row between" style="margin-bottom:8px">
+        <div class="av-row"><div class="av" style="background:var(--coral-l);color:var(--coral-d);width:36px;height:36px;font-size:12px">PR</div>
+          <div><div style="font-size:13.5px;font-weight:600">CA Priya Reddy</div><div style="font-size:11.5px;color:var(--text-2)">Finance & Business Acumen</div></div></div>
+        <span class="badge b-gray">0 sessions — available</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--teal-d);margin-bottom:8px">✓ Fully available this quarter — ideal for Finance modules</div>
+      <div style="background:var(--bg);border-radius:var(--r-md);overflow:hidden;height:8px;margin-bottom:6px"><div style="width:8%;height:100%;background:var(--coral);border-radius:var(--r-md)"></div></div>
+      <div style="font-size:11px;color:var(--text-3)">Capacity: 8% booked · Highly available</div>
+      <div class="row between" style="font-size:12px;margin-top:8px"><span style="color:var(--text-2)">Rating:</span><span style="font-weight:600;color:var(--coral-d)">4.4★ (11 sessions)</span></div>
     </div>
   </div>
 </div>
@@ -906,39 +1041,39 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 
 <!-- ════════ COMPETENCY ════════ -->
 <div id="view-competency" class="view">
-  <div class="topbar"><div><div class="page-title">Competency map</div><div class="page-sub">Learning outcomes mapped to modules</div></div><button class="btn primary">Design framework</button></div>
+
+  <div class="topbar">
+    <div><div class="page-title">Competency Mapping</div><div class="page-sub">Phase 5c — Map learning outcomes to modules and track coverage</div></div>
+    <div class="btn-row">
+      <button class="btn" onclick="exportCompetencyWord()">Word ↗</button>
+      <button class="btn primary" onclick="exportCompetencyExcel()">Excel ↗</button>
+    </div>
+  </div>
+
   <div class="two-col">
     <div class="card">
-      <div class="card-title">Senior Leadership Track — TCS</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 52px;gap:8px;padding:4px 0 8px;font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--border)"><span>Competency</span><span>Coverage</span><span>Modules</span></div>
-      <div style="display:flex;flex-direction:column">
-        <div style="display:grid;grid-template-columns:1fr 1fr 52px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px"><span>Strategic thinking</span><div><div class="pb"><div class="pbf" style="width:100%;background:var(--teal)"></div></div></div><span style="font-size:11px;color:var(--text-3)">1,2,8</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 52px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px"><span>Stakeholder management</span><div><div class="pb"><div class="pbf" style="width:80%;background:var(--purple)"></div></div></div><span style="font-size:11px;color:var(--text-3)">2,6</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 52px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px"><span>Coaching & feedback</span><div><div class="pb"><div class="pbf" style="width:75%;background:var(--purple)"></div></div></div><span style="font-size:11px;color:var(--text-3)">3,6</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 52px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px"><span>Financial acumen</span><div><div class="pb"><div class="pbf" style="width:60%;background:var(--amber)"></div></div></div><span style="font-size:11px;color:var(--text-3)">4</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 52px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px"><span>Data-driven decisions</span><div><div class="pb"><div class="pbf" style="width:50%;background:var(--amber)"></div></div></div><span style="font-size:11px;color:var(--text-3)">5</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 52px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px"><span>Cross-functional collab</span><div><div class="pb"><div class="pbf" style="width:35%;background:var(--coral)"></div></div></div><span style="font-size:11px;color:var(--text-3)">6</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 52px;gap:8px;align-items:center;padding:7px 0;font-size:12.5px"><span>Change leadership</span><div><div class="pb"><div class="pbf" style="width:30%;background:var(--coral)"></div></div></div><span style="font-size:11px;color:var(--text-3)">7</span></div>
+      <div class="card-title">Competency framework</div>
+      <div id="comp-builder-container" style="display:flex;flex-direction:column;gap:0"></div>
+      <div class="row" style="gap:8px;margin-top:10px">
+        <input class="comp-input" id="brief-add-comp" placeholder="Add competency..." style="max-width:220px">
+        <button class="btn sm primary" onclick="briefAddComp()">+ Add</button>
       </div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div class="card">
-        <div class="card-title">Coverage by program</div>
-        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
-          <div class="row between"><span>Senior Leadership — TCS</span><span class="badge b-green">7 competencies</span></div>
-          <div class="row between"><span>First-time Managers — Infosys</span><span class="badge b-green">5 competencies</span></div>
-          <div class="row between"><span>Women in Leadership — HDFC</span><span class="badge b-amber">4 competencies</span></div>
-          <div class="row between"><span>Executive Presence — Mahindra</span><span class="badge b-purple">6 competencies</span></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Learning outcomes</div>
-        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
-          <div class="row between"><span style="color:var(--text-2)">Knowledge gain</span><span style="font-weight:600">+23 pts avg</span></div>
-          <div class="row between"><span style="color:var(--text-2)">Behaviour change (360°)</span><span style="font-weight:600">+18%</span></div>
-          <div class="row between"><span style="color:var(--text-2)">Business impact projects</span><span style="font-weight:600">14 submitted</span></div>
-          <div class="row between"><span style="color:var(--text-2)">Manager endorsement</span><span style="font-weight:600">78%</span></div>
-        </div>
+    <div class="card">
+      <div class="card-title">Module — competency coverage map</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Module</th><th>Primary competency</th><th>Secondary</th><th>Assessment</th></tr></thead>
+          <tbody>
+            <tr><td>Module 1 — Strategic thinking</td><td><span class="badge b-purple">Strategic thinking</span></td><td><span class="badge b-gray">Financial acumen</span></td><td><span class="badge b-green">Pre + post</span></td></tr>
+            <tr><td>Module 2 — Stakeholder influence</td><td><span class="badge b-purple">Stakeholder mgmt</span></td><td><span class="badge b-gray">Communication</span></td><td><span class="badge b-green">Pre + post</span></td></tr>
+            <tr><td>Module 3 — Coaching</td><td><span class="badge b-purple">Coaching & feedback</span></td><td><span class="badge b-gray">Cross-functional</span></td><td><span class="badge b-amber">Post only</span></td></tr>
+            <tr><td>Module 4 — Financial acumen</td><td><span class="badge b-purple">Financial acumen</span></td><td><span class="badge b-gray">Data-driven</span></td><td><span class="badge b-green">Pre + post</span></td></tr>
+            <tr><td>Module 5 — Leading with data</td><td><span class="badge b-purple">Data-driven decisions</span></td><td>—</td><td><span class="badge b-amber">Post only</span></td></tr>
+            <tr><td>Module 6 — Change leadership</td><td><span class="badge b-purple">Change leadership</span></td><td><span class="badge b-gray">Cross-functional</span></td><td><span class="badge b-green">Pre + post</span></td></tr>
+            <tr><td>Capstone project</td><td colspan="2">All competencies applied</td><td><span class="badge b-green">90-day follow-up</span></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -983,41 +1118,81 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 
 <!-- ════════ BILLING ════════ -->
 <div id="view-billing" class="view">
-  <div class="topbar"><div><div class="page-title">Billing & invoices</div><div class="page-sub">Layer 4 — Finance · Make.com S-11 through S-15</div></div><div class="btn-row"><button class="btn">Export</button><button class="btn primary">+ New invoice</button></div></div>
-  <div class="metrics four">
-    <div class="metric"><div class="metric-label">Invoiced Q1</div><div class="metric-value">₹1.24Cr</div></div>
-    <div class="metric"><div class="metric-label">Collected</div><div class="metric-value">₹1.02Cr</div><div class="metric-sub">82% rate</div></div>
-    <div class="metric"><div class="metric-label">Outstanding</div><div class="metric-value" style="color:var(--coral-d)">₹22.4L</div><div class="metric-sub">2 overdue</div></div>
-    <div class="metric"><div class="metric-label">Next due</div><div class="metric-value">₹4.8L</div><div class="metric-sub">Infosys · Apr 26</div></div>
+
+  <div class="topbar">
+    <div><div class="page-title">Billing & Invoices</div><div class="page-sub">Phase 7b — Invoice tracking, GST, payments, and outstanding amounts</div></div>
+    <div class="btn-row">
+      <button class="btn" onclick="exportBillingExcel()">Export Excel ↗</button>
+      <button class="btn" onclick="exportBillingWord()">Export Word ↗</button>
+      <button class="btn primary" onclick="showNewInvoice()">+ New invoice</button>
+    </div>
   </div>
-  <div class="table-wrap"><table>
-    <thead><tr><th>Invoice #</th><th>Client</th><th>Milestone</th><th>Amount (₹)</th><th>GST 18%</th><th>Total</th><th>Due date</th><th>Status</th><th>Mode</th><th>Reminder</th><th>Action</th></tr></thead>
-    <tbody>
-      <tr><td class="mono">#1039</td><td>HDFC Bank</td><td>Module 2 delivery</td><td style="font-weight:500">3,20,000</td><td style="color:var(--text-3)">57,600</td><td style="font-weight:600">3,77,600</td><td style="color:var(--coral-d);font-weight:500">Apr 3</td><td><span class="badge b-coral">Overdue 12d</span></td><td>—</td><td><span class="badge b-green">Sent</span></td><td><button class="btn sm danger">Escalate</button></td></tr>
-      <tr><td class="mono">#1040</td><td>Wipro</td><td>Program completion</td><td style="font-weight:500">9,80,000</td><td style="color:var(--text-3)">1,76,400</td><td style="font-weight:600">11,56,400</td><td>Mar 28</td><td><span class="badge b-green">Paid</span></td><td style="font-size:12px">NEFT</td><td>—</td><td><button class="btn sm">PDF</button></td></tr>
-      <tr><td class="mono">#1042</td><td>TCS</td><td>Module 4 delivery</td><td style="font-weight:500">12,50,000</td><td style="color:var(--text-3)">2,25,000</td><td style="font-weight:600">14,75,000</td><td>Apr 1</td><td><span class="badge b-green">Paid</span></td><td style="font-size:12px">RTGS</td><td>—</td><td><button class="btn sm">PDF</button></td></tr>
-      <tr><td class="mono">#1043</td><td>Infosys</td><td>Module 3 delivery</td><td style="font-weight:500">4,80,000</td><td style="color:var(--text-3)">86,400</td><td style="font-weight:600">5,66,400</td><td style="color:var(--amber-d);font-weight:500">Apr 26</td><td><span class="badge b-amber">Due in 5d</span></td><td>—</td><td><span class="badge b-green">Sent</span></td><td><button class="btn sm">Remind</button></td></tr>
-      <tr><td class="mono">#1044</td><td>Mahindra</td><td>Kickoff — 30%</td><td style="font-weight:500">5,40,000</td><td style="color:var(--text-3)">97,200</td><td style="font-weight:600">6,37,200</td><td>May 10</td><td><span class="badge b-purple">Draft</span></td><td>—</td><td>—</td><td><button class="btn sm">Finalise</button></td></tr>
-    </tbody>
-  </table></div>
+
+  <div id="new-invoice-form" class="card" style="display:none;border-color:var(--amber)">
+    <div class="card-title" style="color:var(--amber-d)">Create new invoice</div>
+    <div class="two-col" style="gap:10px;margin-bottom:10px">
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Client</div>
+        <select class="comp-input" id="inv-client"><option>Tata Consultancy Services</option><option>Infosys</option><option>HDFC Bank</option><option>Mahindra Group</option><option>Wipro</option></select></div>
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Program / milestone</div>
+        <input class="comp-input" id="inv-desc" placeholder="e.g. Module 3 delivery — Feb 2025"></div>
+    </div>
+    <div class="two-col" style="gap:10px;margin-bottom:12px">
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">Amount (₹ excl. GST)</div>
+        <input class="comp-input" id="inv-amount" type="number" placeholder="850000" oninput="calcGST()"></div>
+      <div><div class="field-label" style="font-size:10.5px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px">GST 18% + Total</div>
+        <div class="comp-input" id="inv-gst-display" style="background:var(--bg);color:var(--text-2)">Enter amount above</div></div>
+    </div>
+    <div class="row" style="gap:8px">
+      <button class="btn primary" onclick="addInvoice()">Create invoice</button>
+      <button class="btn" onclick="document.getElementById('new-invoice-form').style.display='none'">Cancel</button>
+    </div>
+  </div>
+
+  <div class="metrics four">
+    <div class="metric"><div class="metric-label">Total invoiced (FY25)</div><div class="metric-value">₹1.57Cr</div></div>
+    <div class="metric"><div class="metric-label">Collected</div><div class="metric-value" style="color:var(--teal-d)">₹1.02Cr</div><div class="metric-sub">65% collection rate</div></div>
+    <div class="metric"><div class="metric-label">Outstanding</div><div class="metric-value" style="color:var(--coral-d)">₹55L</div><div class="metric-sub">3 invoices overdue</div></div>
+    <div class="metric"><div class="metric-label">Avg. payment days</div><div class="metric-value" style="color:var(--amber-d)">38</div><div class="metric-sub">Target: 30 days</div></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Invoice #</th><th>Client</th><th>Description</th><th>Amount</th><th>GST 18%</th><th>Total</th><th>Date</th><th>Due date</th><th>Status</th><th>Days</th></tr></thead>
+      <tbody id="invoices-tbody">
+        <tr><td class="mono">INV-2025-039</td><td>TCS</td><td>Batch 1 — Modules 1–3</td><td>₹8,50,000</td><td>₹1,53,000</td><td style="font-weight:600">₹10,03,000</td><td>Jan 31</td><td>Mar 2</td><td><span class="badge b-green">Paid ✓</span></td><td style="color:var(--text-3)">29 days</td></tr>
+        <tr><td class="mono">INV-2025-040</td><td>TCS</td><td>Batch 1 — Modules 4–6</td><td>₹9,00,000</td><td>₹1,62,000</td><td style="font-weight:600">₹10,62,000</td><td>Mar 15</td><td>Apr 15</td><td><span class="badge b-amber">Partial</span></td><td style="color:var(--amber-d);font-weight:500">12 overdue</td></tr>
+        <tr><td class="mono">INV-2025-041</td><td>Infosys</td><td>Batch 2 — Module delivery</td><td>₹5,60,000</td><td>₹1,00,800</td><td style="font-weight:600">₹6,60,800</td><td>Feb 28</td><td>Mar 30</td><td><span class="badge b-green">Paid ✓</span></td><td style="color:var(--text-3)">24 days</td></tr>
+        <tr><td class="mono">INV-2025-042</td><td>HDFC Bank</td><td>Program setup + Module 1</td><td>₹4,20,000</td><td>₹75,600</td><td style="font-weight:600">₹4,95,600</td><td>Mar 20</td><td>Apr 20</td><td><span class="badge b-coral">Overdue ⚠</span></td><td style="color:var(--coral-d);font-weight:600">7 overdue</td></tr>
+        <tr><td class="mono">INV-2025-043</td><td>Wipro</td><td>Final milestone — completion</td><td>₹9,60,000</td><td>₹1,72,800</td><td style="font-weight:600">₹11,32,800</td><td>Apr 5</td><td>May 5</td><td><span class="badge b-blue">Sent</span></td><td style="color:var(--text-2)">Due in 9d</td></tr>
+        <tr><td class="mono">INV-2025-044</td><td>Mahindra</td><td>Advance — 30% on signing</td><td>₹5,40,000</td><td>₹97,200</td><td style="font-weight:600">₹6,37,200</td><td>Apr 14</td><td>May 14</td><td><span class="badge b-purple">Pending</span></td><td style="color:var(--text-2)">Due in 19d</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="two-col">
     <div class="card">
-      <div class="card-title">Revenue by client — Q1 2025</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span>TCS</span><span style="font-weight:600">₹48L</span></div><div class="pb"><div class="pbf" style="width:88%;background:var(--purple)"></div></div></div>
-        <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span>Wipro</span><span style="font-weight:600">₹32L</span></div><div class="pb"><div class="pbf" style="width:59%;background:var(--purple)"></div></div></div>
-        <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span>Infosys</span><span style="font-weight:600">₹28L</span></div><div class="pb"><div class="pbf" style="width:51%;background:var(--purple)"></div></div></div>
-        <div><div class="row between" style="font-size:13px;margin-bottom:3px"><span style="color:var(--coral-d)">HDFC Bank</span><span style="font-weight:600;color:var(--coral-d)">₹16L</span></div><div class="pb"><div class="pbf" style="width:29%;background:var(--coral)"></div></div></div>
-      </div>
+      <div class="card-title">Revenue by client</div>
+      <div class="score-row"><div class="score-label" style="font-weight:500">TCS</div><div class="score-bar-wrap"><div class="score-bar" style="width:88%;background:var(--purple)"></div></div><div class="score-val">₹45L</div></div>
+      <div class="score-row"><div class="score-label" style="font-weight:500">Wipro</div><div class="score-bar-wrap"><div class="score-bar" style="width:63%;background:var(--purple)"></div></div><div class="score-val">₹32L</div></div>
+      <div class="score-row"><div class="score-label" style="font-weight:500">HDFC</div><div class="score-bar-wrap"><div class="score-bar" style="width:63%;background:var(--amber)"></div></div><div class="score-val">₹32L</div></div>
+      <div class="score-row"><div class="score-label" style="font-weight:500">Infosys</div><div class="score-bar-wrap"><div class="score-bar" style="width:55%;background:var(--purple)"></div></div><div class="score-val">₹28L</div></div>
+      <div class="score-row"><div class="score-label" style="font-weight:500">Mahindra</div><div class="score-bar-wrap"><div class="score-bar" style="width:35%;background:var(--teal)"></div></div><div class="score-val">₹18L</div></div>
     </div>
     <div class="card">
-      <div class="card-title">Standard payment milestones</div>
-      <div style="display:flex;flex-direction:column;gap:9px;font-size:13px">
-        <div class="row between"><span style="color:var(--text-2)">On programme sign-off</span><span style="font-weight:600">30%</span></div>
-        <div class="row between"><span style="color:var(--text-2)">Mid-programme (50% modules)</span><span style="font-weight:600">40%</span></div>
-        <div class="row between"><span style="color:var(--text-2)">On programme completion</span><span style="font-weight:600">30%</span></div>
-        <hr>
-        <div style="font-size:11.5px;color:var(--text-3)">Net 30 days · GST 18% · Make.com S-11 & S-12 auto-raise invoices on milestone</div>
+      <div class="card-title">Outstanding — action needed</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+        <div class="row between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+          <div><div style="font-weight:500;color:var(--coral-d)">INV-2025-042 — HDFC Bank</div><div style="font-size:11.5px;color:var(--text-3)">7 days overdue · Contact: Prerna Kapoor</div></div>
+          <span class="badge b-coral">₹4.95L</span>
+        </div>
+        <div class="row between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+          <div><div style="font-weight:500;color:var(--amber-d)">INV-2025-040 — TCS (partial)</div><div style="font-size:11.5px;color:var(--text-3)">Balance ₹4.2L pending · Contact: Anita Sharma</div></div>
+          <span class="badge b-amber">₹4.2L</span>
+        </div>
+        <div class="row between" style="padding:8px 0">
+          <div><div style="font-weight:500">INV-2025-043 — Wipro</div><div style="font-size:11.5px;color:var(--text-3)">Due May 5 — follow up in 3 days</div></div>
+          <span class="badge b-blue">₹11.3L</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1025,50 +1200,57 @@ select{font-size:12.5px;padding:6px 10px;border:1px solid var(--border-2);border
 
 <!-- ════════ PORTAL ════════ -->
 <div id="view-portal" class="view">
-  <div class="topbar"><div><div class="page-title">Client portal</div><div class="page-sub">Layer 5 — What your sponsor sees · Make.com S-16, S-17, S-18</div></div>
+
+  <div class="topbar">
+    <div><div class="page-title">Client Portal</div><div class="page-sub">What your client sponsor sees · Switch between clients to preview their view</div></div>
     <div class="btn-row">
-      <select id="client-select" onchange="document.getElementById('portal-name').textContent=this.value">
-        <option>Tata Consultancy Services</option><option>Infosys</option><option>HDFC Bank</option><option>Mahindra Group</option>
+      <select id="client-select" class="comp-input" style="max-width:220px" onchange="document.getElementById('portal-name').textContent=this.options[this.selectedIndex].text;renderPortal(this.value)">
+        <option value="tcs">Tata Consultancy Services</option>
+        <option value="infosys">Infosys</option>
+        <option value="hdfc">HDFC Bank</option>
+        <option value="mahindra">Mahindra Group</option>
       </select>
-      <button class="btn primary">Share with client</button>
     </div>
   </div>
-  <div class="portal-header">
-    <div><div class="portal-name" id="portal-name">Tata Consultancy Services</div><div class="portal-prog">Senior Leadership Track — Cohort 3 · Apr–Aug 2025</div></div>
-    <div style="text-align:right"><div style="font-size:28px;font-weight:700;color:var(--purple-d);letter-spacing:-0.03em">63%</div><div style="font-size:10.5px;color:var(--purple);font-weight:600;text-transform:uppercase;letter-spacing:0.06em">Program progress</div></div>
+
+  <div class="share-header" style="margin-bottom:0">
+    <div style="font-size:18px;font-weight:700;color:var(--teal-d);margin-bottom:4px" id="portal-name">Tata Consultancy Services</div>
+    <div style="font-size:13px;color:var(--teal-d)">Senior Leadership Track · Program sponsor view</div>
+    <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
+      <span class="badge b-green">Program active</span>
+      <span class="badge b-teal">63% delivered</span>
+      <span class="badge b-purple">NPS 72</span>
+    </div>
   </div>
-  <div class="metrics three">
-    <div class="metric"><div class="metric-label">Enrolled</div><div class="metric-value">42</div><div class="metric-sub">of 45 confirmed</div></div>
-    <div class="metric"><div class="metric-label">Avg. attendance</div><div class="metric-value">94%</div><div class="metric-sub">Above 85% target</div></div>
-    <div class="metric"><div class="metric-label">Satisfaction</div><div class="metric-value">4.8</div><div class="metric-sub">Out of 5.0</div></div>
+
+  <div class="metrics four">
+    <div class="metric"><div class="metric-label">Sessions completed</div><div class="metric-value" id="portal-sessions">5 of 8</div></div>
+    <div class="metric"><div class="metric-label">Attendance rate</div><div class="metric-value" style="color:var(--teal-d)" id="portal-attendance">89%</div></div>
+    <div class="metric"><div class="metric-label">Participant satisfaction</div><div class="metric-value" id="portal-sat">4.6 / 5</div></div>
+    <div class="metric"><div class="metric-label">Invoice status</div><div class="metric-value" style="color:var(--amber-d)" id="portal-inv">1 pending</div></div>
   </div>
+
   <div class="two-col">
     <div class="card">
       <div class="card-title">Module tracker</div>
-      <div style="display:flex;flex-direction:column;gap:9px" id="portal-modules"></div>
+      <div id="portal-modules" style="display:flex;flex-direction:column;gap:8px"></div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;flex-direction:column;gap:10px">
       <div class="card">
-        <div class="card-title">Participant highlights</div>
-        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
-          <div class="row between"><span style="color:var(--text-2)">Top performer</span><span style="font-weight:600">Sunita Mehta — 91/100</span></div>
-          <div class="row between"><span style="color:var(--text-2)">Most improved</span><span style="font-weight:600">Rahul Sharma (+29 pts)</span></div>
-          <div class="row between"><span style="color:var(--text-2)">100% attendance</span><span style="font-weight:600">12 participants</span></div>
-          <div class="row between"><span style="color:var(--text-2)">At-risk flagged</span><span style="font-weight:600;color:var(--coral-d)">2</span></div>
-          <div class="row between"><span style="color:var(--text-2)">NPS score</span><span style="font-weight:600;color:var(--teal-d)">72</span></div>
+        <div class="card-title">Program highlights</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:13px" id="portal-highlights">
+          <div class="gap-item" style="background:var(--teal-l)"><span>✓</span><span style="color:var(--teal-d)">All 5 completed modules rated above 4.0/5 by participants</span></div>
+          <div class="gap-item" style="background:var(--blue-l)"><span>📊</span><span style="color:var(--blue-d)">Pre/post assessment shows average +23 point improvement in strategic thinking</span></div>
+          <div class="gap-item" style="background:var(--amber-l)"><span>⚠</span><span style="color:var(--amber-d)">1 participant (Ankit Verma) has low attendance — manager follow-up recommended</span></div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Invoice status</div>
-        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
-          <div class="row between"><span style="color:var(--text-2)">Programme fee (total)</span><span style="font-weight:600">₹45L</span></div>
-          <div class="row between"><span style="color:var(--text-2)">Paid to date</span><span style="font-weight:600;color:var(--teal-d)">₹36L (80%)</span></div>
-          <div class="row between"><span style="color:var(--text-2)">Due on completion</span><span style="font-weight:600">₹9L</span></div>
+        <div class="card-title">Upcoming</div>
+        <div style="font-size:13px;display:flex;flex-direction:column;gap:6px">
+          <div class="row between"><span style="font-weight:500">Module 5 — Leading with data</span><span class="badge b-purple">Apr 22</span></div>
+          <div class="row between"><span style="font-weight:500">Module 6 — Cross-functional leadership</span><span class="badge b-gray">May 20</span></div>
+          <div class="row between"><span style="font-weight:500">Capstone & presentations</span><span class="badge b-gray">Jul 30</span></div>
         </div>
-      </div>
-      <div class="info-banner teal" style="font-size:12px;color:var(--teal-d)">
-        <strong style="display:block;margin-bottom:4px">Auto-report · Make.com S-16 + S-17</strong>
-        A Google Slides PDF is generated on the 1st of each month and emailed to the client sponsor automatically.
       </div>
     </div>
   </div>
@@ -8352,6 +8534,297 @@ show = function(id, el) {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeFacultyModal();
 });
+
+
+// ══════════════════════════════════════════════════════════
+// PROGRAMS — add/manage
+// ══════════════════════════════════════════════════════════
+function showAddProgram() {
+  const f = document.getElementById('add-program-form');
+  if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function addProgram() {
+  const name  = document.getElementById('prog-name')?.value.trim();
+  const client= document.getElementById('prog-client')?.value;
+  const start = document.getElementById('prog-start')?.value;
+  const value = document.getElementById('prog-value')?.value;
+  if (!name) { alert('Please enter a program name.'); return; }
+  const tbody = document.getElementById('programs-tbody');
+  if (!tbody) return;
+  const id = 'PG00' + (tbody.rows.length + 1);
+  const row = `<tr><td class="mono">${id}</td><td style="font-weight:500">${name}</td><td>${client}</td><td>${start || '—'}</td><td>—</td><td>—</td><td style="font-weight:500">${value ? '₹'+(parseInt(value)/100000).toFixed(0)+'L' : '—'}</td><td>TBD</td><td><span class="badge b-purple">Upcoming</span></td><td style="color:var(--text-3)">—</td><td><button class="btn sm">Details</button></td></tr>`;
+  tbody.insertAdjacentHTML('beforeend', row);
+  document.getElementById('add-program-form').style.display = 'none';
+  ['prog-name','prog-start','prog-value'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+}
+
+// ══════════════════════════════════════════════════════════
+// CALENDAR — render and add sessions
+// ══════════════════════════════════════════════════════════
+let calMonth = 3; // April = 3 (0-indexed)
+let calYear  = 2025;
+const CAL_SESSIONS = [
+  { day:22, label:'TCS M5', color:'var(--purple)', title:'Module 5 — TCS' },
+  { day:24, label:'INF M3', color:'var(--teal)',   title:'Module 3b — Infosys' },
+  { day:28, label:'TCS M2', color:'var(--purple)', title:'Module 2 — TCS' },
+  { day:16, label:'HDFC M1',color:'var(--amber)',  title:'Module 1 — HDFC' },
+  { day:10, label:'TNA',    color:'var(--blue)',   title:'TNA Focus group' },
+];
+
+function renderCalendar() {
+  const grid = document.getElementById('cal-grid');
+  if (!grid) return;
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.querySelector('#view-calendar .page-title').textContent = `Calendar — ${monthNames[calMonth]} ${calYear}`;
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const startOffset = firstDay === 0 ? 6 : firstDay - 1; // Mon start
+  grid.innerHTML = '';
+  for (let i = 0; i < startOffset; i++) {
+    grid.innerHTML += `<div style="min-height:70px;background:var(--bg);border-radius:var(--r-md);opacity:0.3"></div>`;
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === 22 && calMonth === 3 && calYear === 2025;
+    const sessions = CAL_SESSIONS.filter(s => s.day === d);
+    const sessionHtml = sessions.map(s =>
+      `<div style="background:${s.color};color:#fff;border-radius:3px;padding:1px 5px;font-size:9.5px;font-weight:600;margin-top:2px;cursor:pointer" title="${s.title}">${s.label}</div>`
+    ).join('');
+    grid.innerHTML += `<div style="min-height:70px;padding:6px;border:1px solid var(--border);border-radius:var(--r-md);background:${isToday?'var(--purple-l)':'var(--card)'};cursor:pointer" onclick="showDayDetail(${d})">
+      <div style="font-size:12px;font-weight:${isToday?700:400};color:${isToday?'var(--purple-d)':'var(--text)'}">${d}</div>
+      ${sessionHtml}
+    </div>`;
+  }
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0)  { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function showDayDetail(d) {
+  const sessions = CAL_SESSIONS.filter(s => s.day === d);
+  if (sessions.length === 0) {
+    alert(`April ${d}, 2025 — No sessions scheduled.\n\nClick '+ Schedule session' to add one.`);
+  } else {
+    alert(`April ${d}, 2025:\n\n${sessions.map(s => '• ' + s.title).join('\n')}`);
+  }
+}
+
+function showScheduleForm() {
+  const f = document.getElementById('schedule-form');
+  if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function addCalSession() {
+  const title = document.getElementById('sess-title')?.value.trim();
+  const date  = document.getElementById('sess-date')?.value;
+  const fac   = document.getElementById('sess-fac')?.value;
+  const prog  = document.getElementById('sess-program')?.value;
+  if (!title || !date) { alert('Please enter session title and date.'); return; }
+  const tbody = document.getElementById('sessions-tbody');
+  if (tbody) {
+    const d = new Date(date);
+    const dateStr = d.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+    tbody.insertAdjacentHTML('afterbegin', `<tr><td><strong>${dateStr}</strong></td><td style="font-weight:500">${title}</td><td>${prog}</td><td>TBD</td><td>${fac}</td><td>—</td><td><span class="badge b-purple">Scheduled</span></td></tr>`);
+  }
+  document.getElementById('schedule-form').style.display = 'none';
+  alert(`Session "${title}" scheduled for ${date}. Confirmation email will be sent to ${fac} via Make.com S-08.`);
+}
+
+// ══════════════════════════════════════════════════════════
+// COHORTS — add/filter participants
+// ══════════════════════════════════════════════════════════
+function showAddParticipant() {
+  const f = document.getElementById('add-participant-form');
+  if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function addParticipant() {
+  const name  = document.getElementById('par-name')?.value.trim();
+  const title = document.getElementById('par-title')?.value.trim();
+  const email = document.getElementById('par-email')?.value.trim();
+  const prog  = document.getElementById('par-program')?.value;
+  if (!name) { alert('Please enter participant name.'); return; }
+  const tbody = document.getElementById('participants-tbody');
+  if (tbody) {
+    tbody.insertAdjacentHTML('afterbegin', `<tr><td style="font-weight:500">${name}</td><td>${title||'—'}</td><td>${prog}</td><td>Batch 1</td><td style="color:var(--text-3)">—</td><td>—</td><td>—</td><td><span class="badge b-purple">Enrolled</span></td><td style="font-size:11.5px;color:var(--text-3)">${email||'—'}</td></tr>`);
+  }
+  document.getElementById('add-participant-form').style.display = 'none';
+  ['par-name','par-title','par-email'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+}
+
+function filterParticipants() {
+  const search = (document.getElementById('participant-search')?.value || '').toLowerCase();
+  const prog   = document.getElementById('participant-program-filter')?.value || '';
+  document.querySelectorAll('#participants-tbody tr').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    const matchSearch = !search || text.includes(search);
+    const matchProg   = !prog || text.includes(prog.split('—')[0].trim().toLowerCase());
+    row.style.display = (matchSearch && matchProg) ? '' : 'none';
+  });
+}
+
+function exportParticipantsExcel() {
+  makeExcel('Participants', [{
+    name: 'Participants',
+    headers: ['Name','Designation','Program','Batch','Attendance','Pre score','Post score','Status'],
+    rows: [...document.querySelectorAll('#participants-tbody tr')].map(r =>
+      [...r.cells].slice(0,8).map(c => c.textContent.trim())
+    )
+  }]);
+}
+
+// ══════════════════════════════════════════════════════════
+// FACILITATORS — assign
+// ══════════════════════════════════════════════════════════
+function showAddFacilitatorAssignment() {
+  const f = document.getElementById('assign-form');
+  if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function addFacilitatorAssignment() {
+  const fac  = document.getElementById('asn-fac')?.value;
+  const sess = document.getElementById('asn-sess')?.value;
+  document.getElementById('assign-form').style.display = 'none';
+  alert(`✓ ${fac} confirmed for "${sess}".\n\nMake.com S-08 will send a confirmation email + calendar invite automatically.`);
+}
+
+// ══════════════════════════════════════════════════════════
+// BILLING — add invoice + GST calc
+// ══════════════════════════════════════════════════════════
+function showNewInvoice() {
+  const f = document.getElementById('new-invoice-form');
+  if (f) f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function calcGST() {
+  const amt = parseFloat(document.getElementById('inv-amount')?.value || 0);
+  const gst = amt * 0.18;
+  const total = amt + gst;
+  const el = document.getElementById('inv-gst-display');
+  if (el) el.textContent = `GST ₹${gst.toLocaleString('en-IN')} · Total ₹${total.toLocaleString('en-IN')}`;
+}
+
+function addInvoice() {
+  const client = document.getElementById('inv-client')?.value;
+  const desc   = document.getElementById('inv-desc')?.value.trim();
+  const amt    = parseFloat(document.getElementById('inv-amount')?.value || 0);
+  if (!desc || !amt) { alert('Please enter description and amount.'); return; }
+  const gst = amt * 0.18;
+  const total = amt + gst;
+  const tbody = document.getElementById('invoices-tbody');
+  const invNum = 'INV-2025-0' + (50 + (tbody?.rows.length || 0));
+  const today = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+  const due = new Date(); due.setDate(due.getDate() + 30);
+  const dueStr = due.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+  if (tbody) {
+    tbody.insertAdjacentHTML('afterbegin', `<tr>
+      <td class="mono">${invNum}</td><td>${client}</td><td>${desc}</td>
+      <td>₹${amt.toLocaleString('en-IN')}</td>
+      <td>₹${gst.toLocaleString('en-IN')}</td>
+      <td style="font-weight:600">₹${total.toLocaleString('en-IN')}</td>
+      <td>${today}</td><td>${dueStr}</td>
+      <td><span class="badge b-purple">Draft</span></td>
+      <td style="color:var(--text-2)">Due in 30d</td>
+    </tr>`);
+  }
+  document.getElementById('new-invoice-form').style.display = 'none';
+  document.getElementById('inv-desc').value = '';
+  document.getElementById('inv-amount').value = '';
+  document.getElementById('inv-gst-display').textContent = 'Enter amount above';
+}
+
+function exportBillingExcel() {
+  makeExcel('Invoices', [{
+    name: 'Invoices',
+    headers: ['Invoice #','Client','Description','Amount','GST','Total','Date','Due Date','Status'],
+    rows: [...document.querySelectorAll('#invoices-tbody tr')].map(r =>
+      [...r.cells].map(c => c.textContent.trim())
+    )
+  }]);
+}
+
+function exportBillingWord() {
+  const rows = [...document.querySelectorAll('#invoices-tbody tr')].map(r =>
+    `<tr>${[...r.cells].map(c=>`<td>${c.textContent.trim()}</td>`).join('')}</tr>`
+  ).join('');
+  makeWordDoc('Invoice-Summary', `<h2>Invoice Summary Report</h2><table><thead><tr><th>Invoice #</th><th>Client</th><th>Description</th><th>Amount</th><th>GST</th><th>Total</th><th>Date</th><th>Due</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`);
+}
+
+// ══════════════════════════════════════════════════════════
+// COMPETENCY — export
+// ══════════════════════════════════════════════════════════
+function exportCompetencyWord() {
+  makeWordDoc('Competency-Framework', '<h2>Competency Framework & Module Mapping</h2><p>Generated from MDP Command Centre.</p>');
+}
+function exportCompetencyExcel() {
+  makeExcel('Competency-Map', [{
+    name: 'Competencies',
+    headers: ['Competency','Category','Required Level','Weight','Modules covered'],
+    rows: (typeof customComps !== 'undefined' ? customComps : []).map(c =>
+      [c.name, c.category, c.required, c.weight, 'See module map']
+    )
+  }]);
+}
+
+// ══════════════════════════════════════════════════════════
+// PORTAL — render per client
+// ══════════════════════════════════════════════════════════
+const PORTAL_DATA = {
+  tcs:     { sessions:'5 of 8', attendance:'89%', sat:'4.8 / 5', inv:'1 partial', modules:[{n:1,name:'Strategic thinking',done:true,score:'4.8★'},{n:2,name:'Stakeholder influence',done:true,score:'4.5★'},{n:3,name:'Coaching',done:true,score:'4.7★'},{n:4,name:'Financial acumen',done:true,score:'4.4★'},{n:5,name:'Leading with data',done:true,score:'4.6★'},{n:6,name:'Cross-functional',done:false,current:true,score:'Apr 22'},{n:7,name:'Change management',done:false,score:'May 20'},{n:8,name:'Capstone',done:false,score:'Jul 30'}] },
+  infosys: { sessions:'3 of 5', attendance:'91%', sat:'4.5 / 5', inv:'Paid ✓', modules:[{n:1,name:'Manager mindset',done:true,score:'4.6★'},{n:2,name:'Giving feedback',done:true,score:'4.3★'},{n:3,name:'Running 1-on-1s',done:true,score:'4.5★'},{n:4,name:'Delegation',done:false,current:true,score:'Apr 24'},{n:5,name:'Difficult conversations',done:false,score:'May 15'}] },
+  hdfc:    { sessions:'1 of 6', attendance:'62%', sat:'3.9 / 5', inv:'Overdue ⚠', modules:[{n:1,name:'Leadership identity',done:true,score:'4.1★'},{n:2,name:'Org politics',done:false,current:false,score:'TBD'},{n:3,name:'Negotiation',done:false,score:'TBD'},{n:4,name:'Work-life integration',done:false,score:'TBD'},{n:5,name:'Personal board',done:false,score:'TBD'},{n:6,name:'Data decisions',done:false,score:'TBD'}] },
+  mahindra:{ sessions:'0 of 3', attendance:'—', sat:'—', inv:'Advance sent', modules:[{n:1,name:'Exec presence — Day 1',done:false,current:true,score:'May 1'},{n:2,name:'Exec presence — Day 2',done:false,score:'May 2'},{n:3,name:'Follow-up coaching',done:false,score:'Jun 10'}] },
+};
+
+function renderPortal(client) {
+  const d = PORTAL_DATA[client];
+  if (!d) return;
+  const el = id => document.getElementById(id);
+  if (el('portal-sessions'))    el('portal-sessions').textContent = d.sessions;
+  if (el('portal-attendance'))  el('portal-attendance').textContent = d.attendance;
+  if (el('portal-sat'))         el('portal-sat').textContent = d.sat;
+  if (el('portal-inv'))         el('portal-inv').textContent = d.inv;
+  const pm = el('portal-modules');
+  if (pm) {
+    pm.innerHTML = d.modules.map(m => {
+      const bg = m.done ? 'var(--teal-l)' : m.current ? 'var(--purple-l)' : 'var(--bg)';
+      const fc = m.done ? 'var(--teal-d)' : m.current ? 'var(--purple-d)' : 'var(--text-3)';
+      return `<div class="row between" style="padding:7px 0;border-bottom:1px solid var(--border)">
+        <div class="row" style="gap:8px">
+          <div style="width:22px;height:22px;border-radius:50%;background:${bg};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:${fc};flex-shrink:0">${m.n}</div>
+          <span style="font-size:13px;color:${fc}">${m.name}</span>
+        </div>
+        <span class="badge ${m.done?'b-green':m.current?'b-purple':'b-gray'}">${m.score}</span>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// INIT: calendar and portal on page load / show
+// ══════════════════════════════════════════════════════════
+const _showMaster = show;
+show = function(id, el) {
+  _showMaster(id, el);
+  if (id === 'calendar')     setTimeout(renderCalendar, 60);
+  if (id === 'portal')       setTimeout(() => renderPortal('tcs'), 60);
+  if (id === 'faculty-db')   setTimeout(renderFacultyDB, 60);
+};
+
+// ══════════════════════════════════════════════════════════
+// FIX nav-item index references — show('faculty-send') redirect
+// ══════════════════════════════════════════════════════════
+// faculty-send no longer exists as a separate view; redirect to faculty-match
+const _origShowForSend = show;
+show = function(id, el) {
+  if (id === 'faculty-send') id = 'faculty-match';
+  _origShowForSend(id, el);
+};
+
 
 </script>
 </body>
