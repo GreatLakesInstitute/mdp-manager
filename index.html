@@ -7651,58 +7651,105 @@ function updateSendFacultyList() {
 }
 
 function generateOutreach() {
-  const program = document.getElementById('send-program').value.trim() || '[Program name]';
-  const deadline = document.getElementById('send-deadline').value;
-  const reqSummary = document.getElementById('send-req-summary').value.trim();
-  const selected = [...document.querySelectorAll('#send-faculty-checkboxes input:checked')];
-  const selectedFaculty = selected.map(cb => facultyDB.find(f => f.id === parseInt(cb.value))).filter(Boolean);
+  const program  = (document.getElementById('send-program')?.value || '').trim() || '[Program name]';
+  const deadline = document.getElementById('send-deadline')?.value || '';
 
-  if (!selectedFaculty.length) { alert('Please select at least one faculty member to contact.'); return; }
+  // Get shortlisted faculty from the shared shortlistedFaculty array
+  // Fall back to all faculty if nothing shortlisted yet
+  const targets = shortlistedFaculty.length > 0
+    ? facultyDB.filter(f => shortlistedFaculty.includes(f.id))
+    : facultyDB.slice(0, 1);
 
-  const deadlineStr = deadline ? new Date(deadline).toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'}) : '[Deadline TBD]';
-  const facultyName = selectedFaculty[0].name;
+  if (!targets.length) {
+    alert('Please run matching first and tick at least one faculty checkbox to shortlist them, then generate outreach.');
+    return;
+  }
 
-  const email = `Subject: Program Design Brief — ${program}
+  // Get requirement from store or match textarea
+  const req = (document.getElementById('match-req-text')?.value || REQ_STORE.active?.text || '').trim();
+  const deadlineStr = deadline
+    ? new Date(deadline).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' })
+    : '[Deadline TBD]';
 
-Dear ${facultyName},
+  // Build bullet summary from req (first 4 lines / sentences)
+  const reqBullets = req
+    ? req.split(/[\n.]+/).map(s => s.trim()).filter(s => s.length > 20).slice(0, 4).map(s => '• ' + s).join('\n')
+    : '• [Requirement details will be shared separately]';
 
-I hope this message finds you well.
+  // Generate for all shortlisted — show first one, note others
+  const primaryFaculty = targets[0];
+  const otherNames = targets.slice(1).map(f => f.name).join(', ');
 
-We have an exciting engagement for which your expertise is an excellent match, and we would like to invite you to submit a program outline.
+  const emailBody = `Subject: Program Design Brief — ${program}
 
-Program: ${program}
-${reqSummary ? `\nRequirement Summary:\n${reqSummary}` : ''}
+Dear ${primaryFaculty.name},
 
-We request you to submit a detailed program outline by ${deadlineStr}.
+I hope you are doing well.
+
+We have an exciting engagement that closely matches your expertise, and we would like to invite you to submit a program outline.
+
+PROGRAM: ${program}
+
+REQUIREMENT SUMMARY:
+${reqBullets}
+
+We would like you to submit a detailed program outline by ${deadlineStr}.
 
 The outline should include:
 • Overall program structure and learning objectives
-• Module-by-module breakdown with topics and activities
-• Suggested methodology (workshops, simulations, case studies)
-• Participant pre-work or pre-reading (if any)
-• Proposed assessment approach
+• Module-by-module breakdown with topics, duration, and activities
+• Suggested methodology (workshops, simulations, case studies, role plays)
+• Pre-work or reading recommendations for participants (if any)
+• Assessment approach — pre and post program
 
-Please confirm your availability and interest by [DATE + 3 days].
+Please reply to confirm your interest and availability by [DATE + 3 days].
 
 Looking forward to working with you on this.
 
 Warm regards,
 [Your name]
-MDP Command Centre`;
+MDP Command Centre${otherNames ? '\n\n[Note: Similar messages sent to: ' + otherNames + ']' : ''}`;
 
-  const whatsapp = `Hi ${facultyName}! 👋
+  const waBody = `Hi ${primaryFaculty.name}! 👋
 
-We have a new program brief that matches your expertise perfectly — *${program}*.
+We have a new program brief that matches your expertise perfectly.
 
-We'd love to invite you to submit an outline by *${deadlineStr}*.
+*Program:* ${program}
+*Outline due:* ${deadlineStr}
 
-Could you confirm your availability? I'll send the full brief by email. 🙏`;
+Would you be available for this engagement? I'll send the complete brief by email. 🙏
 
-  document.getElementById('send-email-body').textContent = email;
-  document.getElementById('send-whatsapp-body').textContent = whatsapp;
-  document.getElementById('send-email-card').style.display = 'block';
-  document.getElementById('send-whatsapp-card').style.display = 'block';
-  document.getElementById('send-makecom-note').style.display = 'block';
+– MDP Command Centre`;
+
+  // Show the cards
+  const emailCard = document.getElementById('send-email-card');
+  const waCard    = document.getElementById('send-whatsapp-card');
+  const emailBody_el = document.getElementById('send-email-body');
+  const waBody_el    = document.getElementById('send-whatsapp-body');
+
+  if (emailBody_el) emailBody_el.textContent = emailBody;
+  if (waBody_el)    waBody_el.textContent = waBody;
+  if (emailCard)    emailCard.style.display = 'block';
+  if (waCard)       waCard.style.display = 'block';
+
+  // Add to outreach log
+  const log = document.getElementById('outreach-log-mini');
+  if (log) {
+    targets.forEach(f => {
+      const today = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+      const existing = [...log.querySelectorAll('span')].find(el => el.closest('.row')?.textContent.includes(f.name));
+      if (!existing) {
+        const row = document.createElement('div');
+        row.className = 'row between';
+        row.style.cssText = 'font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--border)';
+        row.innerHTML = `<span style="font-weight:500">${f.name}</span><span class="badge b-blue">Sent ${today}</span>`;
+        log.insertBefore(row, log.firstChild);
+      }
+    });
+  }
+
+  // Scroll to show the generated messages
+  emailCard?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function copyOutreach(type) {
