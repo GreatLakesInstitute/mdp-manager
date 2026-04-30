@@ -7336,13 +7336,168 @@ function downloadSow() {
 // FACULTY DATABASE
 // ══════════════════════════════════════════════════════════
 let facultyDB = [
-  { id:1, name:'Dr. Sunita Mehta', title:'Leadership & Strategy Consultant', email:'mehta@faculty.com', phone:'+91-98765-01234', exp:12, rate:85000, driveLink:'https://drive.google.com/file/d/example-mehta', expertise:['Strategic leadership','Stakeholder management','Coaching & feedback','Executive communication','Cross-functional leadership'], industries:['IT Services','Banking & Finance','Consulting'], resume:'Dr Sunita Mehta has 12 years experience in leadership development. She specialises in strategic thinking executive coaching stakeholder management change leadership and senior manager programs. She has designed MDPs for TCS Wipro Infosys and HDFC Bank. Her methodology combines case-based learning with action reflection and peer coaching.', rating:4.8, sessions:24, status:'Active' },
-  { id:2, name:'Prof. Ajay Singh', title:'Coaching & Performance Expert', email:'singh@faculty.com', driveLink:'https://drive.google.com/file/d/example-singh', phone:'+91-98765-02345', exp:8, rate:65000, expertise:['Coaching & feedback','First-time managers','Cross-functional leadership','Executive communication'], industries:['IT Services','Consulting','FMCG'], resume:'Prof Ajay Singh specialises in coaching skills first time manager development and team performance. He uses GROW model coaching simulations and role play. He has trained over 800 managers at Infosys HCL and Wipro in people management feedback and 1-on-1 coaching.', rating:4.5, sessions:17, status:'Active' },
-  { id:3, name:'CA Priya Reddy', title:'Finance & Business Acumen Trainer', email:'reddy@faculty.com', driveLink:'https://drive.google.com/file/d/example-reddy', phone:'+91-98765-03456', exp:10, rate:70000, expertise:['Financial acumen','Data & analytics','Strategic leadership'], industries:['Banking & Finance','IT Services','Manufacturing'], resume:'CA Priya Reddy is a chartered accountant and corporate trainer with 10 years experience in financial acumen programs. She teaches P&L reading balance sheets ROI thinking business case development and budget ownership for non-finance managers.', rating:4.4, sessions:11, status:'Active' },
-  { id:4, name:'Vikram Bose', title:'Executive Presence & Communication Coach', email:'bose@faculty.com', driveLink:'https://drive.google.com/file/d/example-bose', phone:'+91-98765-04567', exp:15, rate:95000, expertise:['Executive presence','Executive communication','Stakeholder management','Women in leadership'], industries:['IT Services','Banking & Finance','Automotive','FMCG'], resume:'Vikram Bose has 15 years training senior leaders in executive presence gravitas commanding a room and high stakes communication. He uses video recording feedback and real scenario practice. He has worked with C-suite and VP level leaders at Mahindra Tata and HDFC.', rating:4.9, sessions:31, status:'Active' },
-  { id:5, name:'Ritu Nair', title:'Change Management Specialist', email:'nair@faculty.com', driveLink:'https://drive.google.com/file/d/example-nair', phone:'+91-98765-05678', exp:6, rate:55000, expertise:['Change leadership','Cross-functional leadership','Strategic leadership'], industries:['IT Services','Pharma','Manufacturing'], resume:'Ritu Nair specialises in change management digital transformation and agile leadership. She uses Kotter 8-step model ADKAR and design thinking approaches. She has designed change programs for pharma and IT companies going through digital transformation.', rating:4.2, sessions:8, status:'Partial availability' },
+  {
+    id: 1,
+    name: 'Dr. Sunita Mehta',
+    title: 'Leadership & Strategy Consultant',
+    email: 'sunita.mehta@facultypartners.in',
+    phone: '+91-98765-01234',
+    exp: 12,
+    rate: 85000,
+    driveLink: 'https://drive.google.com/file/d/example-mehta',
+    expertise: ['Strategic leadership','Stakeholder management','Coaching & feedback','Executive communication','Cross-functional leadership'],
+    industries: ['IT Services','Banking & Finance','Consulting'],
+    resume: 'Dr Sunita Mehta is a senior leadership development consultant with 12 years of experience designing and delivering Management Development Programs for large Indian corporates. She specialises in strategic thinking executive coaching stakeholder management change leadership and senior manager transformation programs. She holds a PhD in Organisational Behaviour from IIM Ahmedabad and an MBA from XLRI. She has designed MDPs for TCS Wipro Infosys HDFC Bank and Bajaj Auto. Her methodology combines case-based learning action reflection peer coaching and business simulations. She is certified in Hogan assessments MBTI and ICF coaching.',
+    rating: 4.8,
+    sessions: 24,
+    status: 'Active'
+  },
+  {
+    id: 2,
+    name: 'Prof. Ajay Singh',
+    title: 'Coaching & People Leadership Expert',
+    email: 'ajay.singh@peoplefirst.co',
+    phone: '+91-98765-02345',
+    exp: 8,
+    rate: 65000,
+    driveLink: 'https://drive.google.com/file/d/example-singh',
+    expertise: ['Coaching & feedback','First-time managers','Cross-functional leadership','Executive communication'],
+    industries: ['IT Services','Consulting','FMCG'],
+    resume: 'Prof Ajay Singh is a visiting faculty at IIM Lucknow and a certified ICF coach with 8 years experience. He specialises in first time manager programs coaching skills development people management feedback and team performance. He uses GROW model coaching simulations and structured role play. He has trained over 800 managers at Infosys HCL Wipro Godrej and Dabur in people management feedback giving and 1-on-1 coaching. His programs consistently achieve NPS above 65.',
+    rating: 4.5,
+    sessions: 17,
+    status: 'Active'
+  },
+  {
+    id: 3,
+    name: 'CA Priya Reddy',
+    title: 'Finance & Business Acumen Trainer',
+    email: 'priya.reddy@financeforleaders.in',
+    phone: '+91-98765-03456',
+    exp: 10,
+    rate: 70000,
+    driveLink: 'https://drive.google.com/file/d/example-reddy',
+    expertise: ['Financial acumen','Data & analytics','Strategic leadership'],
+    industries: ['Banking & Finance','IT Services','Manufacturing'],
+    resume: 'CA Priya Reddy is a chartered accountant and corporate trainer with 10 years experience in financial acumen programs for non-finance managers. She teaches P&L reading balance sheets ROI thinking business case development budget ownership and financial decision making. She has delivered programs for ICICI Bank HDFC Bank L&T Mahindra and Asian Paints. Her approach makes complex financial concepts highly accessible through real company case studies and hands-on exercises.',
+    rating: 4.4,
+    sessions: 11,
+    status: 'Active'
+  },
+  {
+    id: 4,
+    name: 'Vikram Bose',
+    title: 'Executive Presence & Communication Coach',
+    email: 'vikram.bose@presencelab.in',
+    phone: '+91-98765-04567',
+    exp: 15,
+    rate: 95000,
+    driveLink: 'https://drive.google.com/file/d/example-bose',
+    expertise: ['Executive presence','Executive communication','Stakeholder management','Women in leadership'],
+    industries: ['IT Services','Banking & Finance','Automotive','FMCG'],
+    resume: 'Vikram Bose has 15 years of experience training senior leaders in executive presence gravitas commanding a room and high stakes communication. He uses video recording feedback structured debrief and real scenario practice. He is a certified voice and presence coach trained at the Royal Academy of Dramatic Art London. He has worked with C-suite VP and AVP level leaders at Mahindra Tata Motors HDFC and Nestle India. His day-long intensive programs on executive presence are regarded as transformational.',
+    rating: 4.9,
+    sessions: 31,
+    status: 'Active'
+  },
+  {
+    id: 5,
+    name: 'Ritu Nair',
+    title: 'Change Management & Digital Transformation Specialist',
+    email: 'ritu.nair@changeforward.in',
+    phone: '+91-98765-05678',
+    exp: 6,
+    rate: 55000,
+    driveLink: 'https://drive.google.com/file/d/example-nair',
+    expertise: ['Change leadership','Cross-functional leadership','Strategic leadership'],
+    industries: ['IT Services','Pharma','Manufacturing'],
+    resume: 'Ritu Nair specialises in change management digital transformation and agile leadership for organisations undergoing major change. She uses Kotter 8-step model ADKAR framework design thinking and agile approaches. She is a certified prosci change practitioner and has designed change programs for Sun Pharma Lupin Bosch India and Mphasis. She brings strong facilitation skills and is known for making change leadership practical and immediately applicable.',
+    rating: 4.2,
+    sessions: 8,
+    status: 'Partial availability'
+  },
+  {
+    id: 6,
+    name: 'Dr. Ramesh Krishnamurthy',
+    title: 'Strategy & Innovation Facilitator',
+    email: 'ramesh.k@strategylab.co',
+    phone: '+91-97654-10001',
+    exp: 18,
+    rate: 110000,
+    driveLink: 'https://drive.google.com/file/d/example-ramesh',
+    expertise: ['Strategic leadership','Innovation & design thinking','Financial acumen','Cross-functional leadership'],
+    industries: ['IT Services','Consulting','Manufacturing','Automotive'],
+    resume: 'Dr Ramesh Krishnamurthy is a former McKinsey consultant with 18 years in strategy and innovation. He holds a PhD from London Business School and has taught at IIM Bangalore as visiting faculty. He specialises in strategic thinking for senior leaders business acumen competitive strategy and innovation facilitation using design thinking. He has delivered programs for Tata Group Larsen & Toubro Godrej and several MNCs. His strategy simulations using live business challenges are highly regarded.',
+    rating: 4.7,
+    sessions: 42,
+    status: 'Active'
+  },
+  {
+    id: 7,
+    name: 'Meghna Patel',
+    title: 'Women in Leadership & DEI Facilitator',
+    email: 'meghna.patel@leadershipforward.in',
+    phone: '+91-97654-10002',
+    exp: 9,
+    rate: 72000,
+    driveLink: 'https://drive.google.com/file/d/example-meghna',
+    expertise: ['Women in leadership','Executive communication','Coaching & feedback','Stakeholder management'],
+    industries: ['Banking & Finance','FMCG','IT Services','Healthcare'],
+    resume: 'Meghna Patel is a certified leadership coach and DEI facilitator with 9 years of experience designing and delivering women in leadership programs. She has a background in organisational psychology from Tata Institute of Social Sciences. She has run flagship women leadership programs for HDFC Bank Hindustan Unilever ICICI Bank and Apollo Hospitals. Her programs address leadership identity organisational politics confidence building executive presence and sponsorship. She is also a qualified NLP practitioner.',
+    rating: 4.6,
+    sessions: 19,
+    status: 'Active'
+  },
+  {
+    id: 8,
+    name: 'Sanjay Kulkarni',
+    title: 'Sales Leadership & Business Development Trainer',
+    email: 'sanjay.k@salesleadership.in',
+    phone: '+91-97654-10003',
+    exp: 14,
+    rate: 80000,
+    driveLink: 'https://drive.google.com/file/d/example-sanjay',
+    expertise: ['Stakeholder management','Executive communication','Strategic leadership','Coaching & feedback'],
+    industries: ['IT Services','Consulting','FMCG','Retail'],
+    resume: 'Sanjay Kulkarni is a former VP Sales at Infosys with 14 years of experience in sales leadership large deal pursuit and client relationship management. He now trains senior managers on stakeholder management executive communication negotiation and consultative selling. He has delivered programs at Wipro TCS Cognizant and several IT services firms helping sales and delivery leaders win and retain large enterprise clients.',
+    rating: 4.3,
+    sessions: 14,
+    status: 'Active'
+  },
+  {
+    id: 9,
+    name: 'Prof. Lakshmi Iyer',
+    title: 'HR Strategy & Organisation Development Expert',
+    email: 'lakshmi.iyer@odconsult.in',
+    phone: '+91-97654-10004',
+    exp: 16,
+    rate: 90000,
+    driveLink: 'https://drive.google.com/file/d/example-lakshmi',
+    expertise: ['Cross-functional leadership','Coaching & feedback','Change leadership','Strategic leadership'],
+    industries: ['Banking & Finance','Manufacturing','Consulting','Healthcare'],
+    resume: 'Prof Lakshmi Iyer is a professor of HR and OD with 16 years of experience in executive education and organisation development consulting. She holds a PhD from IIM Calcutta and has been visiting faculty at XLRI and MDI Gurgaon. She specialises in HR strategy organisation design team effectiveness and leadership succession. She has consulted for L&T Aditya Birla Group Standard Chartered Bank and Cipla on large scale OD and capability building initiatives.',
+    rating: 4.5,
+    sessions: 28,
+    status: 'Active'
+  },
+  {
+    id: 10,
+    name: 'Arjun Desai',
+    title: 'Data Analytics & Digital Fluency Trainer',
+    email: 'arjun.desai@datadriven.co',
+    phone: '+91-97654-10005',
+    exp: 7,
+    rate: 68000,
+    driveLink: 'https://drive.google.com/file/d/example-arjun',
+    expertise: ['Data & analytics','Strategic leadership','Financial acumen'],
+    industries: ['IT Services','Banking & Finance','Pharma','FMCG'],
+    resume: 'Arjun Desai is a data analytics trainer and digital transformation consultant with 7 years experience helping non-technical managers become data fluent. He holds an MBA from ISB Hyderabad and a BTech from IIT Bombay. He has designed data driven decision making programs for managers at TCS Pfizer HDFC Securities and Procter & Gamble India. His programs cover data interpretation dashboard reading hypothesis thinking and using analytics to make stronger business cases.',
+    rating: 4.4,
+    sessions: 12,
+    status: 'Active'
+  },
 ];
-let facultyNextId = 6;
+let facultyNextId = 11;;
 
 function showAddFaculty() {
   const f = document.getElementById('add-faculty-form');
@@ -7895,6 +8050,46 @@ show = function(id, el) {
   if (id === 'faculty-db' && !facultyDBInit) {
     facultyDBInit = true;
     setTimeout(() => { renderFacultyDB(); updateSendFacultyList(); }, 60);
+  }
+  if (id === 'faculty-match' && !window.matchDemoLoaded) {
+    window.matchDemoLoaded = true;
+    setTimeout(() => {
+      // Pre-load a demo requirement so users can see matching in action immediately
+      const demoReq = `CLIENT REQUIREMENT — Senior Leadership Program
+Client: Tata Consultancy Services
+Submitted by: Anita Sharma, Head of L&D
+
+We require a 3-day Management Development Program for 40 Senior Managers (M4+) across Mumbai and Bengaluru.
+
+OBJECTIVES:
+1. Strategic thinking & business acumen — managers must contribute to BU-level strategy
+2. Stakeholder management — presenting to senior clients and C-suite
+3. Financial literacy — P&L, ROI thinking, business case building
+4. Cross-functional leadership — leading without authority across delivery, sales, support
+5. Coaching their teams — developing direct reports through structured 1-on-1s
+
+DELIVERY:
+• IT services case studies only
+• Mix of simulations, case studies, and workshops — no pure lectures
+• Max 20 per batch (2 batches)
+• Pre + post assessment
+• Budget: ₹8.5L per batch`;
+
+      const ta = document.getElementById('match-req-text');
+      if (ta && !ta.value.trim()) {
+        // Only auto-fill if nothing already there
+        if (REQ_STORE.active) {
+          ta.value = REQ_STORE.active.text;
+        } else {
+          ta.value = demoReq;
+        }
+        // Show the override section so user can see the textarea
+        const override = document.getElementById('match-override-section');
+        if (override) override.style.display = 'block';
+        const banner = document.getElementById('match-req-banner');
+        if (banner) banner.style.display = 'none';
+      }
+    }, 100);
   }
   if (id === 'faculty-send') {
     setTimeout(updateSendFacultyList, 60);
